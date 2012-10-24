@@ -1,0 +1,16 @@
+.baseText{
+	text-align:center;
+	position:static;
+	top:100px;
+	left:900:px;
+}
+body {max-width:800px; margin:0 auto; padding:0 20px; font-family:"NanumGothic"; font-size:85%}
+h1, h2{color:#FB4B1C;}
+
+p[name="arc"]:after{
+	font-size:50px;
+}
+
+
+p[lang="ko"] {margin-bottom:0.1em; text-align:justify; font-size:115%; line-height:1.8;}
+	#authorbio p[lang="ko"] {text-align:left; font-size:90%;}
