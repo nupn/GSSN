@@ -14,3 +14,11 @@ p[name="arc"]:after{
 
 p[lang="ko"] {margin-bottom:0.1em; text-align:justify; font-size:115%; line-height:1.8;}
 	#authorbio p[lang="ko"] {text-align:left; font-size:90%;}
+
+.login{
+	margin-top:15px;
+	margin-left:20px;
+
+	padding:5px 25px;
+	float:right;
+}
