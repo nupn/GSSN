@@ -5,6 +5,7 @@
     <title>Test</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
+    <script src='jquery-1.8.2.min.js'></script>
     <style type="text/css">
       body{
         background-color: #F7FCFF;
@@ -69,18 +70,21 @@
       #search >url{
         padding: 2px;
       }
-      #search_button {height:28px; font-size:14px; 
-         line-height:24px; padding:5px;vertical-align: middle;
+      #search_button {
+         height:28px; 
+         font-size:14px; 
+         line-height:24px; 
+         padding:5px;
+         vertical-align: middle;
          margin-top: 9px;
       }
       #Main_content{
         width: 1000px;
-        background-color: cyan;
+        
       }
       #Main_content > #list_content{
         width: 1000px;
-        height: 1000px;
-        
+        height: 320px;
       }
       .list_information{
         width: 210px;
@@ -88,7 +92,7 @@
         border:solid 1px;
         margin-top: 30px;
         margin-left: 30px;
-        background-color: blue;
+        background-color: #9999FF;
         float: left;
       }
       #Main_content > #foot_content{
@@ -141,28 +145,32 @@
             <input type="submit" value="Search" id="search_button">
         </div>
       </div>
+      
       <div id="Main_content">
         <div id="list_content">
-          <div class="list_information">
-          </div>
-          <div class="list_information">
-          </div>
-          <div class="list_information">
-          </div>
-          <div class="list_information">
-          </div>
-          <div class="list_information">
-          </div>
-          <div class="list_information">
-          </div>
-          <div class="list_information">
-          </div>
+          
+          <div class="list_information"></div>
+          <div class="list_information"></div>
+          <div class="list_information"></div>
+          <div class="list_information"></div>
+          <div class="list_information"></div>
+          <div class="list_information"></div>
+          <div class="list_information"></div>
+          <div class="list_information"></div>
+          <div class="list_information"></div>
+          <div class="list_information"></div>
+          <div class="list_information"></div>
+          <div class="list_information"></div>
+          <div class="list_information"></div>
+
+          
         </div>
         <div id="foot_content">
             <p>사이트 소개 | 이용약관 | 개인정보취급방침 | 책임의 한계와 법적 고지 | 고객센터 </p>
             <p>WebProgramming Project </p>
         </div>
       </div>
+
     </div>
   <div class="navbar navbar-inverse navbar-fixed-bottom">
   <div class="navbar-inner">
@@ -179,5 +187,23 @@
 
 
   </body>
+
+  <script type="text/javascript">
+var height=320;
+var count=0;
+var hh=0;
+$(function($){
+
+    $("div.list_information").each(function($){
+        //alert("hello");
+        if(count%4==0){
+          hh=hh+1;
+        }
+        count=count+1;
+    });
+        
+  document.getElementById("list_content").style.height=hh*height+"px";
+ });
+  </script>
 </html>
 
