@@ -2,63 +2,182 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>타이틀네임</title>
+    <title>Test</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <style type="text/css">
+      body{
+        background-color: #F7FCFF;
+      }
       #Main{
         width: 1000px;
-        height: 800px;
-        background-color: gray;
+       
+        background-color: #F7FCFF;
         margin-left: -100px;
       }
       #Header{
-        background-color: yellow;
         width: 1000px;
         height: 50px;
+        vertical-align: bottom;
+        text-align: right;
+      }
+     .btn{
+      margin-top: 23px;
+      width: 25px;
+      height: 25px;
+      font-size: 13px;
       }
       #Top{
         width: 1000px;
         height: 200px;
-        background-color: red;
+      }
+      #Top > #Top-up{
+        width: 1000px;
+        height: 130px;
+        text-align: center;
+      }
+      #Top > #Top-up > h1{
+          color: #0D9EFF;
+          padding-top: 40px;
+          font-size: 45px;
+      }
+       #Top > #Top-up > p{
+          color: blue;
+          font-weight: bold;
+          padding-top: 5px;
+          margin-left: -10px;
+          font-size: 15px;
+       }
+       
+      #Top > #Top-Bottom{
+        width: 1000px;
+        height: 70px;
+        text-align: center;
+        vertical-align: middle;
+      }
+      #search {
+         background: #fff url("glyphicons_free/glyphicons_free/glyphicons/png/glyphicons_268_keyboard_wireless.png") no-repeat 10px center;
+         background-position: right;
+         border: 1px solid #000;
+         width:280px; 
+         font-size:14px; 
+         line-height:24px; 
+         height:18px;
+         vertical-align: middle;
+         margin-top: 20px;
+      }
+      #search >url{
+        padding: 2px;
+      }
+      #search_button {height:28px; font-size:14px; 
+         line-height:24px; padding:5px;vertical-align: middle;
+         margin-top: 9px;
       }
       #Main_content{
         width: 1000px;
-        height: 550px;
         background-color: cyan;
       }
       #Main_content > #list_content{
         width: 1000px;
-        height: 470px;
+        height: 1000px;
+        
+      }
+      .list_information{
+        width: 210px;
+        height: 280px;
+        border:solid 1px;
+        margin-top: 30px;
+        margin-left: 30px;
         background-color: blue;
+        float: left;
       }
       #Main_content > #foot_content{
         width: 1000px;
-        height: 80px;
-        background-color: green;
+        height: 120px;
+        background-color:#CCCCFF; 
+        color:#888; 
+        text-align:center; 
+        padding-top: 20px;
       } 
+      .nav > li{
+        font-weight: bold;
+        text-align: center;
+        width: 130px;
+       
+      }
+      #school {
+         background: #fff url("glyphicons_free/glyphicons_free/glyphicons/png/glyphicons_043_group.png") no-repeat 2px center;
+          background-color: #1b1b1b;
+       }
+        #category {
+         background: #fff url("glyphicons_free/glyphicons_free/glyphicons/png/glyphicons_351_book_open.png") no-repeat 2px center;
+         background-color: #1b1b1b;
+       }
+        #wishlist {
+         background: #fff url("glyphicons_free/glyphicons_free/glyphicons/png/glyphicons_022_fire.png") no-repeat 2px center;
+         background-color: #1b1b1b;
+       }
+        #favorite {
+         background: #fff url("glyphicons_free/glyphicons_free/glyphicons/png/glyphicons_343_thumbs_up.png") no-repeat 2px center;
+         background-color: #1b1b1b;
+       }
+       #top_bar {
+       }
     </style>
   </head>
   <body>
     <div id="Main">
       <div id="Header">
-
+        <input type="button"  class="btn" value="login">
+        <input type="button" class="btn" value="회원가입">
       </div>
       <div id="Top">
         <div id="Top-up">
-
+          <h1>꿈꾸는 다락방</h1>
+          <p>사람과 책이 있는 공간</p>
         </div>
         <div id="Top-Bottom">
-
+            <input type="text" name="search" id="search">
+            <input type="submit" value="Search" id="search_button">
         </div>
       </div>
       <div id="Main_content">
         <div id="list_content">
+          <div class="list_information">
+          </div>
+          <div class="list_information">
+          </div>
+          <div class="list_information">
+          </div>
+          <div class="list_information">
+          </div>
+          <div class="list_information">
+          </div>
+          <div class="list_information">
+          </div>
+          <div class="list_information">
+          </div>
         </div>
         <div id="foot_content">
+            <p>사이트 소개 | 이용약관 | 개인정보취급방침 | 책임의 한계와 법적 고지 | 고객센터 </p>
+            <p>WebProgramming Project </p>
         </div>
       </div>
     </div>
+  <div class="navbar navbar-inverse navbar-fixed-bottom">
+  <div class="navbar-inner">
+    <!--<a class="brand" href="#">Title</a>-->
+    <ul class="nav"> 
+      <li class="active"><a  id="school"  href="#">School</a></li>
+      <li id="category"><a href="#">Category</a></li>
+      <li id="wishlist"><a href="#">WishList</a></li>
+      <li id="favorite"><a href="#">Favorite</a></li>
+      <li id="top_bar"><a href="#">Top▲</a></li>
+    </ul>
+  </div>
+</div>
+
+
   </body>
 </html>
 
