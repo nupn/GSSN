@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+ 	<head>
+ 		<meta charset="utf-8">
+ 		<title>다락방</title>
+ 		<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+ 		<link href="css/garret.css" rel="stylesheet">
+ 		<script src='jquery/jquery-1.8.2.js'></script>
+ 		<script src='bootstrap/js/bootstrap-tab.js'></script>
+ 		<script src='bootstrap/js/bootstrap-tooltip.js'></script>
+
+	</head>
+ 	<body>
+ 		<div class="container-fluid">
+ 			<div class="row-fluid">
+ 				<div class="span2">
+ 					<!--side bar-->
+ 					<br/>
+ 					<img src="image/younha.jpg" alt="프로필사진" width="230px" >
+ 					<br/><br/><br/><br/>
+ 					<p>등급</p>
+ 					<p>인증SNS</p>
+ 				</div>
+ 				<div class="span10" >
+ 					<!--body-->
+ 					<ul class="nav nav-tabs" id="myTab">
+ 						<li  class="active"><a  href="#garret" data-toggle="tab"  > 다락방</a></li>
+ 						<li><a href="#message" data-toggle="tab" >메시지 수신함</a></li>
+ 						<li> <a href="#shop" data-toggle="tab" >가게 관리</a></li>
+ 						<li> <a href="#account" data-toggle="tab"> 계정 관리</a></li>
+ 					</ul>
+
+ 					<div class="tab-content">
+ 						<div class="tab-pane fade in active" id="garret">
+ 							<textarea class="list"  rows="7">
+ 								<!--여기다 판매중인 물품 append-->
+ 							</textarea>
+ 							
+ 						</div>
+ 						<div class="tab-pane fade in " id="message">
+ 							test
+ 						</div>
+ 						<div class="tab-pane fade in" id="shop">
+							<div class="container">
+								<div class="media">
+									<a class="pull-left" href="#">
+										<label class="checkbox inline">
+ 											<input type="checkbox" id="choice" value="first">
+ 										</label>
+ 										<img class="media-object" src="http://placehold.it/64x64">
+ 										&nbsp;
+ 									</a>		
+ 									<div class="media-body">
+ 										<a href=""><h4 class="media-heading"> 제목1</h4></a>
+										1번책임돠
+ 									</div>
+ 									<br/>
+ 				 					<a class="pull-left" href="#">
+ 				 						<label class="checkbox inline">
+ 											<input type="checkbox" id="choice" value="second">
+ 										</label>
+	 				 					<img class="media-object" src="http://placehold.it/64x64">
+ 										&nbsp;
+									</a>
+									<div class="media-body">
+										<a href=""><h4 class="media-heading"> 제목2</h4></a>
+										2번책임돠
+ 									</div>
+ 									<br/>
+ 									<a class="pull-left" href="#">
+ 										<label class="checkbox inline">
+ 											<input type="checkbox" id="choice" value="third">
+ 										</label>
+ 										<img class="media-object" src="http://placehold.it/64x64">
+ 										&nbsp;
+ 									</a>
+
+ 									<div class="media-body">
+ 										<a href=""><h4 class="media-heading"> 제목3</h4></a>
+ 										3번책임돠
+ 									</div>
+ 								</div>
+ 							</div>
+ 						</div> 
+ 						<div class="tab-pane fade in" id="account">
+ 							test3
+ 						</div>
+ 					</div>
+ 
+ 				</div>
+ 
+ 			</div>
+
+ 		</div> 
+ 	</body>
+</html>
+<script type='text/javascript'>
+$(function (){
+	$('#myTab a').click(function(e) {
+		e.preventDefault();
+		$(this).tab('show');
+	})
+	// 클릭할때마다 탭 show/hide
+})
+</script>
+
