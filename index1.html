@@ -113,7 +113,19 @@
         font-weight: bold;
         text-align: center;
         width: 130px;
-       
+      }
+      .navbar-inner > a{
+        color: gray;
+        font-size: 17px;
+        font-weight: bold;
+        float: right;
+        vertical-align: middle;
+        margin-top: 10px;
+        padding-right: 20px;
+        text-decoration: none;
+      }
+      .navbar-inner > a.link ,a:hover{
+        color: white;
       }
       #school {
          background: #fff url("glyphicons_free/glyphicons_free/glyphicons/png/glyphicons_043_group.png") no-repeat 2px center;
@@ -130,8 +142,6 @@
         #favorite {
          background: #fff url("glyphicons_free/glyphicons_free/glyphicons/png/glyphicons_343_thumbs_up.png") no-repeat 2px center;
          background-color: #1b1b1b;
-       }
-       #top_bar {
        }
     </style>
   </head>
@@ -181,8 +191,8 @@
       <li id="category"><a href="#">Category</a></li>
       <li id="wishlist"><a href="#">WishList</a></li>
       <li id="favorite"><a href="#">Favorite</a></li>
-      <li id="top_bar"><a href="#">Top▲</a></li>
     </ul>
+      <a href="#">Top▲</a>
   </div>
 </div>
 

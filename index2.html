@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Test</title>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+    <style type="text/css">
+ body{
+   background-color: #CCCCFF;
+ }
+ #Main{
+  background-color: #CCCCFF;
+ 
+  width: 900px;
+  height: 680px;
+  margin-left: -40px;
+  margin-top: 20px;
+ }
+ #sub1{
+    width:900px;
+    height: 290px;
+ }
+ #sub1 > #goods_picture{
+  float: left;
+  width: 350px;
+  height: 290px;
+ }
+  #sub1 > #goods_picture >img{
+    margin:  10px;
+    margin-left: 70px;
+    width: 230px;
+    height: 250px;
+    float: left;
+  }
+ #sub1 > #goods_picture > #send{
+  float: left;
+  text-align: center;
+  width: 100px;
+  height: 30px;
+  margin-left: 134px;
+ }
+ #sub1 > #information{
+  float: left;
+  width: 550px;
+  height: 290px;
+ }
+ #sub1 > #information > #head_information{
+  float: left;
+  width: 130px;
+  height: 290px;
+ }
+ #sub1 > #information > #head_information > p{
+  text-align: center;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 18px;
+  margin-top: 12px;
+ }
+ #sub1 > #information > #body_information{
+  float: left;
+  width: 420px;
+  height: 290px;
+  padding-top: 3px;
+ }
+ #sub1 > #information > #body_information > INPUT[type=text]{
+  width: 350px;
+  height: 17px;
+  margin: 2px;
+  margin-left: 5px;
+ }
+ #sub1 > #information > #body_information > INPUT[type=textarea]{
+  width: 357px;
+  height: 130px;
+  margin: 1px;
+  margin-left: 5px;
+ }
+#sub2{
+  width: 900px;
+  height: 140px;
+  padding-top: 20px;
+}
+#sub2 .thead{
+  border-top: solid 2px #0D9EFF;
+  border-bottom: solid 2px #0D9EFF;
+
+}
+#sub3{
+  width: 900px;
+  height: 230px;
+}
+#sub3 > INPUT[type=image]{
+  margin: 110px 10px 10px 10px;
+  background-color:#0D9EFF;
+  border: 2px;
+  float: left;
+}
+#sub3 > img{
+  float: left;
+  width: 190px;
+  margin: 25px 30px 10px 40px;
+}
+    </style>
+ </head>
+ <body>
+  <div id="Main">
+    <div id="sub1">
+      <div id="goods_picture">
+        <img src="image/younha.jpg" alt="good" name="picture" >
+        <input type="button"  id="send" name="message" value="Massage Send" >
+      </div>
+      <div id="information">
+        <div id="head_information">
+          <p> 이름 :</p>
+          <p> 닉네임 :</p>
+          <p> 등급 :</p>
+          <p> 판매가 :</p>
+          <p>구매가격 :</p>
+          <p>추가설명 :</p>
+        </div>
+        <div id="body_information">
+          <input type="text" name="name" >
+          <input type="text" name="nickname" >
+          <input type="text" name="grade" >
+          <input type="text" name="sell_price" >
+          <input type="text" name="buy_price" >
+          <input type="textarea" name="add_information" >
+        </div>
+      </div>
+    </div> 
+    <div id="sub2">
+      <table class="table table-striped">
+      <tr class ="thead">
+          <th>   품질상태</th>
+          <th>내용</th>
+          <th>세부사항</th>
+      </tr>
+      <tr class="info">
+          <td>사용의흔적정도(겉표지/메모/밑줄/서명 유무)</td>
+          <td><input type="text" name="good_state" value="없음"></td>
+          <td><input type="text" name="good_add_state"  value="---"></td>
+      </tr>
+       <tr class="warning">
+        <td>헌책의 느낌(오염/때/낡은 정도)</td>
+        <td><input type="text" name="good_pollution"  value="물 묻은적이 있음"></td>
+        <td><input type="text" name="good_add_pollution"  value="10장 정도 쭈글쭈글함"></td>
+       </tr>
+      </table>
+    </div>
+    <div id="sub3">
+      <input type="image" src="glyphicons_free/glyphicons_free/glyphicons/png/glyphicons_224_chevron-left.png" alt="left" width="20" height="30">
+      <img src="image/younha.jpg" alt="good" name="picture" >
+      <img src="image/younha.jpg" alt="good" name="picture" >
+      <img src="image/younha.jpg" alt="good" name="picture" >
+      <input type="image" src="glyphicons_free/glyphicons_free/glyphicons/png/glyphicons_223_chevron-right.png" alt="right" width="20" height="30">
+    </div>
+  </div>
+
+
+
+    
+ </body>
+ <script type="text/javascript">
+
+
+  </script>
+ </html>
