@@ -10,27 +10,22 @@
       body{
         background-color: #F7FCFF;
       }
+      #header li{
+        float: right;
+      }
       #Main{
         width: 1000px;
-       
+       margin-top: 100px;
         background-color: #F7FCFF;
         margin-left: -100px;
       }
-      #Header{
-        width: 1000px;
-        height: 50px;
-        vertical-align: bottom;
-        text-align: right;
-      }
-     .btn{
-      margin-top: 23px;
-      width: 25px;
-      height: 25px;
-      font-size: 13px;
+      #filter_nav{
+        position: absolute;
+        top:40px;
       }
       #Top{
         width: 1000px;
-        height: 200px;
+        height: 250px;
       }
       #Top > #Top-up{
         width: 1000px;
@@ -103,13 +98,13 @@
     }
       #Main_content > #foot_content{
         width: 1000px;
-        height: 120px;
+        height: 60px;
         background-color:#CCCCFF; 
         color:#888; 
         text-align:center; 
         padding-top: 20px;
       } 
-      .nav > li{
+      .nav  li{
         font-weight: bold;
         text-align: center;
         width: 130px;
@@ -143,24 +138,153 @@
          background: #fff url("glyphicons_free/glyphicons_free/glyphicons/png/glyphicons_343_thumbs_up.png") no-repeat 2px center;
          background-color: #1b1b1b;
        }
+       #top{
+        width: 120px;
+        height: 40px;
+        position: fixed;
+        bottom: 30px;
+        right: -2px;
+       }
+       .tab{
+        width: 400px;
+        height: 400px;
+       }
+       .tab li{
+        text-align: left;
+       }
+        .tab>ul:after{ content:""; display:block; clear:both;}  
+     .tab>ul>li>div{ width:525px;height: 335px; position:absolute; top:37px; left:5px;  
+            border:0; margin:0; padding:10px;background:#CCCCFF;}
+     .tab>ul>li>a{ float:left; text-decoration:none;}
+     .tab>ul>li>a>span{ display:inline-block; padding:6px 25px 6px 25px; color:#fff;}
     </style>
   </head>
   <body>
+    
+        
+        <div class="navbar navbar-fixed-top" style="position: absolute;" id="header">
+              <div class="navbar-inner">
+                <div class="container" style="width: auto; padding: 0 20px;">
+                  <ul class="nav pull-right">
+                    <li><a href="#myModal2" data-toggle="modal">고객센터</a></li>
+                    <li><a href="#myModal" data-toggle="modal">로그인</a></li>
+                    
+ 
+
+
+                   </ul>   
+                </div>
+              </div>
+        </div>
+
+<!-- Modal -->
+        <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div>
+                영모야 언제 시작할거니.ㅋㅋㅋㅋㅋ<br/>
+                 멀티미디어 시간 반만 투자하렴.ㅋㅋㅋㅋㅋㅋㅋㅋ<br/>
+                </div>
+        </div>
+
+<div id="myModal2" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="tab">
+      <ul class="nav nav-tabs">
+         <li><a href="#">사이트 소개</a>
+                <div class="site_info">
+                    저희 사이트를 찾아주셔서 감사합니다.<br/>
+                    저희 사이트의 목적은 중고거래를 기반으로 하는 소셜 네트워크로써<br/>
+                    일반 중고거래 사이트보다 좀더 신뢰성을 높일수 있는 사이트를 만드는데 주목적으로 두었고<br/>
+                    페이스북을 연동 함으로써 판매 범위를 넓힐수 있고, 좀더 안전한 거래를 할수 있는데 주완점을 두었습니다.<br/>
+                </div>
+                </li>
+                <li><a href="#">이용방법</a>
+                <div class="use_info">
+                    판매자 관점 <br/>
+                    1. 로그인 한다.<br/>
+                    2. 내 다락방을 들어간다.<br/>
+                    3. 가게 관리로 들어간다.<br/>
+                    4. 물품 추가버튼을 클릭한다.<br/>
+                    5. 물품 정보를 입력한 후 등록 버튼을 누른다.<br/><br/>
+                    구매자 관점 <br/>
+                    1. 로그인 한다. <br/>
+                    2. 메인 페이지에 등록 된 물품중에 관심 있는 물품을 클릭한다.<br/>
+                    3. 물품을 확인한 후 바로 판매자에게 메시지를 보내어 거래를 잡을수 있고<br/>
+                        신뢰성을 확인하고 싶다면 판매자 다락방을 들어가서 판매내역이나 구매후기를 확인하다.<br/>
+                </div>
+                </li>
+                <li><a href="#">FAQ</a>
+                    <div class="FAQ">
+                      <a href="#">회원 가입은 어떻게 해야 하나요??</a><br/>
+                           <a href="#">판매자의 신뢰도는 어떻게 올릴수 있나요??</a><br/>
+                           <a href="#">거래후기는 언제 작성하나요??</a><br/>
+                           <a href="#">책 이외의 물품은 올릴수 없나요??</a></br/>
+                           <a href="#">페이스북 아이디가 없는 사람은 이용을 할수 없나요??</a><br/>
+                </div>
+                </li>
+            </ul>
+    </div>
+
+</div>
+        <div class="navbar navbar-inverse navbar-fixed-top" id="filter_nav">
+                <div class="navbar-inner">
+                  <!--<a class="brand" href="#">Title</a>-->
+                <ul class="nav"> 
+                    <li class="dropdown" id="school">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" >School</a>
+                        <ul class="dropdown-menu currency-dropdown">
+                          <li><a href="#">명지대학교</a></li>
+                          <li><a href="#">서울대학교</a></li>
+                          <li><a href="#">연세대학교</a></li>
+                          <li><a href="#">고려대학교</a></li>
+                          <li><a href="#">성균관대학교</a></li>
+                          <li><a href="#">광운대학교</a></li>
+                          <li><a href="#">건국대학교</a></li>
+                          <li><a href="#">동국대학교</a></li>
+                          <li><a href="#">카이스트</a></li>
+                        </ul>
+                      </li>
+                    <li class="dropdown" id="category">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Category</a>
+                     <ul class="dropdown-menu currency-dropdown">
+                          <li><a href="#">컴퓨터</a></li>
+                          <li><a href="#">소설</a></li>
+                          <li><a href="#">자연과학</a></li>
+                          <li><a href="#">생명과학</a></li>
+                          <li><a href="#">경제</a></li>
+                          <li><a href="#">역사/문명</a></li>
+                          <li><a href="#">자격증관련</a></li>
+                          <li><a href="#">디자인</a></li>
+                          <li><a href="#">토익관련</a></li>
+                        </ul>
+                        </li>
+                    <li class="dropdown" id="wishlist">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">WishList</a>
+                     <ul class="dropdown-menu currency-dropdown">
+                          <li><a href="#">bluesky6096</a></li>
+                          <li><a href="#">kjh1234</a></li>
+                          <li><a href="#">jic6096</a></li>
+                          <li><a href="#">syh4325</a></li>
+                        </ul>
+                        </li>
+                    <li class="dropdown" id="favorite" >
+                      <a href="#"  class="dropdown-toggle" data-toggle="dropdown">Favorite</a></li>      
+                </ul>
+                </div>
+         </div>
     <div id="Main">
       <div id="Header">
-        <input type="button"  class="btn" value="login">
-        <input type="button" class="btn" value="회원가입">
-      </div>
-      <div id="Top">
+
+          
+        <div id="Top">
         <div id="Top-up">
           <h1>꿈꾸는 다락방</h1>
           <p>사람과 책이 있는 공간</p>
-        </div>
+        </div>  
         <div id="Top-Bottom">
+
             <input type="text" name="search" id="search">
             <input type="submit" value="Search" id="search_button">
         </div>
-      </div>
+      
       
       <div id="Main_content">
         <div id="list_content">
@@ -183,21 +307,27 @@
       </div>
 
     </div>
-  <div class="navbar navbar-inverse navbar-fixed-bottom">
-  <div class="navbar-inner">
-    <!--<a class="brand" href="#">Title</a>-->
-    <ul class="nav"> 
-      <li class="active"><a  id="school"  href="#">School</a></li>
-      <li id="category"><a href="#">Category</a></li>
-      <li id="wishlist"><a href="#">WishList</a></li>
-      <li id="favorite"><a href="#">Favorite</a></li>
-    </ul>
-      <a href="#">Top▲</a>
-  </div>
+  
+
+  <button type="button" class="btn btn-info" id="top">상단으로 가기</button>
+
+
+  
+    <script src="bootstrap/docs/assets/js/jquery.js"></script>
+    <script src="bootstrapdocs/assets/js/bootstrap-transition.js"></script>
+    <script src="bootstrap/docs/assets/js/bootstrap-alert.js"></script>
+    <script src="bootstrap/docs/assets/js/bootstrap-modal.js"></script>
+    <script src="bootstrap/docs/assets/js/bootstrap-dropdown.js"></script>
+    <script src="bootstrap/docs/assets/js/bootstrap-scrollspy.js"></script>
+    <script src="bootstrap/docs/assets/js/bootstrap-tab.js"></script>
+    <script src="bootstrap/docs/assets/js/bootstrap-tooltip.js"></script>
+    <script src="bootstrap/docs/assets/js/bootstrap-popover.js"></script>
+    <script src="bootstrap/docs/assets/js/bootstrap-button.js"></script>
+    <script src="bootstrap/docs/assets/js/bootstrap-collapse.js"></script>
+    <script src="bootstrap/docs/assets/js/bootstrap-carousel.js"></script>
+    <script src="bootstrap/docs/assets/js/bootstrap-typeahead.js"></script>
 </div>
-
-
-  </body>
+</body>
 
   <script type="text/javascript">
 var height=320;
@@ -215,6 +345,19 @@ $(function($){
         
   document.getElementById("list_content").style.height=hh*height+"px";
  });
-  </script>
+
+$(function($){
+    var tab = $('.tab');
+    tab.find('li>a').click(function() {
+        $(".tab>ul>li").removeClass('active');
+        $(".tab>ul>li>div").hide();
+        $(this).parent("li").addClass('active');
+        $(this).parent("li").find('div').show();
+    });
+    $(".tab li>a:first").click();
+  });
+
+</script>
+
 </html>
 
