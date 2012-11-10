@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Test</title>
+    <title>Main Page</title>
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <script src='jquery-1.8.2.min.js'></script>
@@ -24,8 +24,8 @@
         top:40px;
       }
       #Top{
-        width: 1000px;
-        height: 250px;
+         width: 1000px;
+         height: 200px;
       }
       #Top > #Top-up{
         width: 1000px;
@@ -144,7 +144,7 @@
          #qna {
          background: url("glyphicons_free/glyphicons_free/glyphicons/png/glyphicons_137_cogwheels.png") no-repeat 4px center;
        }
-       #top{
+       #top_btn{
         width: 120px;
         height: 40px;
         position: fixed;
@@ -163,6 +163,9 @@
             border:0; margin:0; padding:10px;background:#CCCCFF;}
      .tab>ul>li>a{ float:left; text-decoration:none;}
      .tab>ul>li>a>span{ display:inline-block; padding:6px 25px 6px 25px; color:#fff;}
+
+
+
     </style>
   </head>
   <body>
@@ -224,8 +227,8 @@
                 </li>
             </ul>
     </div>
+  </div>
 
-</div>
         <div class="navbar navbar-inverse navbar-fixed-top" id="filter_nav">
                 <div class="navbar-inner">
                   <!--<a class="brand" href="#">Title</a>-->
@@ -274,8 +277,7 @@
          </div>
     <div id="Main">
       <div id="Header">
-
-          
+      </div>
         <div id="Top">
         <div id="Top-up">
           <h1>꿈꾸는 다락방</h1>
@@ -286,12 +288,12 @@
             <input type="text" name="search" id="search">
             <input type="submit" value="Search" id="search_button">
         </div>
-      
+      </div>
       
       <div id="Main_content">
         <div id="list_content">
           
-          <a href="#"><div class="list_information"></div></a>
+          <a href="index2.html" target="_blank"><div class="list_information"></div></a>
           <a href="#"><div class="list_information"></div></a>
           <a href="#"><div class="list_information"></div></a>
           <a href="#"><div class="list_information"></div></a>
@@ -311,7 +313,7 @@
     </div>
   
 
-  <button type="button" class="btn btn-info" id="top">상단으로 가기</button>
+  <button type="button" class="btn btn-info" id="top_btn">상단으로 가기</button>
 
 
   
@@ -357,6 +359,14 @@ $(function($){
         $(this).parent("li").find('div').show();
     });
     $(".tab li>a:first").click();
+  });
+
+$('#top_btn').click(function(){
+  $('html, body').animate({
+                     scrollTop: '0px'
+                 },
+                 300);
+                 return false;
   });
 
 </script>
