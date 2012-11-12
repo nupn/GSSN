@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    <meta charset="utf-8">
+    <title>디비디비테스트</title>
+    <script type="text/javascript" src="./getSearchBook.js"></script>
+     <script type="text/javascript" src="./getSearchBooks.js"></script>
+    <script src='../jQuery/jquery-1.8.2.min.js'></script>
+    </head>
+    <body>
+    	<h1>데이터입력he<h2>
+        <input  id="cor" type="submit">
+        
+        
+        
+        <h1>검색<h2>
+        <input id="searchBook" type="submit">
+       
+    </body>
+</html>
+<script type="text/javascript">
+	$(
+	function(){
+		$('#searchBook').click(function(e) {
+       		//nevSearchBook("삼국지",function(){});
+			startRequest();
+
+		});
+	}
+	);
+	
+	$(
+	function(){
+		$('#cor').click(function(e) {
+       		nevSearchBook("삼국지",function(){});
+			
+
+		});
+	}
+	);
+	
+</script>
