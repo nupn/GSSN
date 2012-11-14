@@ -6,6 +6,7 @@
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <script src='jquery-1.8.2.min.js'></script>
+
     <style type="text/css">
       body{
         background-color: #F7FCFF;
@@ -52,7 +53,7 @@
         vertical-align: middle;
       }
       #search {
-         background: #fff url("glyphicons_free/glyphicons_free/glyphicons/png/glyphicons_268_keyboard_wireless.png") no-repeat 10px center;
+         background: #fff url("glyphicons_free/glyphicons_free/glyphicons/png/glyphicons_268_keyboard_wireless.png") no-repeat 0px center;
          background-position: right;
          border: 1px solid #000;
          width:280px; 
@@ -62,14 +63,10 @@
          vertical-align: middle;
          margin-top: 20px;
       }
-      #search >url{
-        padding: 2px;
-      }
       #search_button {
          height:28px; 
          font-size:14px; 
          line-height:24px; 
-         padding:5px;
          vertical-align: middle;
          margin-top: 9px;
       }
@@ -92,9 +89,9 @@
       }
       a:hover div{
       border:2px solid #0D9EFF;
-      -webkit-box-shadow:0 0 6px #0D9EFF,0 0 0 #000;
-      -moz-box-shadow:0 0 6px #0D9EFF,0 0 0 #000;
-      box-shadow:0 0 6px #0D9EFF,0 0 0 #000
+      -webkit-box-shadow:0 0 10px #0D9EFF,0 0 0 #000;
+      -moz-box-shadow:0 0 10px #0D9EFF,0 0 0 #000;
+      box-shadow:0 0 10px #0D9EFF,0 0 0 #000
     }
       #Main_content > #foot_content{
         width: 1000px;
@@ -133,23 +130,42 @@
         #wishlist {
          background: #fff url("glyphicons_free/glyphicons_free/glyphicons/png/glyphicons_022_fire.png") no-repeat 2px center;
          background-color: #1b1b1b;
+         visibility: hidden;
        }
         #favorite {
          background: #fff url("glyphicons_free/glyphicons_free/glyphicons/png/glyphicons_343_thumbs_up.png") no-repeat 2px center;
          background-color: #1b1b1b;
+         visibility: hidden;
        }
-        #facebook {
+        #login {
          background: url("glyphicons_free/glyphicons_free/glyphicons/png/glyphicons_410_facebook.png") no-repeat 7px center;
+         visibility: visible;
        }
          #qna {
          background: url("glyphicons_free/glyphicons_free/glyphicons/png/glyphicons_137_cogwheels.png") no-repeat 4px center;
+
        }
+        #attic{
+         background: url("glyphicons_free/glyphicons_free/glyphicons/png/glyphicons_137_cogwheels.png") no-repeat 7px center;
+            visibility: hidden;
+        }
+        #logout{
+         background: url("glyphicons_free/glyphicons_free/glyphicons/png/glyphicons_137_cogwheels.png") no-repeat 7px center;
+            visibility: hidden;
+        }
        #top_btn{
         width: 120px;
         height: 40px;
         position: fixed;
         bottom: 30px;
         right: -2px;
+       }
+       #log_btn{
+        width: 150px;
+        height: 30px;
+        position: fixed;
+        top:100px;
+        left: 40px;
        }
        .tab{
         width: 400px;
@@ -163,21 +179,22 @@
             border:0; margin:0; padding:10px;background:#CCCCFF;}
      .tab>ul>li>a{ float:left; text-decoration:none;}
      .tab>ul>li>a>span{ display:inline-block; padding:6px 25px 6px 25px; color:#fff;}
-
-
-
     </style>
   </head>
   <body>
     
-        
         <div class="navbar navbar-fixed-top" style="position: absolute;" id="header">
               <div class="navbar-inner">
                 <div class="container" style="width: auto; padding: 0 20px;">
-                  <ul class="nav pull-right">
+                  
+                  <ul class="nav pull-right" id='lgn_after'>
                     <li id="qna"><a href="#myModal2" data-toggle="modal">고객센터</a></li>
-                    <li  id="facebook"><a href="#myModal" data-toggle="modal">로그인</a></li>
-                   </ul>   
+                    <li id="login"><a href="#myModal" data-toggle="modal">로그인</a></li>
+                    <li id="attic"><a href="garret.html" target="_blank">내다락방</a></li>
+                    <li id="logout"><a href="#myModal" data-toggle="modal">로그아웃</a></li>
+                  </ul>
+                
+                  
                 </div>
               </div>
         </div>
@@ -249,7 +266,7 @@
                       </li>
                     <li class="dropdown" id="category">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown">Category</a>
-                     <ul class="dropdown-menu currency-dropdown">
+                        <ul class="dropdown-menu currency-dropdown">
                           <li><a href="#">컴퓨터</a></li>
                           <li><a href="#">소설</a></li>
                           <li><a href="#">자연과학</a></li>
@@ -260,18 +277,18 @@
                           <li><a href="#">디자인</a></li>
                           <li><a href="#">토익관련</a></li>
                         </ul>
-                        </li>
-                    <li class="dropdown" id="wishlist">
+                    </li>
+                    <li class="dropdown" id="wishlist" >
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown">WishList</a>
                      <ul class="dropdown-menu currency-dropdown">
                           <li><a href="#">bluesky6096</a></li>
                           <li><a href="#">kjh1234</a></li>
                           <li><a href="#">jic6096</a></li>
                           <li><a href="#">syh4325</a></li>
-                        </ul>
-                        </li>
-                    <li class="dropdown" id="favorite" >
-                      <a href="#"  class="dropdown-toggle" data-toggle="dropdown">Favorite</a></li>      
+                      </ul>
+                    </li>
+                    <li class="dropdown" id="favorite" class="lgn_after">
+                      <a href="#"  class="dropdown-toggle" data-toggle="dropdown">Favorite</a></li>   
                 </ul>
                 </div>
          </div>
@@ -314,6 +331,7 @@
   
 
   <button type="button" class="btn btn-info" id="top_btn">상단으로 가기</button>
+  <button type="button" class="btn btn-info" id="log_btn">로그인/로그아웃</button>
 
 
   
@@ -333,10 +351,16 @@
 </div>
 </body>
 
+
+
+
   <script type="text/javascript">
+
 var height=320;
 var count=0;
 var hh=0;
+var choice=true;
+
 $(function($){
 
     $("div.list_information").each(function($){
@@ -348,7 +372,7 @@ $(function($){
     });
         
   document.getElementById("list_content").style.height=hh*height+"px";
- });
+});
 
 $(function($){
     var tab = $('.tab');
@@ -359,7 +383,7 @@ $(function($){
         $(this).parent("li").find('div').show();
     });
     $(".tab li>a:first").click();
-  });
+});
 
 $('#top_btn').click(function(){
   $('html, body').animate({
@@ -367,7 +391,30 @@ $('#top_btn').click(function(){
                  },
                  300);
                  return false;
-  });
+});
+
+$('#log_btn').click(function(){
+
+if(choice){
+  $('#login').css('visibility','hidden');
+  $('#logout').css('visibility','visible');
+  $('#attic').css('visibility','visible');
+  $('#wishlist').css('visibility','visible');
+  $('#favorite').css('visibility','visible');
+  choice=false;
+
+}
+else{
+  $('#login').css('visibility','visible');
+  $('#logout').css('visibility','hidden');
+  $('#attic').css('visibility','hidden');
+  $('#wishlist').css('visibility','hidden');
+  $('#favorite').css('visibility','hidden');
+  choice=true;
+
+}
+});
+
 
 </script>
 
