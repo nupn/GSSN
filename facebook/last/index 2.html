@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+
+<title>무제 문서</title>
+    <script src='../lib/jquery.js'></script>
+    <script src='../lib/crystal.js'></script>
+    <script src='./fbtool.js'></script>
+    <script src='./facebook-js-sdk/src/meta/all.js'></script>
+    
+</head>
+
+<body>
+	<div id="fb-root">
+    
+    </div>
+	<script type="text/javascript">
+  // Additional JS functions here
+  window.fbAsyncInit = function() {
+	
+    FB.init({
+      appId      : CRYSTAL_APP_ID, // App ID
+      channelUrl : '//www.crystars.com/channel.html', // Channel File
+      status     : true, // check login status
+      cookie     : true, // enable cookies to allow the server to access the session
+      xfbml      : true  // parse XFBML
+    });
+
+    // Additional init code here
+	
+	 FB.getLoginStatus(function(response) {
+	  if (response.status === 'connected') {
+		//getToken( receivetoken );
+			testAPI();
+	  } else if (response.status === 'not_authorized') {
+		alert("not_authorized");
+		login();
+	  } else {
+		   alert("not_logged_in");
+		   login();
+	  }
+	 });
+	 
+	 
+	
+  };
+
+  // Load the SDK Asynchronously
+  (function(d){
+     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     ref.parentNode.insertBefore(js, ref);
+   }(document));
+   
+   function login() {
+    FB.login(function(response) {
+        if (response.authResponse) {
+            // connected
+			 testAPI();
+        } else {
+            // cancelled
+        }
+    }, {scope: 'email,publish_actions'});
+	}
+  
+   function testAPI() {
+    console.log('Welcome!  Fetching your information.... ');
+    	FB.api('/me', function(response) {
+        	console.log('Good to see you, ' + response.name + '.'+response.id + '.');
+			getToken(response.id);
+    	});
+	
+	
+	}
+	
+	function getToken(name){
+		var access_token =   FB.getAuthResponse()['accessToken'];
+     	console.log('Access Token = '+ access_token);
+		fbgetUserInfo(name,successGetUserData);
+		
+	}
+	
+	function successGetUserData(raw){
+		var obj=jQuery.parseJSON(raw);
+		
+
+		var f = document.createElement("form");
+		f.setAttribute("method","get");
+		f.setAttribute("action","../User.do"); 
+		document.body.appendChild(f);
+
+		var i = document.createElement("input")
+		i.setAttribute("type","hidden");
+		i.setAttribute("name",'name');
+		i.setAttribute("value",raw.name);
+		f.appendChild(i);
+		
+		i = document.createElement("input")
+		i.setAttribute("type","hidden");
+		i.setAttribute("name",'link');
+		i.setAttribute("value",raw.link);
+		f.appendChild(i);
+	
+		i = document.createElement("input")
+		i.setAttribute("type","hidden");
+		i.setAttribute("name",'id');
+		i.setAttribute("value",raw.id);
+		f.appendChild(i);
+	
+		f.submit(); 
+	}
+	
+</script>
+
+</body>
+</html>
+
+
