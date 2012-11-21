@@ -11,11 +11,27 @@
     
   </head>
   <body>
-  <script src="bootstrap/js/bootstrap.min.js"></script>
-  <script src="bootstrap/js/bootstrap.js"></script>
-  <img src="/img/logo.png" alt="logo">
+  <script language="javascript" type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+  <script language="javascript" type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
+  <h1 class="baseText"><img src="/img/logo.png" alt="logo"></h1>
   
-    <div class="navbar navbar-inverse navbar-fixed-bottom">
+      <div id="search" class="rightAlign">
+      <form class="form-search">
+      <input type="text" placeholder="sercher">
+      <button type="submit" class="btn">Search</button>
+      </form>
+      
+      <nav>
+	  <a href="http://tranbot.net/index.php?tag=CSS">최신순</a><a href="http://tranbot.net/index.php?tag=레이아웃">판매자등급순</a>
+      <a href="http://tranbot.net/index.php?tag=레이아웃">판매자인기순</a>
+	  </nav>
+      <br/>
+
+      
+      
+      </div>
+  
+  <div class="navbar navbar-inverse navbar-fixed-bottom">
   <div class="navbar-inner">
     <!--<a class="brand" href="#">Title</a>-->
     <ul class="nav">
@@ -31,14 +47,14 @@
                   <li><a href="#">One more separated link</a></li>
                 </ul>
        </li>
-      <li><a href="#">Favorite</a></li>
+      <li><a id="test1"href="#">Favorite</a></li>
       <li class="dropdown" id="logf">
             	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <img id="portrait"  width="20" height="20" src="">
+                <img id="portrait"  width="20" height="20" src="" alt="">
                 <span></span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">Action</a></li>
+                  <li><a class="logout" href="#">logOut</a></li>
                   <li><a href="#">Another action</a></li>
                   <li><a href="#">Something else here</a></li>
                   <li class="divider"></li>
@@ -49,31 +65,36 @@
     </ul>
   </div>
 </div>
-<form class="form-search">
-  <input type="text" class="input-medium search-query">
-  <button type="submit" class="btn">Search</button>
-</form>
-<p lang="ko">
-      플로트 속성은 웹 디자이너/개발자의 유용하고 강력한 도구입니다. 하지만 플로트가 어떻게 동작하는지 완전히 이해하지 못하고 쓴다면 많은 혼란과 절망감을 느끼게 할 수도 있습니다. 게다가 옛날에는 플로트 때문에 지저분한 브라우저 버그가 생기기도 했으니, 플로트란 말만 들어도 질색을 하는 건 어쩌면 당연한 일입니다. 자, 일단 차분하게 마음을 가라앉히시죠. 플로트가 어떻게 동작하는지 정확히 알려 드리고, 일단 이걸 숙달하면 놀랄 만큼 쓸모 있다는 걸 보여 드리겠습니다.
-    </p>
+			
+          <div class="row-fluid" id="mainItemList">
+          </div>
+          
+          <div >
+          	<ul class="nav nav-pills" id="pageNav">
+            </ul>
+          </div>
+          
+<br/><br/>
+<div class="fb-login-button leftAlign" data-show-faces="true" data-width="300" data-max-rows="1" registration-url="http://www.crystars.com">
+</div> 
+<br/><br/><br/><br/><br/>
 
   </body>
 </html>
 	
-    <script src='./lib/jquery.js'></script>
-    <script src='./lib/crystal.js'></script>
-    <script src='./facebook-js-sdk/src/meta/all.js'></script>
-    <script src="./bootstrap/js/bootstrap-transition.js"></script>
-    <script src="./bootstrap/js/bootstrap-alert.js"></script>
-    <script src="./bootstrap/js/bootstrap-modal.js"></script>
-    <script src="./bootstrap/js/bootstrap-dropdown.js"></script>
-    <script src="./bootstrap/js/bootstrap-scrollspy.js"></script>
-    <script src="./bootstrap/js/bootstrap-tab.js"></script>
-    <script src="./bootstrap/js/bootstrap-tooltip.js"></script>
-    <script src="./bootstrap/js/bootstrap-popover.js"></script>
-    <script src="./bootstrap/js/bootstrap-button.js"></script>
-    <script src="./bootstrap/js/bootstrap-collapse.js"></script>
-    <script src="./bootstrap/js/bootstrap-carousel.js"></script>
-    <script src="./bootstrap/js/bootstrap-typeahead.js"></script>
-    <script src='./fbtool.js'></script>
-    <script src='./fb-init.js'></script>
+	<script language="javascript" type="text/javascript" src='./lib/jquery.js'></script>
+    <script language="javascript" type="text/javascript" src="./bootstrap/js/bootstrap-transition.js"></script>
+    <script language="javascript" type="text/javascript" src="./bootstrap/js/bootstrap-alert.js"></script>
+    <script language="javascript" type="text/javascript" src="./bootstrap/js/bootstrap-modal.js"></script>
+    <script language="javascript" type="text/javascript" src="./bootstrap/js/bootstrap-dropdown.js"></script>
+    <script language="javascript" type="text/javascript" src="./bootstrap/js/bootstrap-scrollspy.js"></script>
+    <script language="javascript" type="text/javascript" src="./bootstrap/js/bootstrap-tab.js"></script>
+    <script language="javascript" type="text/javascript" src="./bootstrap/js/bootstrap-tooltip.js"></script>
+    <script language="javascript" type="text/javascript" src="./bootstrap/js/bootstrap-popover.js"></script>
+    <script language="javascript" type="text/javascript" src="./bootstrap/js/bootstrap-button.js"></script>
+    <script language="javascript" type="text/javascript" src="./bootstrap/js/bootstrap-collapse.js"></script>
+    <script language="javascript" type="text/javascript" src="./bootstrap/js/bootstrap-carousel.js"></script>
+    <script language="javascript" type="text/javascript" src="./bootstrap/js/bootstrap-typeahead.js"></script>
+    <script language="javascript" type="text/javascript" src='./lib/crystal.js'></script>
+    <script language="javascript" type="text/javascript" src='./fbtool.js'></script>
+    <script language="javascript" type="text/javascript" src='./fb-init.js'></script>
