@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" http-equiv="X-UA-Compatible" content="IE=9"> 
     <title>타이틀네임</title>
     <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
@@ -11,8 +11,6 @@
     
   </head>
   <body>
-  <script language="javascript" type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
-  <script language="javascript" type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
   <h1 class="baseText"><img src="/img/logo.png" alt="logo"></h1>
   
       <div id="search" class="rightAlign">
@@ -54,8 +52,8 @@
                 <span></span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li><a class="logout" href="#">logOut</a></li>
-                  <li><a href="#">Another action</a></li>
+                  <li><a class="logout" href="#">logo out</a></li>
+                  <li><a href="#myModal" data-toggle="modal">sell Item</a></li>
                   <li><a href="#">Something else here</a></li>
                   <li class="divider"></li>
                   <li class="nav-header">Nav header</li>
@@ -73,16 +71,59 @@
           	<ul class="nav nav-pills" id="pageNav">
             </ul>
           </div>
+      
+                
+          <div id="sectItemSell">
+          	
+          </div>
+          
+          <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Search Item</h3>
+              </div>
+              <div class="modal-body">
+                <input type="text" id="modalSearchIput" width="200"  data-provide="typeahead" />
+                btn btn-warning
+                
+                
+                <nav>
+	  			<a class="select">제목</a>
+                <a>저자</a>
+	  			</nav>
+                <input type="button" class="btn btn-warning" id="newItemSearchBtn"/>
+                <div id="modalSearchOption"></div>
+                
+                <div id="searchResultContainer"></div>
+              	</div>
+              
+              <div class="modal-footer">
+                <a href="#" id="searchCancel" class="btn">close</a>
+                <a href="#" id="searchNextBtn" class="btn btn-primary">pass</a>
+              </div>
+            </div>
+          
+    
           
 <br/><br/>
+<div class="fb-root"></div>
 <div class="fb-login-button leftAlign" data-show-faces="true" data-width="300" data-max-rows="1" registration-url="http://www.crystars.com">
 </div> 
 <br/><br/><br/><br/><br/>
 
   </body>
 </html>
-	
 	<script language="javascript" type="text/javascript" src='./lib/jquery.js'></script>
+    <script language="javascript" type="text/javascript" src='./lib/translator.js'></script>
+    <script language="javascript" type="text/javascript" src="./bootstrap/js/bootstrap.js"></script>
+     <script language="javascript" type="text/javascript" src="./bootstrap/js/bootstrap-typeahead.js"></script>
+    <script language="javascript" type="text/javascript" src='./lib/crystal.js'></script>
+    <script language="javascript" type="text/javascript" src='./fbtool.js'></script>
+    <script language="javascript" type="text/javascript" src='./fb-init.js'></script>
+    
+    
+    
+    <!--
     <script language="javascript" type="text/javascript" src="./bootstrap/js/bootstrap-transition.js"></script>
     <script language="javascript" type="text/javascript" src="./bootstrap/js/bootstrap-alert.js"></script>
     <script language="javascript" type="text/javascript" src="./bootstrap/js/bootstrap-modal.js"></script>
@@ -95,6 +136,4 @@
     <script language="javascript" type="text/javascript" src="./bootstrap/js/bootstrap-collapse.js"></script>
     <script language="javascript" type="text/javascript" src="./bootstrap/js/bootstrap-carousel.js"></script>
     <script language="javascript" type="text/javascript" src="./bootstrap/js/bootstrap-typeahead.js"></script>
-    <script language="javascript" type="text/javascript" src='./lib/crystal.js'></script>
-    <script language="javascript" type="text/javascript" src='./fbtool.js'></script>
-    <script language="javascript" type="text/javascript" src='./fb-init.js'></script>
+    -->

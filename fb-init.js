@@ -30,7 +30,8 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 
   window.fbAsyncInit = function() {
 	initial=true;
-	
+	if($.browser.msie==false)
+	{
     FB.init({
       appId      : CRYSTAL_APP_ID, // App ID
       channelUrl : '//www.crystars.com/channel.html', // Channel File
@@ -39,7 +40,7 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
       xfbml      : true,  // parse XFBML
 	  fileUpload : true
     });
-
+	}
     // Additional init code here
 	
 	 FB.getLoginStatus(function(response) {
@@ -84,7 +85,7 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 	}
   
    function authSuccess(id,token) {
-    console.log('Welcome!  Fetching your information.... ');
+    //console.log('Welcome!  Fetching your information.... ');
     fb_checkSession(id,token,checkSessionEnd);
 		
 		
@@ -93,10 +94,10 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 	function checkSessionEnd(raw){
 		if(raw.id!=null && raw.id!=CRYSTAL_EMPTY)
 		{
-			console.log('recieve user data 22');
+			//console.log('recieve user data 22');
 			successInitUser(raw);
 		}else{
-			console.log('creat User data');
+			//console.log('creat User data');
 			successGetUserData(raw.token);
 		}
 	}
@@ -105,7 +106,7 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 	function successGetUserData(token){
 		
 		FB.api('/me', function(response) {
-        	console.log('Good to see you, ' + response.name + '.'+response.id + '.');
+        	//console.log('Good to see you, ' + response.name + '.'+response.id + '.');
 			var obj ={};
 			obj.name = encodeURIComponent(response.name);
 			obj.id = response.id;
@@ -120,7 +121,7 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 	}
 	
 	function successInitUser(data){
-		console.log('Good to see you,');
+		//console.log('Good to see you,');
 		initial=false;
 		userData = data;
 		userData.name = decodeURIComponent(userData.name);
@@ -164,7 +165,7 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 		currentState = sts;
 		if(sts == CRYSTAR_STATUS_LOGIN)
 		{
-			$('#logf>a>img').show();
+			cst_show('#logf>a>img');
 			$('#logf>a>img').attr('src',userData.portrait);
 			$('#logf>a>span').text(userData.name);
 			$('#logf>a').attr("data-toggle","dropdown");
@@ -173,21 +174,22 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 			
 			
 		}else if(sts == CRYSTAR_STATUS_DAUTH){
-			$('#logf>a>img').hide();
 			$('#logf>a>img').attr('src',"");
 			$('#logf>a>span').text('login');
 			$('#logf>a').attr("data-toggle","");
-			$('.fb-login-button').hide();
+			cst_hide('.fb-login-button');
+			cst_hide('#logf>a>img');
 			//$('#topSearch #fb-root').show();
 			//$('#topSearch #fb-root').attr("display","inline");
 			//$('#topSearch #search').hide();
 			//$('#topSearch #search').attr("display","none");
 		}else{
-			$('#logf>a>img').hide();
 			$('#logf>a>img').attr('src',"");
 			$('#logf>a>span').text('login');
 			$('#logf>a').attr("data-toggle","");
-			$('.fb-login-button').hide();
+			
+			cst_hide('.fb-login-button');
+			cst_hide('#logf>a>img');
 			//$('#topSearch #fb-root').show();
 			//$('#topSearch #fb-root').attr("display","inline");
 			//$('#topSearch #search').hide();
@@ -390,6 +392,9 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 	}
 	
 	var presetDom;
+	var krDiv="#";
+	var mainStr="";
+	var typeAheadResult="";
 	function addOverEvent(){
 		
 		var div = getDynamicDOM("div");
@@ -410,8 +415,8 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 		
 		$('#pageNav').click(function(e) {
             var data = e.target.text;
-			//var data2 = e.target.innerHTML;
-			if(data==">&gt;")
+			//var data2 = e.target.innerHTML; >&gt; <&lt;
+			if(data==">")
 			{
 				if(currentGrandPage>=grandTotalPage)
 					return;
@@ -419,7 +424,7 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 				currentGrandPage = currentGrandPage+1;	
 				get_Item( ((currentGrandPage+1) * PAGE_NAV_COUNT)+1 );
 			}
-			else if(data=="<&lt;")
+			else if(data=="<")
 			{
 				if(currentGrandPage==1)
 					return;
@@ -432,18 +437,294 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 			cst_clearNodeById( 'pageNav' );
         });
 		
+		/*$('.sellitem').click(function(e) {
+        	    $('#sectItemSell').append(getItemRegPage());
+        });*/
+		
+		if($.browser.mozilla )
+		{
+			autoCompleteMozila();
+			
+			$('#modalSearchIput').css({"ime-mode":"Disabled"});
+
+		}else{
+			autoCompleteElse();
+		}
+		/*
+		$('#modalSearchIput').keydown(function(e) {
+            console.log("keyDown"+e.keyCode);
+        });
+		$('#modalSearchIput').keypress(function(e) {
+           console.log("keyPress"+e.keyCode); 
+        });
+		/*
+		
+		$('#modalSearchIput').focusin(function(e) {
+           //autoCompleteCheckStart();
+        });
+		
+		$('#modalSearchIput').focusout(function(e) {
+            //autoCompleteCheckEnd();
+        });*/
+		
 		$('#mainItemList').mouseover(function(e) {
-        	    console.log('over');
+        	    //console.log('over');
         });
 		
 		$('#mainItemList').mouseout(function(e) {
-            	console.log('out');
+            	//console.log('out');
         });
+		
+		
+		
+		$('#newItemSearchBtn').click(newItemSearch);
+		$('#searchCancel').click(function(e) {
+        		$('#myModal').modal('hide');    
+        });
+		$('#searchNextBtn').click(function(e) {
+            
+        });
+		$('#searchResultContainer').click(function(e) {
+			var data = e.target.parentNode;
+			var count=0;
+			while( data.className != "media hverBG" && count<3)
+			{
+						data = data.parentNode;
+						count++;
+			}
+			if( data.className == "media hverBG")
+			{
+            var node = data.childNodes;
+			var temp;
+				$(node).each(function(index, element) {//개야매 수정바람
+					if(element.nodeName=="DIV")
+					{
+							 temp = element;
+					}
+				});
+				temp =temp.childNodes
+				$(temp).each(function(index, element) {
+					if(element.nodeName=="INPUT")
+							alert(element.value);
+				});
+			}
+        });
+		
 	
 	}
+	
+	
+	function autoCompleteElse(){
+		$('#modalSearchIput').typeahead({
+				minLength: 1
+				 , exlistener : exlisteners
+			  //, highlighter: function (item) {return item}
+			  , source: function (query, process) {
+					if(finished==false)
+						return;
+					finished=false;
+					
+					$.ajaxPrefilter('json', function(options, orig, jqXHR) {
+							return 'jsonp';
+						});
+						
+					var dat={};
+					dat.apikey = '056bdbabcaa675a7383729e2da0f9e42405eadf2';
+					dat.q = query;
+					dat.result = '5';
+					dat.output = 'json';
+					dat.searchType = DAUM_SEARCH_ALL;
+					dat.sort ='popular';	
+					
+					return $.ajax({
+							url: "http://apis.daum.net/search/book"
+							, crossDomain: true
+							, dataType: 'json'
+							, type: CRYSTAL_GET
+							, data: dat
+							, success: function( data, textStatus, jqXHR )
+							{
+								var rdata = new Array(); 
+								$(data.channel.item).each(function(index, element) {
+										var str =element.title.replace(/&lt;\/b&gt;/gi, "").replace(/&lt;b&gt;/gi, "");
+									if(rdata.isItem(str)==-1)
+										rdata.push(str);
+									});
+									
+									finished = true;
+									return process(rdata);
+								
+							}
+							, error: function( jqXHR, textStatus, errorThrown )
+							{
+							}
+						});
+					
+					
+					}
+		});
+	}
+	
+	function exlisteners(e){
+		if(e.keyCode==13)
+		{
+			newItemSearch();
+			return false
+		}
+		return true;
+		//cls.lookup();
+	}
+	
+	function autoCompleteMozila(){
+		
+		$('#modalSearchIput').keydown(function(e){
+			//console.log("keyUP"+e.keyCode);
+			
+			if((e.keyCode < 41 && e.keyCode>36) || e.keyCode==13)
+			{
+				
+			}else{
+				
+			if(e.keyCode==21){
+				mainStr+=krDiv;
+			}else if(e.keyCode==8)
+			{
+				/* drag나 커서위치에따른 지우기 지원 아직안함
+				var selectT = document.getSelection();
+				if(selectT==null || selectT==""){
+				}else{
+				}*/
+				
+					var d=0;
+					var pre="";
+					var post="";
+					for(d=mainStr.length;d>=0;d--)
+					{
+						if(mainStr.charAt(d)!=krDiv)
+						{
+							if(d!=0);
+							pre = mainStr.substr(0 ,d-1);
+							
+							if(d!=mainStr.length)
+							post = mainStr.substr(d+1 ,mainStr.length-d);
+							mainStr = pre + post;
+							break;
+						}
+					}
+				
+			}else{
+			    mainStr += String.fromCharCode(e.keyCode);   
+			}
+			typeAheadResult="";
+			mainStr = mainStr.toLowerCase();
+			var arra = mainStr.split(krDiv);
+			var i=0;
+				for(i=0;i<arra.length;i++)
+				{
+					if(i%2==0)
+					typeAheadResult += arra[i];
+					else
+					 typeAheadResult += translate( arra[i] );
+				}
+			
+			$('#modalSearchIput').val(typeAheadResult);
+			
+			e.preventDefault();
+      		e.stopPropagation();
+			}
+		});
+		
+		$('#modalSearchIput').typeahead({
+				minLength: 1
+			  , exlistener : exlistenersFF
+			  //, highlighter: function (item) {return item}
+			  , source: function (query, process) {
+					if(finished==false)
+						return;
+					finished=false;
+					
+					$.ajaxPrefilter('json', function(options, orig, jqXHR) {
+							return 'jsonp';
+						});
+						
+					var dat={};
+					dat.apikey = '056bdbabcaa675a7383729e2da0f9e42405eadf2';
+					dat.q = query;
+					dat.result = '5';
+					dat.output = 'json';
+					dat.searchType = DAUM_SEARCH_ALL;
+					dat.sort ='popular';	
+					return $.ajax({
+							url: "http://apis.daum.net/search/book"
+							, crossDomain: true
+							, dataType: 'json'
+							, type: CRYSTAL_GET
+							, data: dat
+							,highlighter:function(){}
+							, success: function( data, textStatus, jqXHR )
+							{
+								var rdata = new Array(); 
+								$(data.channel.item).each(function(index, element) {
+									var str =element.title.replace(/&lt;\/b&gt;/gi, "").replace(/&lt;b&gt;/gi, "");
+									if(rdata.isItem(str)==-1)
+										rdata.push(str);
+									});
+									
+									finished = true;
+									return process(rdata);
+								
+							}
+							, error: function( jqXHR, textStatus, errorThrown )
+							{
+							}
+						});
+					
+					
+					}
+		});
+	}
+	var acs_prevValue="";
+	function exlistenersFF(e){
+		if(e.keyCode==13)
+		{
+			newItemSearch();
+			return false
+		}else{
+			$('#modalSearchIput').val(typeAheadResult);
+		}
+		return true;
+		//cls.lookup();
+	}
+	
+	var finished=true;
+	
+	
+	function newItemSearch(e){
+		typeAheadResult="";
+		var str = $('#modalSearchIput').val();
+		 if(  acs_prevValue != str && str!=""  && str!=null)
+		 {
+			acs_prevValue = str;
+			getBookBYDaum( str,DAUM_SEARCH_ALL,searchBookUpdate);
+		 }
+	}
+	
+	function searchBookUpdate(data){
+		
+		var container = $('#searchResultContainer');
+		$(data.channel.item).each(function(index, element) {
+        	container.append(getItemRegPage(element));
+        });
+		
+	}
+
+
 
 	
 	/*
+		
+	
+	
 	<div >
           	<ul class="nav nav-pills" id="pageNav">
             </ul>

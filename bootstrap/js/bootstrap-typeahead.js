@@ -33,10 +33,11 @@
     this.sorter = this.options.sorter || this.sorter
     this.highlighter = this.options.highlighter || this.highlighter
     this.updater = this.options.updater || this.updater
-    this.$menu = $(this.options.menu).appendTo('body')
+    this.$menu = $(this.options.menu).insertAfter(this.$element)
     this.source = this.options.source
     this.shown = false
     this.listen()
+	this.exlistener = options.exlistener
   }
 
   Typeahead.prototype = {
@@ -56,7 +57,7 @@
     }
 
   , show: function () {
-      var pos = $.extend({}, this.$element.offset(), {
+      var pos = $.extend({}, this.$element.position() , {
         height: this.$element[0].offsetHeight
       })
 
@@ -141,12 +142,16 @@
         return i[0]
       })
 
-      items.first().addClass('active')
+      //items.first().addClass('active')
       this.$menu.html(items)
       return this
     }
 
   , next: function (event) {
+	  if(this.$menu.find('.active')==null)
+	  {
+		  $(this.$menu.find('li')[0]).addClass('active')
+	  }else{
       var active = this.$menu.find('.active').removeClass('active')
         , next = active.next()
 
@@ -155,6 +160,7 @@
       }
 
       next.addClass('active')
+	  }
     }
 
   , prev: function (event) {
@@ -162,7 +168,8 @@
         , prev = active.prev()
 
       if (!prev.length) {
-        prev = this.$menu.find('li').last()
+        //prev = this.$menu.find('li').last()
+		return;
       }
 
       prev.addClass('active')
@@ -204,12 +211,12 @@
 
         case 38: // up arrow
           e.preventDefault()
-          this.prev()
+          if (e.type=='keydown') this.prev()
           break
 
         case 40: // down arrow
           e.preventDefault()
-          this.next()
+          if (e.type=='keydown') this.next()
           break
       }
 
@@ -217,16 +224,28 @@
     }
 
   , keydown: function (e) {
+	  
+	  
       this.suppressKeyPressRepeat = !~$.inArray(e.keyCode, [40,38,9,13,27])
       this.move(e)
     }
 
   , keypress: function (e) {
+	 
+	  
       if (this.suppressKeyPressRepeat) return
       this.move(e)
     }
 
   , keyup: function (e) {
+	  //e.stopPropagation()
+      //e.preventDefault()
+	  //return;
+	  
+	  if(this.exlistener!=null)
+	  {
+	  			this.exlistener(e);
+	  }
       switch(e.keyCode) {
         case 40: // down arrow
         case 38: // up arrow
@@ -270,8 +289,9 @@
       $(e.currentTarget).addClass('active')
     }
 
+  
+  , exlistener:function(){}
   }
-
 
   /* TYPEAHEAD PLUGIN DEFINITION
    * =========================== */
@@ -289,7 +309,7 @@
   $.fn.typeahead.defaults = {
     source: []
   , items: 8
-  , menu: '<ul class="typeahead dropdown-menu"></ul>'
+  ,menu: '<ul class="typeahead dropdown-menu dropdown-fixed"></ul>'
   , item: '<li><a href="#"></a></li>'
   , minLength: 1
   }
