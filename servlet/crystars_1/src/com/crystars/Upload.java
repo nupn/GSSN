@@ -1,12 +1,16 @@
 package com.crystars;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,6 +24,7 @@ import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.IOExceptionWithCause;
 
 /**
  * Servlet implementation class Upload
@@ -39,10 +44,110 @@ public class Upload extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
+    
+    public String writeFile(){
+    	/*
+    
+    	BufferedReader br = null;
+    	  try{
+    	   int start = 3;
+    	   int end   = 10; 
+    	//   저장된 파일 읽기 
+    	   br = new BufferedReader(new FileReader("c:/aaa.txt"));
+    	   String viewStr = "";
+    	   String line = null;
+    	   int i = 0; // 제목 부분 카운트
+    	   int subCnt = 1; // 총 제목 라인 수
+    	   int tmpEnd = 0; 
+    	   while((line = br.readLine()) != null){ // 문자열의 한라인씩 읽는다
+    	    tmpEnd += line.length();
+    	    if( subCnt > i++  ) continue; // 제목 걸러내기 
+    	    else {                        // 파일에서 읽은 한라인에 대한 문자열을 붙인다. 
+    	     viewStr += line;    // end 의 길이 보다 끄면 빠져나온다.
+    	     if(tmpEnd > end ) break;
+    	    }
+    	   }
+    	   // tmpEnd가 시작과 끝의 입력값의 조건 체크해서 아래와 같이 한다. 아래는 시작위치 체크안함 
+    	   if(tmpEnd > end) System.out.println(viewStr.substring(start ,end));
+    	   else System.out.println(viewStr.substring(start , tmpEnd));
+    	  }catch(Exception e){
+    	   
+    	  }
+    	  */
+    	  //---------------------
+    	  String filePath = getServletContext().getRealPath("upload")+"/imgCount.txt";
+    	  int count=1;
+    	  String data="";
+    	  FileWriter fw=null;
+    	  BufferedReader br=null;
+    	  
+    	  try{
 
+    	  File f = new File(filePath); // 파일객체생성
+    	 
+    	  FileReader fr = new FileReader(filePath); //파일읽기객체생성
+    	  br = new BufferedReader(fr); //버퍼리더객체생성
+
+    	  String line = null; 
+    	  while((line=br.readLine())!=null){ //라인단위 읽기
+    		  count = Integer.parseInt(line); 
+    		  //out.print(count);
+    	  }
+    	  
+    	  count++;
+
+    	  // 파일쓰기
+    	  fw = new FileWriter(filePath); //파일쓰기객체생성, true = 파일이 존재하면 생성 안함
+    	  data = String.valueOf( count );
+    	  fw.write(data); //파일에다 작성
+    	  fw.close();
+    	  br.close();
+    	  }catch (IOException e) {
+    		  try{
+    		  if(fw!=null)
+    		  fw.close();
+    		  if(br!=null)
+        	  br.close();
+    		  }catch(IOException ee){
+    			  ee.printStackTrace();
+    		  }
+    		  e.printStackTrace();
+    	  }
+    	  
+    	  return data;
+    }
+    
+    public void moveToPerserve(String fileName){
+    	 String filePath = getServletContext().getRealPath("upload")+"/"+fileName;
+   	  	String newFilePath = getServletContext().getRealPath("upload")+"/perserve/"+fileName;
+//   	  try{
+      File n = new File(newFilePath);
+   	  File f = new File(filePath);
+   	  f.renameTo(n);
+//   	  }catch(IOException e)
+//   	  {
+//   		  
+//   	  }
+    }
+    
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		PrintWriter out = response.getWriter();
+		try{
+		String delFile = request.getParameter("filename");
+		String filePath   = getServletContext().getRealPath("upload"); //업로드 경로
+		       File up1 = new File(filePath + "/" + delFile);
+		       out.print(filePath + "/" + delFile);
+		       if(up1.exists()){
+		    	   out.print("donotExis");
+		            boolean rslt = up1.delete();
+		       }
+		}catch(Exception e)
+		{
+			e.printStackTrace(out);
+		}
+		out.close();
+	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -51,7 +156,7 @@ public class Upload extends HttpServlet {
 		 
 		
 		
-		PrintWriter out = response.getWriter();
+		//PrintWriter out = response.getWriter();
 		String path = getServletContext().getRealPath("upload");
 		DiskFileItemFactory factory= new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload(factory);
@@ -59,7 +164,7 @@ public class Upload extends HttpServlet {
 		factory.setSizeThreshold(1024);
 		upload.setSizeMax(-1);
 		upload.setHeaderEncoding("Windows-31J");
-		
+		String temp="";
 		try{
 			List list = upload.parseRequest(request);
 			Iterator iterator = list.iterator();
@@ -72,9 +177,22 @@ public class Upload extends HttpServlet {
 					String fileName = fitem.getName();
 					if((fileName!=null)&&(!fileName.equals("")))
 					{
+						/*out.print(fileName);
+						String[] tarr= fileName.split("\\.");
+						for(int i=0;i<tarr.length;i++)
+						{
+							out.print(i+" : "+tarr[i]+"\n");
+						}
+						out.print(writeFile(out));*/
+						temp = fileName.split("\\.")[1];
+						temp = writeFile()+"."+temp;
+						fileName = temp;
+						request.setAttribute("filename", fileName);
+						//out.print(fileName);
 						fileName = (new File(fileName)).getName();
 						fitem.write(new File(path+"/"+fileName));
-						//fitem. (new File(path+"/"+fileName));
+						
+						//moveToPerserve(fileName);
 					}
 					
 				}
@@ -82,12 +200,15 @@ public class Upload extends HttpServlet {
 			}
 			
 		}catch(FileUploadException e){
-			e.printStackTrace(out);
+			e.printStackTrace();
 		
 		}catch(Exception e){
 		
-			e.printStackTrace(out);
+			e.printStackTrace();
 		}
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("imgRegEnd.jsp");
+		  dispatcher.forward(request,  response);
 		//*/
 		
 		/*1

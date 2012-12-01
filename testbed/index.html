@@ -1,99 +1,138 @@
-<!DOCTYPE html>
-<html>
+<!DOCUMENT html>
+<html lang="ko">
   <head>
   <meta charset="utf-8">
-    <title>Topaz</title>
-  	<!--<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    -->
+    <title>Crystars</title>
+  	<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src='jQuery/jquery-1.8.2.min.js'></script>
+    <script src="bootstrap/js/bootstrap.min.js">
+    </script>
+    <link href="css/main.css" rel="stylesheet">
     
-
-	<link href="css/main.css" rel="stylesheet">
-    <style type="text/css">
-    	h1 {color:#33C;
-		}
-		
-		p.test{
-			display:inline;
-		}
-		a:visited , a:link{
-			font-size:12px;
-		}
-		a:hover , a:active{
-			font-size:14px;
-		}
-		
-    </style>
-   
   </head>
   <body>
   
-  <h1 class="baseText">Topaz</h1>
-    <h5 class="baseText">the garage sale for book 	<h5/>
-	<!--<script src="bootstrap/js/bootstrap.min.js">
-    </script>-->
+  <h1 class="baseText">Crystars<br/>aas</h1>
+    <h5 class="baseText">the garage sale for book<h5/>
+	
+    
     <div class="navbar navbar-inverse navbar-fixed-bottom">
   <div class="navbar-inner">
-    <a class="brand" href="#">Title</a>
-    <ul >
-      <li class="active"><a href="#">Home</a></li>
-      <li style="display:inline"><a href="#">Link</a></li>
-      <li style="display:block"><a href="#">Link</a></li>
+    <a class="brand" href="#">CS</a>
+    <ul class="nav">
+      <li class="active" sect="overview"><a href="#">Home</a></li>
+      <li sect="formation"><a href="#">편성</a></li>
+      <li sect="manage"><a href="#">관리</a></li>
+      <li sect="position"><a href="#">배치</a></li>
     </ul>
   </div>
 </div>
-
-<p class="test">
-<em>nupn</em><sub>1988</sub><br/>
-<del>the crystal</del>
-<pre>by urero</pre>
-<blockqute>by urero</blockqute>
-
-<code>
-{}>
-</code>
-</p>
-
-<p name="arc">
-      플로트 속성은 웹 디자이너/개발자의 유용하고 강력한 도구입니다. 하지만 플로트가 어떻게 동작하는지 완전히 이해하지 못하고 쓴다면 많은 혼란과 절망감을 느끼게 할 수도 있습니다. 게다가 옛날에는 플로트 때문에 지저분한 브라우저 버그가 생기기도 했으니, 플로트란 말만 들어도 질색을 하는 건 어쩌면 당연한 일입니다. 자, 일단 차분하게 마음을 가라앉히시죠. 플로트가 어떻게 동작하는지 정확히 알려 드리고, 일단 이걸 숙달하면 놀랄 만큼 쓸모 있다는 걸 보여 드리겠습니다.
-    </p>
-
-<p>
-      플로트 속성은 웹 디자이너/개발자의 유용하고 강력한 도구입니다. 하지만 플로트가 어떻게 동작하는지 완전히 이해하지 못하고 쓴다면 많은 혼란과 절망감을 느끼게 할 수도 있습니다. 게다가 옛날에는 플로트 때문에 지저분한 브라우저 버그가 생기기도 했으니, 플로트란 말만 들어도 질색을 하는 건 어쩌면 당연한 일입니다. 자, 일단 차분하게 마음을 가라앉히시죠. 플로트가 어떻게 동작하는지 정확히 알려 드리고, 일단 이걸 숙달하면 놀랄 만큼 쓸모 있다는 걸 보여 드리겠습니다.
-    </p>
+	<div sect="overview">
+    aa
+    </div>
     
-    <p lang="ko">
-      플로트 속성은 웹 디자이너/개발자의 유용하고 강력한 도구입니다. 하지만 플로트가 어떻게 동작하는지 완전히 이해하지 못하고 쓴다면 많은 혼란과 절망감을 느끼게 할 수도 있습니다. 게다가 옛날에는 플로트 때문에 지저분한 브라우저 버그가 생기기도 했으니, 플로트란 말만 들어도 질색을 하는 건 어쩌면 당연한 일입니다. 자, 일단 차분하게 마음을 가라앉히시죠. 플로트가 어떻게 동작하는지 정확히 알려 드리고, 일단 이걸 숙달하면 놀랄 만큼 쓸모 있다는 걸 보여 드리겠습니다.
-    </p>
+	<div sect="formation">
+    	<table id="maintap">
+        	<thead>
+            <tr>
+            	<th></th><th>부대명</th><th>병력</th><th>장비</th><th>상태</th>
+            </tr>
+            </thead>
+            
+            <tbody>
+            </tbody>
+            
+            <tfoot>
+            	<th colspan="2">병력</th><th><span id="sumInf"></span></th>
+                <th>장비</th><th><span id="sumMac"></span></th>
+            </tfoot>
+    	</table>
+        
+        <input type="button" value="추가" id="add">
+        <input type="button" value="제거" id="del">
+        
+        <div id="sample">
+        <table>
+        	<tr>
+            	<td><input type="checkbox"></td>
+                <td><input type="text"></td>
+                <td><input type="text" id="inf"></td>
+                <td><input type="text" id="mac"></td>
+                <td><select id="status">
+                	<option>1</option>
+                	<option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                	</select></td>
+            </tr>
+        </table>
+        </div>
+    </div>
     
-    <p lang="ko">
-      플로트 속성은 웹 디자이너/개발자의 유용하고 강력한 도구입니다. 하지만 플로트가 어떻게 동작하는지 완전히 이해하지 못하고 쓴다면 많은 혼란과 절망감을 느끼게 할 수도 있습니다. 게다가 옛날에는 플로트 때문에 지저분한 브라우저 버그가 생기기도 했으니, 플로트란 말만 들어도 질색을 하는 건 어쩌면 당연한 일입니다. 자, 일단 차분하게 마음을 가라앉히시죠. 플로트가 어떻게 동작하는지 정확히 알려 드리고, 일단 이걸 숙달하면 놀랄 만큼 쓸모 있다는 걸 보여 드리겠습니다.
-    </p>
-    
-    <p lang="ko">
-      플로트 속성은 웹 디자이너/개발자의 유용하고 강력한 도구입니다. 하지만 플로트가 어떻게 동작하는지 완전히 이해하지 못하고 쓴다면 많은 혼란과 절망감을 느끼게 할 수도 있습니다. 게다가 옛날에는 플로트 때문에 지저분한 브라우저 버그가 생기기도 했으니, 플로트란 말만 들어도 질색을 하는 건 어쩌면 당연한 일입니다. 자, 일단 차분하게 마음을 가라앉히시죠. 플로트가 어떻게 동작하는지 정확히 알려 드리고, 일단 이걸 숙달하면 놀랄 만큼 쓸모 있다는 걸 보여 드리겠습니다.
-    </p>
-    
-    <p lang="ko">
-      플로트 속성은 웹 디자이너/개발자의 유용하고 강력한 도구입니다. 하지만 플로트가 어떻게 동작하는지 완전히 이해하지 못하고 쓴다면 많은 혼란과 절망감을 느끼게 할 수도 있습니다. 게다가 옛날에는 플로트 때문에 지저분한 브라우저 버그가 생기기도 했으니, 플로트란 말만 들어도 질색을 하는 건 어쩌면 당연한 일입니다. 자, 일단 차분하게 마음을 가라앉히시죠. 플로트가 어떻게 동작하는지 정확히 알려 드리고, 일단 이걸 숙달하면 놀랄 만큼 쓸모 있다는 걸 보여 드리겠습니다.
-    </p>
-    
-    <p lang="ko">
-      플로트 속성은 웹 디자이너/개발자의 유용하고 강력한 도구입니다. 하지만 플로트가 어떻게 동작하는지 완전히 이해하지 못하고 쓴다면 많은 혼란과 절망감을 느끼게 할 수도 있습니다. 게다가 옛날에는 플로트 때문에 지저분한 브라우저 버그가 생기기도 했으니, 플로트란 말만 들어도 질색을 하는 건 어쩌면 당연한 일입니다. 자, 일단 차분하게 마음을 가라앉히시죠. 플로트가 어떻게 동작하는지 정확히 알려 드리고, 일단 이걸 숙달하면 놀랄 만큼 쓸모 있다는 걸 보여 드리겠습니다.
-    </p>
-    
-     <script type="text/javascript">
-     //var a ="aaap";
-	 //var ex=/^[a]/g;
-	 //alert(navigator.userAgent);
-//window.open("","","width=200,height=300,left=500,top=200");
-
-	document.write("<div id=\"name\"><a href=\"123\">link</a></div>");
-	var name = document.getElementById("name");
-	alert(name.innerHTML);
+    <div sect="manage">
+    cc
+    </div>
 	
-    </script>
+    <div sect="position">
+    dd
+    </div>
+
   </body>
 </html>
 
-
-	
+<script type="text/javascript">
+  $(init);
+  
+  function init($){
+	  
+	  $('div[sect]').hide();
+	  $('div#sample').hide();
+	  
+	  var footerb = $('.nav');
+	  footerb.find('li>a').bind("click",foorterDown);
+	  
+	  $('#add').bind("click",addCol);
+	  $('#del').bind("click",delCol);
+	  
+	  $('#add').click();
+  }
+  
+  function addCol(){
+	  //alert($('div#sample').find('table').val());
+	  $('#maintap').find('tbody').append("<tr>"+$('div#sample').find('table tr').html()+"</tr>");
+  }
+  function delCol(){
+	  $("#maintap>tbody>tr>td>input[type='checkbox']").each(function(index, element) {
+        	if($(this).attr("checked"))
+			$(this).parents("tr").empty();
+    	});
+	  	
+  }
+  
+  function foorterDown()
+  {
+	  var sect = $('div[sect]');
+	  sect.hide();
+	  if($(this).parent().attr("sect").valueOf()=="overview")
+	  {
+		  sect = $('div[sect=overview]');
+		  sect.show();
+	  }
+	  if($(this).parent().attr("sect").valueOf()=="formation")
+	  {
+		  sect = $("div[sect='formation']");
+		  sect.show();
+	  }
+	  if($(this).parent().attr("sect").valueOf()=="manage")
+	  {
+		  sect = $('div[sect=manage]');
+		  sect.show();
+	  }
+	  if($(this).parent().attr("sect").valueOf()=="position")
+	  {
+		  sect = $('div[sect=position]');
+		  sect.show();
+	  }
+  }
+</script>
