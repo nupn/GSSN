@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" http-equiv="X-UA-Compatible" content="IE=9"> 
+    <title>Crystars</title>
+  	    <link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="../css/main.css" rel="stylesheet">
+    <link href="../bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+     <link href="../bootstrap/css/docs.css" rel="stylesheet">
+    
+  </head>
+  <body style="width:1000px; height:700px;">
+
+    	 
+         <div id="regBookModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <form action="/Upload.do" enctype="multipart/form-data" method="post">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Regist</h3>
+              </div>
+              <div class="modal-body">
+                    <div class="row-fluid">
+                        <ul class="thumbnails">
+                          <li class="span3">
+                            <a href="#" class="thumbnail" id="regItemImg">
+                              <img id="img1" src="http://placehold.it/260x180" alt="">
+                            </a>
+                          </li>
+                          <li class="span3">
+                            <a href="#" class="thumbnail">
+                              <img src="http://placehold.it/260x180" alt="">
+                            </a>
+                          </li>
+                          <li class="span3">
+                            <a href="#" class="thumbnail">
+                              <img src="http://placehold.it/260x180" alt="">
+                            </a>
+                          </li>
+                          <li class="span3">
+                            <a href="#" class="thumbnail">
+                              <img src="http://placehold.it/260x180" alt="">
+                            </a>
+                          </li>
+                        </ul>
+         			 </div>
+                  
+                  
+              
+                  <div>
+                   <legend>상세정보</legend>
+                  
+                  <div style="float:left;">
+                  
+                    <label>price</label>
+                    <input name="price" type="text"><br/>
+                    <label>title</label>
+                    <input name="title" type="text"><br/>
+                    <label>상태</label>
+                    <input type="radio" name="quality" value="aaa">매우좋음
+                    <input type="radio" name="quality" value="bbb" checked="checked">중고
+                    <input type="radio" name="quality" value="ccc">손상됨
+                    </div>
+                    <div style="float:left;  margin-left:50px;">
+                    <textarea name="subscritp" cols="10" rows="6">
+                    </textarea>
+                    <input id="modalPb" name="Publisher" type="hidden">
+                    <input id="modaltitle" name="BookTitle" type="hidden">
+                    <input id="modalOwner"name="owner" type="hidden">
+                    <input id="modalISBN"name="isbn" type="hidden">
+                   </div>
+                   </div>
+                	
+                    
+              </div>
+              
+              <div class="modal-footer">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                <input type="submit" value="Upload" class="btn btn-primary">
+              </div>
+              </form>
+            </div>
+    	
+        <!--
+        <a data-toggle="modal" data-target="#modalin">click me</a>
+        <div id="modalin" class="modal hide fade">
+          <div class="modal-header">
+            <button type="button" class="close returnRegModal" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3>Image Regist</h3>
+          </div>
+          
+          <div id="imageModal">
+          <img src="http://www.crystars.com/upload/8.png" alt=""/>
+          </div>
+          
+          <div class="modal-footer">
+            <a href="#" class="btn returnRegModal">Close</a>
+            <a href="#" class="btn btn-primary returnRegModal">change Images</a>
+          </div>
+        </div>-->
+         <button type="button" class="btn btn-warning" id="asadasd">검색</button>
+        <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3>Search Item</h3>
+              </div>
+              <div class="modal-body">
+                <input type="text" id="modalSearchIput" width="200"  data-provide="typeahead" />
+                <button type="button" class="btn btn-warning" id="newItemSearchBtn">검색</button>
+                
+                <nav style="margin-top:3px">
+	  			<a class="select">제목</a>
+                <a>저자</a>
+	  			</nav>
+                
+                <div id="modalSearchOption"></div>
+                
+                <div id="searchResultContainer"></div>
+              	</div>
+              
+              <div class="modal-footer">
+                <a href="#" id="searchCancel" class="btn">close</a>
+                <a href="#" id="searchNextBtn" class="btn btn-primary">pass</a>
+              </div>
+            </div>
+        
+       <!-- <a href="javascript://" onclick="mywinname01=newchromeLess('./imgupload.html', 400, 400, null, null, 'mywinname01');" onmouseover="window.status='';return true;" onfocus="window.status='';this.blur()">클릭</a> -->
+  </body>
+</html>
+     	<script language="javascript" type="text/javascript" src='../lib/jquery.js'></script>
+    <script language="javascript" type="text/javascript" src='../lib/translator.js'></script>
+    <script language="javascript" type="text/javascript" src="../bootstrap/js/bootstrap.js"></script>
+     <script language="javascript" type="text/javascript" src="../bootstrap/js/bootstrap-typeahead.js"></script>
+    <script language="javascript" type="text/javascript" src='../lib/crystal.js'></script>
+    <script language="javascript" type="text/javascript" src='../lib/chromeless.js'></script>
+<script type="text/javascript">
+$('#regBookModal').modal('show');
+$('#regItemImg').click(function(e){
+			var popup=openNewWindow('./imgupload.html');
+			//var popup= newchromeLess("./imgupload.html",200,200,200,200, "regImg");
+			//$('#regBookModal').modal('show');
+	});
+</script>

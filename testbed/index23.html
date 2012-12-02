@@ -1,0 +1,49 @@
+<!DOCUMENT html>
+<html lang="ko">
+  <head>
+  <meta charset="utf-8">
+    <title>Crystars</title>
+  	<link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src='../lib/jquery.js'></script>
+    <script src="../bootstrap/js/bootstrap.min.js">
+    </script>
+        <script language="javascript" type="text/javascript" src='../lib/translator.js'></script>
+    <link href="../css/main.css" rel="stylesheet">
+    
+  </head>
+  <body>
+  <img src="" alt=""/>
+  <h1 class="baseText">Crystars<br/>aas</h1>
+    <h5 class="baseText">the garage sale for book<h5/>
+	<div id="result"></div>
+    <input type="text" id="modalSearchIputs" width="200"  data-provide="typeahead" />
+                
+안녕하니 정영모야 영모야 영모
+    
+  </body>
+</html>
+
+<script type="text/javascript">
+$(function(){
+  $('img').attr('src','https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash4/275711_100004139894561_105776466_q.jpg');
+  var aaa="daaadka";
+  
+  var dav = document.createElement("div");
+  dav.innerHTML = "<h1>aaa</h1>";
+  $('body').append(dav);
+  
+  $('body').mouseup(function(e) {
+	  var text = $('#result').text();
+	 text = text+"\n"+document.getSelection();
+	 $('#result').text(text);
+    	 
+	});
+  
+  $('#modalSearchIputs').keyup(function(e) {
+     var text = $('#result').text();
+	 text = text+"\n"+e.keyCode+ e.which;
+	 $('#result').text(text);
+	});
+  
+});
+</script>
