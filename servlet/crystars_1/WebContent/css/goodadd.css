@@ -1,0 +1,92 @@
+#g_lay1-1{
+	float:left;
+	width:35%;
+	height:450px;
+	background-color: #FFB273;
+	text-align: center;
+}
+.image_set{
+	width:200px;
+	height:200px;
+}
+#g_lay1-2{
+	float:right;
+	height:450px;
+	width:63%;
+	background-color: #C0F562;
+}
+#blank{
+	clear:both
+}
+#g_lay2{
+	background-color:#63AFD0; 
+
+	text-align: center;
+}
+#g_lay3{
+	clear:both;
+	margin-right: 15px;
+	text-align: right;
+	background-color: #E869AA
+}
+.media-object{
+margin:0 auto;
+text-align: center;
+}
+.control-group{
+	margin-left: -50px;
+}
+.pull-left{
+	float:left;
+}
+
+.pull-left{
+	text-align: center;
+}
+.controls{
+	width:300px;
+}
+.image_set2{
+	width:25%;
+}
+.input_set{
+	width:350px;
+}
+.input_set2{
+	width:210px;
+}
+#select_per{
+	width:100px;
+}
+#per{
+	margin-left: 20px;
+	width:50px;
+}
+#price_cal{
+	margin-left: 20px;
+	width:93px;
+}
+#grade{
+	width:60px;
+}
+#isbn{
+	width:30px;
+}
+#g_lay2_title{
+	height:30px;
+	background-color: #FFB273;
+	vertical-align: middle;
+}
+.blank{
+	height:50px;
+	background-color: #C0F562;
+}
+.isbn_text{
+	height:50px;
+	padding-top: 15px;
+	font-size:20px;
+	margin-bottom: -15px;
+}
+.input-append{
+	margin-bottom:15px;	
+}

@@ -1,0 +1,37 @@
+
+#boardset{
+	width: 100%;
+	margin:0 auto;
+}
+
+#boardset thead>tr>td{
+	font-size: 17px;
+	font-weight: bold;	
+	text-align: center;
+}
+#boardset tbody>tr>td{
+	text-align: center;
+}
+#set{
+	width:80%;
+	margin: 0 auto;
+}
+
+#num{
+	width: 10%;
+}
+#title{
+	width:65%;
+}
+#name{
+	width:15%;
+}
+.form-search{
+	text-align: right;
+}
+#titleset{
+	text-align: left;
+}
+.writebtn{
+	text-align: right;
+}

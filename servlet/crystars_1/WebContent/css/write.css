@@ -1,0 +1,51 @@
+#set{
+	width:80%;
+	margin:0 auto;
+}
+.lay1{
+	height:30px;
+	float:left;	font-size: 18px;	
+}
+.lay2{
+	margin-top:-5px;
+	height:30px;
+		font-size: 18px;	
+}
+textarea{
+	width:100%;
+}
+
+#blank{
+	width:5%;
+}
+
+
+.span8{
+	width:80%;
+}
+.lay3{
+	clear:both;
+	width:80%;
+	font-size: 18px;	
+}
+.lay4{
+	width:80%;
+	text-align: left;
+	font-size: 15px;
+}
+.title{
+	width:90%;
+}
+.lay5{
+	text-align: right;
+	margin-right: 19%;
+}
+#btn2{
+	float:left;
+}
+.btn3{
+	float:right;
+}
+.blank{
+	width:20px;
+}
