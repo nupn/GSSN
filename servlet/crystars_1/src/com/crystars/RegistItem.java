@@ -2,34 +2,33 @@ package com.crystars;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Servlet implementation class User
+ * Servlet implementation class RegistItem
  */
-@WebServlet("/User")
-public class User extends HttpServlet {
-	private static final long serialVersionUID = 1123L;
+@WebServlet("/RegistItem")
+public class RegistItem extends HttpServlet {
+	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public User() {
+    public RegistItem() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -39,17 +38,30 @@ public class User extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-			
 		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("utf8");
-				String _id = request.getParameter("id");
-				String _name = request.getParameter("name");
-				String _email = request.getParameter("email");
-				String _home = request.getParameter("link");
-				String _portrait = request.getParameter("portrait");
-				String _token = request.getParameter("token");
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/json");
+
+		String _callback = request.getParameter("callback");
+				//
+		
+				int _GSales_MemberNum = Integer.parseInt( request.getParameter("pid"));
+				String _Image = request.getParameter("image");
+				int _Price = Integer.parseInt(request.getParameter("price"));
+				//
+				//
+				String _Book_Name = request.getParameter("booktitle");
+				String _Content	= request.getParameter("desc");
+				String _Publisher = request.getParameter("publisher");
+				//
+				int _Quality= Integer.parseInt(request.getParameter("quality"));
+				//
+				String _Isbn= request.getParameter("isbn");
+				String _ImgDetail=request.getParameter("imgDetail");
+				String _Title = request.getParameter("title");
+				String _Owner =request.getParameter("owner");
 				PrintWriter out = response.getWriter();
-				String _callback = request.getParameter("callback");
+
 				/*
 				PrintWriter out = response.getWriter();
 				response.setCharacterEncoding("utf-8");
@@ -57,52 +69,28 @@ public class User extends HttpServlet {
 				  out.print("<html>");
 				  out.print("<body>");
 				 //*/
-				  String er="";
 				  Connection con = null;
 				  PreparedStatement stmt =null;
 				  ResultSet rs =null;
-				  UserDataObj udo=null;
 				  try{
 					  con = DriverManager.getConnection("jdbc:mysql://www.crystars.com:3306/mydb","root","dudah2");
 					  
 					  try{
-						  //stmt = con.createStatement();
-						  stmt = con.prepareStatement("SELECT * FROM Member WHERE Facebook_ID=?");
-						  stmt.setString(1, _id);
-						  rs = stmt.executeQuery();
-						  
-						  udo=new UserDataObj();
-						  udo.initial( _id, _name, _email, _home,_portrait,_token,1);
-							 
-						 if(rs.next()==true) 
-						 {
-							 udo.setPid(rs.getInt(1) );
-							 udo.setId( rs.getString(2) );
-							 udo.setName( rs.getString(3) );
-							 udo.setGrade(  rs.getInt(4) );
-							 udo.setEmail(rs.getString(5) );
-							 udo.setHome(rs.getString(6) );
+						  	stmt = con.prepareStatement("INSERT INTO Goods (GSales_MemberNum,Image,Price,Book_Name,Content,Publisher,Quality,Isbn,ImgDetail,Title,Owner) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 							
-							 
-						  }else{
-							 stmt = con.prepareStatement("INSERT INTO Member (Facebook_ID,Nickname,Grade,email,home) VALUES (?,?,?,?,?)");
-							
-							 stmt.setString(1, udo.getId());
-							 stmt.setString(2, udo.getName());
-							 stmt.setInt(3, udo.getGrade());
-							 stmt.setString(4, udo.getEmail() );
-							 stmt.setString(5, udo.getHome() );
+						  	 stmt.setInt(1, _GSales_MemberNum);
+							 stmt.setString(2, _Image);
+							 stmt.setInt(3, _Price);
+							 stmt.setString(4, _Book_Name );
+							 stmt.setString(5, _Content );
+							 stmt.setString(6, _Publisher);
+							 stmt.setInt(7, _Quality);
+							 stmt.setString(8, _Isbn);
+							 stmt.setString(9, _ImgDetail );
+							 stmt.setString(10, _Title );
+							 stmt.setString(11, _Owner);
 							 stmt.executeUpdate();
-						  }
-						 udo.setPortrait( "http://graph.facebook.com/"+_id+"/picture");
-						 stmt = con.prepareStatement("SELECT Member_Num FROM Member where Facebook_ID=?");
-						 stmt.setString(1, _id);
-						  rs = stmt.executeQuery();
 						  
-						  if(rs.next())
-						  {
-							  udo.setPid(rs.getInt(1));
-						  }
 						  
 						 if(rs!=null)
 						  rs.close();
@@ -130,17 +118,15 @@ public class User extends HttpServlet {
 //		          rd.forward(request, response);
 				  //*
 				  
-				  
-				  HttpSession session = request.getSession();
-				  session.setAttribute("viwer",udo);
-				  
-			        if(udo!=null)
-			        {
-			        out.print(_callback+"("+udo.getJsonString()+")");
-			        }
+				  JSONObject jo =new JSONObject();
+				  try{
+				  jo.put("status", "funcking");
+				  }catch(JSONException e)
+				  {
+					  
+				  }
+			        out.print(_callback+"("+jo.toString()+")");
 			        out.close();
-			      //*/
-					 	
 	}
 
 	/**

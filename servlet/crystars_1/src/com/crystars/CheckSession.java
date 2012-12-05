@@ -36,7 +36,8 @@ public class CheckSession extends HttpServlet {
 		response.setCharacterEncoding("utf8");
         response.setContentType("application/json");
         request.setCharacterEncoding("utf-8");
-		
+
+		String _callback = request.getParameter("callback");
 		String _id = request.getParameter("id");
 		String _token = request.getParameter("token");
 		HttpSession session= request.getSession();
@@ -52,7 +53,7 @@ public class CheckSession extends HttpServlet {
 			
 		}
 		if(obj==null){
-			out.print(jsonobj.toString());
+			out.print(_callback+"("+jsonobj.toString()+")");
 			out.close();
 		}else{
 			if(obj instanceof UserDataObj )
@@ -61,17 +62,17 @@ public class CheckSession extends HttpServlet {
 				if(udo!=null && udo.getId().equals(_id))
 				{
 						udo.setToken(_token);
-					 out.print(udo.getJsonString());
+					 out.print(_callback+"("+udo.getJsonString()+")");
 					 out.close();
 					 return;
 				}else{
 					//out.print(udo.getId()+_id+ jsonobj.toString());
-					out.print(jsonobj.toString());
+					out.print(_callback+"("+jsonobj.toString()+")");
 					out.close();
 				}
 				
 			}else{
-				out.print(jsonobj.toString());
+				out.print(_callback+"("+jsonobj.toString()+")");
 				out.close();
 			}
 		}

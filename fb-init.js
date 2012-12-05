@@ -243,74 +243,78 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 		});
 	}*/
 	
-	var ROW_COUNT=2;
+	function getItemDescById(id){
+		
+	var result=null;
+	 $(currentPageItemData).each(function(index, element) {
+        if(element.id == id){
+			result =  element
+			return false;	
+		}
+    });
+	return result;
+	}
+	
+	var currentPageItemData;
+	var hoverItem;
+	var ROW_COUNT=3;
 	var PAGE_ITME_COUNT = 12;
 	function createItemList(data){
 		
+		currentPageItemData = data;
 		cst_clearNodeById( 'mainItemList' );
 		
 		var ul ;
 		ul= getDynamicDOM("ul",'thumbnails');
-		
+		var items;
 		var i =0;
 		$(data).each(function(index, element) {
 			if(i>ROW_COUNT)
 			{
-				$('.row-fluid').append(ul);
+				$('#mainItemList').append(ul);
 				ul= getDynamicDOM("ul",'thumbnails');
 				//ul.setAttribute("class",'thumbnails');
 				i=0;
 			}
-			ul.appendChild( createListItem(element) );
+			items = createListItem(element);
+			
+			$(items).hover(function(e){
+			console.log( "hoverin");
+			var target=$(this).find('.imgFrame');
+			hoverItem = this;
+				target.append(preset);
+				$(this).find("#hoverItemId").attr("value",element.id);
+				$('#shareitem').click(function(e) {
+					if(hoverItem!=null)
+						itemShare( $(hoverItem).find("#hoverItemId").attr("value") );
+				});
+			},function(e){
+				$(this).find('.imgFrame').empty();
+				
+			});
+			
+			
+			ul.appendChild( items );
 			
 			i++;
         });
+		
+		
+		
 			
-		$('.row-fluid').append(ul);
+		$('#mainItemList').append(ul);
 		
-		
+		if(preset==null)
+		{	
+		preset=$('#imgFramePreset');
+		$('body').remove('#imgFramePreset');		
+		}
 	}
 	
-	function createListItem(itemDesc){
+	function itemShare(id){
 
-		var li = getDynamicDOM("li",'span4');
-		//li.setAttribute("class",'span4');
-		
-		var div= getDynamicDOM("div",'thumbnail');
-		//div.setAttribute("class",'thumbnail');
-		
-		var img= getDynamicDOMImg(itemDesc.image,"");
-		//img.setAttribute('src',itemDesc.image);
-		
-		var div2= getDynamicDOM("div",'caption');
-		//div2.setAttribute("class",'caption');
-		
-		var h3= getDynamicDOM("h3");
-		var h3text = document.createTextNode(itemDesc.title);
-		h3.appendChild(h3text);
-		var p1= getDynamicDOM("p");
-		var p1text = document.createTextNode(itemDesc.desc);
-		h3.appendChild(p1text);
-		var p2=getDynamicDOM("p");
-		var a1= getDynamicDOM("a","btn btn-primary");
-		//a1.setAttribute("class","btn btn-primary");
-		var a1text = document.createTextNode("찜하기");
-		a1.appendChild(a1text);
-		var a2= getDynamicDOM("a","btn");
-		//a2.setAttribute("class","btn");
-		var a2text = document.createTextNode("공유");
-		a2.appendChild(a2text);
-		
-		p2.appendChild(a1);
-		p2.appendChild(a2);
-		div2.appendChild(h3);
-		div2.appendChild(p1);
-		div2.appendChild(p2);
-		div.appendChild(img);
-		div.appendChild(div2);
-		li.appendChild(div);
-		
-		return li;
+	fb_sendFeed( getItemDescById(id) );
+	
 	}
 	
 	var PAGE_NAV_COUNT=9;
@@ -324,19 +328,19 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 		{
 			getdb_Item(CRYSTAR_ITEM_DATE ,1,"total",recieve_Item);
 		}else{
-			getdb_Item(CRYSTAR_ITEM_DATE ,ppage,null,recieve_Item);
+			getdb_Item(CRYSTAR_ITEM_DATE ,ppage,"total",recieve_Item);
 		}
 	}
 	
 	
 	function recieve_Item(data){
-		
+		currentGrandPage = 1;
 		currentPage = data.page;
 		if(data.total!=-1)
 		{
 		pageTotal = Math.ceil(data.total/PAGE_ITME_COUNT);
 		
-		currentGrandPage = 1;
+		currentGrandPage = Math.floor(currentPage/PAGE_NAV_COUNT);
 		grandPageTotal = Math.ceil(pageTotal/PAGE_NAV_COUNT);
 		
 		
@@ -358,8 +362,10 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 		var i=0;
 		var boldPoint = currentPage%PAGE_NAV_COUNT;
 		var startPoint = Math.floor(currentPage/PAGE_NAV_COUNT)*PAGE_NAV_COUNT;
-		var totalbatch = pageTotal>=PAGE_NAV_COUNT ?  PAGE_NAV_COUNT : pageTotal;
-	
+		var totalbatch = (pageTotal-(currentGrandPage*PAGE_NAV_COUNT))<=PAGE_NAV_COUNT ? (pageTotal-(currentGrandPage*PAGE_NAV_COUNT)): PAGE_NAV_COUNT;
+
+		//(int)((pageTotal-(currentGrandPage*PAGE_NAV_COUNT))<=PAGE_NAV_COUNT ? (pageTotal-(currentGrandPage*PAGE_NAV_COUNT)): PAGE_NAV_COUNT);
+		
 			a = getDynamicDOMLink("a",null,null,"#");
 			var atext = document.createTextNode('<');
 			a.appendChild(atext);
@@ -367,18 +373,20 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 			li.appendChild(a);
 			ul.append( li );
 		
-		for(i=0;i<totalbatch;i++){
+		for(i=1;i<totalbatch;i++){
+			startPoint++;
+			
 			a = getDynamicDOMLink("a",null,null,"#");
-			var atext = document.createTextNode(startPoint+1);
+			var atext = document.createTextNode(startPoint);
 			a.appendChild(atext);
-			if((i+1)==boldPoint)
+			if(i==boldPoint)
 			li= getDynamicDOM("li","active");
 			else
 			li= getDynamicDOM("li");
 			
 			li.appendChild(a);
 			ul.append( li );
-			startPoint++;
+			
         }
 			a = getDynamicDOMLink("a",null,null,"#");
 			var atext = document.createTextNode('>');
@@ -391,11 +399,13 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 		
 	}
 	
+	var preset;
 	var presetDom;
 	var krDiv="#";
 	var mainStr="";
 	var typeAheadResult="";
 	function addOverEvent(){
+
 		
 		var div = getDynamicDOM("div");
 		var ul = getDynamicDOM("ul","nav nav-pills");
@@ -418,7 +428,7 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 			//var data2 = e.target.innerHTML; >&gt; <&lt;
 			if(data==">")
 			{
-				if(currentGrandPage>=grandTotalPage)
+				if(currentGrandPage+1>=grandPageTotal)
 					return;
 					
 				currentGrandPage = currentGrandPage+1;	
@@ -426,7 +436,7 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 			}
 			else if(data=="<")
 			{
-				if(currentGrandPage==1)
+				if(currentGrandPage==0)
 					return;
 					
 				currentGrandPage = currentGrandPage-1;
@@ -450,22 +460,15 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 		}else{
 			autoCompleteElse();
 		}
-		/*
-		$('#modalSearchIput').keydown(function(e) {
-            console.log("keyDown"+e.keyCode);
-        });
-		$('#modalSearchIput').keypress(function(e) {
-           console.log("keyPress"+e.keyCode); 
-        });
-		/*
+		//----------------
 		
-		$('#modalSearchIput').focusin(function(e) {
-           //autoCompleteCheckStart();
-        });
+		//------------------
 		
-		$('#modalSearchIput').focusout(function(e) {
-            //autoCompleteCheckEnd();
-        });*/
+		$('.form-search>.btn').click(function(e) {
+            fc_sendQuery("dragun");
+			e.preventDefault();
+			e.stopPropagation();
+        });
 		
 		$('#mainItemList').mouseover(function(e) {
         	    //console.log('over');
@@ -479,12 +482,16 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 		
 		$('#newItemSearchBtn').click(newItemSearch);
 		$('#searchCancel').click(function(e) {
-        		$('#myModal').modal('hide');    
+        		    hideSearchBook();
+        });
+		$('#regBookCancel').click(function(e) {
+        		    hideRegBook();
         });
 		$('#searchNextBtn').click(function(e) {
-            
+            gotoBookRegis("");
         });
 		$('#searchResultContainer').click(function(e) {
+			//need modf
 			var data = e.target.parentNode;
 			var count=0;
 			while( data.className != "media hverBG" && count<3)
@@ -496,7 +503,7 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 			{
             var node = data.childNodes;
 			var temp;
-				$(node).each(function(index, element) {//개야매 수정바람
+				$(node).each(function(index, element) {
 					if(element.nodeName=="DIV")
 					{
 							 temp = element;
@@ -505,12 +512,26 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 				temp =temp.childNodes
 				$(temp).each(function(index, element) {
 					if(element.nodeName=="INPUT")
-							alert(element.value);
+							 gotoBookRegis(element.value);
 				});
 			}
+			
+			
+			//alert($(this).find('.searchBookIsbn').attr("value"));;
         });
 		
-	
+		
+		
+		$('.imgsock').click(function(e){
+					showPopup( this);
+				});
+				
+		$('#submitIme').click(submitNewItem);
+	}
+	function hideSearchBook(){
+		searchData=null;
+		cst_clearNodeById('searchResultContainer');
+		$('#myModal').modal('hide');
 	}
 	
 	
@@ -524,9 +545,7 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 						return;
 					finished=false;
 					
-					$.ajaxPrefilter('json', function(options, orig, jqXHR) {
-							return 'jsonp';
-						});
+					setAjaxFilter();
 						
 					var dat={};
 					dat.apikey = '056bdbabcaa675a7383729e2da0f9e42405eadf2';
@@ -643,9 +662,7 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 						return;
 					finished=false;
 					
-					$.ajaxPrefilter('json', function(options, orig, jqXHR) {
-							return 'jsonp';
-						});
+					setAjaxFilter();
 						
 					var dat={};
 					dat.apikey = '056bdbabcaa675a7383729e2da0f9e42405eadf2';
@@ -708,18 +725,139 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 			getBookBYDaum( str,DAUM_SEARCH_ALL,searchBookUpdate);
 		 }
 	}
-	
+
+	var searchData;
 	function searchBookUpdate(data){
 		
 		var container = $('#searchResultContainer');
-		$(data.channel.item).each(function(index, element) {
+		container.empty();
+		searchData = data.channel.item;
+		$(searchData).each(function(index, element) {
         	container.append(getItemRegPage(element));
         });
 		
 	}
+	function hideRegBook(){
+		clearNewItme();
+		$('#regBookModal').modal('hide');
+	}
+	
+	
+	var selectedBookItem;
+	function gotoBookRegis(isbn){
+		mainStr="";
+		$('#modalSearchIput').val("");
+		typeAheadResult="";
+		acs_prevValue="";
+		var container = $('#searchResultContainer');
+		container.empty();
+		
+		clearNewItme();
+		
+		var collecting=null;
+		if(searchData!=null && isbn!=null)
+		{
+			$(searchData).each(function(index, element) {
+				if(element.isbn ==isbn)
+				{
+					collecting=element;
+					return false;
+				}
+				
+				return true;
+			});
+			
+			if(collecting!=null)
+			{
+				initNewItme(collecting);
+			}
+			
+		}else{
+			
+		}
+		selectedBookItem =collecting;
+		
+		hideSearchBook();
+		$('#regBookModal').modal('show');
+		
+		
+	}
+	var popup;
+	function showPopup(target){
+		
+		if(popup!=null && popup.closed==false)
+					return;
+					
+					$('.imgsock').each(function(index, element) {
+					  $(this).attr("id", "");
+					});
+				
+						
+						var img =$(target).attr("src");
+						if(img!="http://www.crystars.com/upload/defaultSmall.jpg")
+						{
+							if(confirm("이미지를 삭제하시겠습니까?")){
+							$(target).attr("src","http://www.crystars.com/upload/defaultSmall.jpg");
 
+							deleteImge(img,function(data){});
+							}
+							//popup = newchromeLess("./popup/imgdelete.html?img="+img+"&delframe="+id,300,150,200,200, "regImg");
+						}else{
+							$(target).attr("id", "img1");
+							popup= newchromeLess("./popup/imgupload.html",300,150,200,200, "regImg");
+							
+						}
+	}
+	
+	
+	function clearNewItme(){
+		selectedBookItem=null;
+		$('.imgsock').each(function(index, element) {
+			  $(this).attr("src", "http://www.crystars.com/upload/defaultSmall.jpg");
+			});
+		$('#submitPrice').attr("value","");
+		$('#submitTitle').attr("value","");
+		$('#submitText').text("");
+	}
+	
+	
+	function initNewItme(receivedata){
+		if(receivedata.cover_l_url!=null &&receivedata.cover_l_url!="")
+		{
+			$('.imgsock').each(function(index, element) {
+			  $(this).attr("src", receivedata.cover_l_url);
+			   return false;
+			});
+		}
+		$('#submitPrice').attr("value",receivedata.sale_price);
+		$('#submitTitle').attr("value",removeTag(htmlEntityDecode(receivedata.title)));
+	}
 
-
+	function submitNewItem(e){
+		var receivedata=selectedBookItem;
+		//getData(function(userdata){
+				var data={};
+				data.pid=userData.pid;
+				data.owner=userData.id;
+				data.image=$('.imgsock').first().attr("src");
+				var imgbundl="";
+				$('.imgsock').each(function(index, element) {
+				  imgbundl =$(this).attr("src") +"&";
+				   
+				});
+				
+				data.imgDetail = imgbundl;
+				data.price=$('#submitPrice').attr("value");
+				data.booktitle = encodeURIComponent(removeTag(htmlEntityDecode(receivedata.title  ? receivedata.title : "")));
+				data.title= encodeURIComponent($('#submitTitle').attr("value"));
+				data.isbn=receivedata.isbn ? receivedata.isbn : "";
+				data.quality= $(":input:radio[name=quality]:checked").val();
+				data.publisher =encodeURIComponent(removeTag(htmlEntityDecode(receivedata.pub_nm? receivedata.pub_nm : "")));
+				data.desc =encodeURIComponent($('#submitText').text());
+				data.callback=function(){};
+				regist_Item(data,function(data){hideRegBook();});
+				//});
+	}
 	
 	/*
 		

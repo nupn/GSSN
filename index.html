@@ -60,7 +60,7 @@
                   <li><a href="#">Separated link</a></li>
                   <li><a href="#">One more separated link</a></li>
                 </ul>
-            <li><a id="test1"href="garret.html?id=100004487314694">Garret Test</a></li>
+                 <li><a href="#" id="garretLink">Garret Test</a></li>
     </ul>
   </div>
 </div>
@@ -85,14 +85,13 @@
               </div>
               <div class="modal-body">
                 <input type="text" id="modalSearchIput" width="200"  data-provide="typeahead" />
-                btn btn-warning
+                <button type="button" class="btn btn-warning" id="newItemSearchBtn">검색</button>
                 
-                
-                <nav>
+                <nav style="margin-top:3px">
 	  			<a class="select">제목</a>
                 <a>저자</a>
 	  			</nav>
-                <input type="button" class="btn btn-warning" id="newItemSearchBtn"/>
+                
                 <div id="modalSearchOption"></div>
                 
                 <div id="searchResultContainer"></div>
@@ -104,13 +103,83 @@
               </div>
             </div>
           
-    
+    	 
+             	 
+         <div id="regBookModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 id="myModalLabel">Regist</h3>
+              </div>
+              <div class="modal-body">
+                    <div class="row-fluid">
+                        <ul class="thumbnails">
+                          <li class="span3">
+                            <a href="#" class="thumbnail">
+                              <img class="imgsock" src="http://www.crystars.com/upload/defaultSmall.jpg" alt="default1">
+                            </a>
+                          </li>
+                          <li class="span3">
+                            <a href="#" class="thumbnail">
+                              <img class="imgsock" src="http://www.crystars.com/upload/defaultSmall.jpg" alt="default1">
+                            </a>
+                          </li>
+                          <li class="span3">
+                            <a href="#" class="thumbnail">
+                              <img class="imgsock" src="http://www.crystars.com/upload/defaultSmall.jpg" alt="default1">
+                            </a>
+                          </li>
+                          <li class="span3">
+                            <a href="#" class="thumbnail">
+                              <img class="imgsock" src="http://www.crystars.com/upload/defaultSmall.jpg" alt="default1">
+                            </a>
+                          </li>
+                        </ul>
+         			 </div>
+                  
+              
+                  <div>
+                   <legend>상세정보</legend>
+                  	<div style="float:left;">
+                  	<label>price</label>
+                    <input name="price" type="text" id="submitPrice"><br/>
+                    <label>title</label>
+                    <input name="title" type="text" id="submitTitle"><br/>
+                    <label>상태</label>
+                        <input id="rdo1" type="radio" name="quality" value="1">매우좋음
+                        <input id="rdo2" type="radio" name="quality" value="2" checked="checked">중고
+                        <input id="rdo3" type="radio" name="quality" value="3">손상됨
+                    </div>
+                    <div style="float:left;  margin-left:50px;">
+                    <textarea name="subscritp" cols="10" rows="6" id="submitText">
+                    </textarea>
+					</div>
+                  </div>
+                	
+                    
+              </div>
+              
+              <div class="modal-footer">
+                <a href="#" class="btn" id="regBookCancel">Close</a>
+            	<a href="#" class="btn btn-primary" id="submitIme">change Images</a>
+              </div>
+            </div>
+         
+         
           
 <br/><br/>
 <div class="fb-root"></div>
 <div class="fb-login-button leftAlign" data-show-faces="true" data-width="300" data-max-rows="1" registration-url="http://www.crystars.com">
 </div> 
 <br/><br/><br/><br/><br/>
+
+
+
+				<div id="imgFramePreset">
+                  <div style="position:absolute; z-index:15; float:right; margin-top:5px; margin-left:-3px; padding-left:0px;">
+                  <button type="button" class="btn btn-info quickItem" id="shareitem">공유</button>
+                  <button type="button" class="btn quickItem" id="wishitem">wishit</button>
+                  </div>
+                 </div>
 
   </body>
 </html>
@@ -121,6 +190,19 @@
     <script language="javascript" type="text/javascript" src='./lib/crystal.js'></script>
     <script language="javascript" type="text/javascript" src='./fbtool.js'></script>
     <script language="javascript" type="text/javascript" src='./fb-init.js'></script>
+    <script>
+    	$('#garretLink').click(function(e) {
+	
+            getData(function(usrdata){
+				var data=[];
+				data[0] = {"name":"usrid","value":data.pid};
+				data[1] = {"name":"usrname","value":data.name};
+				data[2] = {"name":"usrportrait","value":data.portrait};
+				
+				cst_movePage( "/garretServlet.do",data,CRYSTAL_GET);
+				});
+        });
+    </script>
     
     
     

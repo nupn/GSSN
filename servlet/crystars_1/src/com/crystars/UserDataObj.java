@@ -9,7 +9,14 @@ public class UserDataObj implements java.io.Serializable {
 	{
 		
 	}
-	
+	private int pid;
+	public int getPid() {
+		return pid;
+	}
+
+	public void setPid(int pid) {
+		this.pid = pid;
+	}
 	private String id;
 	private String token;
 	private String portrait;
@@ -31,6 +38,7 @@ public class UserDataObj implements java.io.Serializable {
 		JSONObject obj = null;
 		try{
 		obj = new JSONObject();
+		obj.put("pid", pid);
         obj.put("id", id);
         obj.put("name", name);
         obj.put("grade", grade);
@@ -62,9 +70,9 @@ public class UserDataObj implements java.io.Serializable {
 		this.home = home;
 	}
 
-	public void initial(String _id,String _name,String _email,String _home,String _portrait,String _token){
+	public void initial(String _id,String _name,String _email,String _home,String _portrait,String _token,int _pid){
 		
-
+		
 		id = _id;
 		name = _name;
 		grade =1;
@@ -72,6 +80,7 @@ public class UserDataObj implements java.io.Serializable {
 		home=_home;
 		portrait = _portrait;
 		token = _token;
+		pid = _pid;
 		
 		if(id==null)
 			id="";

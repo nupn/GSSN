@@ -25,6 +25,8 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.IOExceptionWithCause;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Servlet implementation class Upload
@@ -132,20 +134,39 @@ public class Upload extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		request.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/json");
+		
 		PrintWriter out = response.getWriter();
+		String delframe=null;
+		
 		try{
 		String delFile = request.getParameter("filename");
+		delframe = request.getParameter("delframe");
 		String filePath   = getServletContext().getRealPath("upload"); //업로드 경로
 		       File up1 = new File(filePath + "/" + delFile);
-		       out.print(filePath + "/" + delFile);
+		   
 		       if(up1.exists()){
-		    	   out.print("donotExis");
 		            boolean rslt = up1.delete();
 		       }
 		}catch(Exception e)
 		{
+			e.printStackTrace();
+		}
+		//out.close();
+		/*
+		JSONObject item=null;
+		try{
+		item= new JSONObject();
+		item.put("delframe", delframe);
+		item.put("delfile", "defaultSmall.jpg");
+		out.print(item.toString());
+		}catch(JSONException e)
+		{
 			e.printStackTrace(out);
 		}
+		*/
 		out.close();
 	}
 	/**
@@ -153,10 +174,7 @@ public class Upload extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		 
 		
-		
-		//PrintWriter out = response.getWriter();
 		String path = getServletContext().getRealPath("upload");
 		DiskFileItemFactory factory= new DiskFileItemFactory();
 		ServletFileUpload upload = new ServletFileUpload(factory);
@@ -177,13 +195,6 @@ public class Upload extends HttpServlet {
 					String fileName = fitem.getName();
 					if((fileName!=null)&&(!fileName.equals("")))
 					{
-						/*out.print(fileName);
-						String[] tarr= fileName.split("\\.");
-						for(int i=0;i<tarr.length;i++)
-						{
-							out.print(i+" : "+tarr[i]+"\n");
-						}
-						out.print(writeFile(out));*/
 						temp = fileName.split("\\.")[1];
 						temp = writeFile()+"."+temp;
 						fileName = temp;
