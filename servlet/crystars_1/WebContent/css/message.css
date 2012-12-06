@@ -1,0 +1,82 @@
+body{
+	margin:0 auto;
+	padding-left:150px;
+}
+
+#lay1{
+	width:700px;
+	height:50px;
+}
+
+#lay1-1-1{
+	float:left;
+	width:200px;
+	text-align: center;
+	height:20px;
+}
+#lay1-1-2{
+	float:left;
+}
+
+
+#lay1-2{
+	float:right;
+	height:40px;
+	
+}
+
+#lay2{
+	clear:both;
+	width:700px;
+	height:20px;
+
+}
+#lay2-1{
+	float:left;
+	width:200px;
+	text-align: center;
+}
+#lay2-2{
+	float:left;
+}
+
+
+#lay3{
+	clear:both;
+	width:700px;
+	overflow:auto;
+}
+#lay3-1{
+	clear:both;
+	height:250px;
+	width:700px;
+	overflow:auto;
+}
+#lay4{
+	width:700px;
+	height:20px;
+}
+#submitbtn{
+	float:right;
+}
+
+
+
+#lay3-1{
+	clear:both;
+	padding-left:120px;
+	overflow:auto;
+}
+#contents{
+	height:200px;
+	width:680px;
+}
+#inputidset{
+	width:150px;
+	margin-top:-5px;
+	
+}
+#inputtitleset{
+	margin-top:-5px;
+	width:400px;
+}
