@@ -28,7 +28,7 @@
     
     </div>
       <div class="form-action">
-	 		<a href="board" class="btn">목록으로</a>
+	 		<a href="garretServlet.do" class="btn">뒤로</a>
 	 	</div>
   </div>
   

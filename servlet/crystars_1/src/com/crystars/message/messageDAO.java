@@ -1,10 +1,15 @@
 package com.crystars.message;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.naming.Context;
@@ -12,6 +17,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.crystars.item.item;
 import com.sun.corba.se.impl.protocol.giopmsgheaders.Message;
 
 
@@ -34,12 +40,12 @@ public class messageDAO {
 	
 	
 	//id를 받아서 받은메시지를 검색함
-	public static List<message> findTMSByNum(int id) throws NamingException, SQLException{
+	public static List<message> findTMSByNum(int id) throws NamingException, SQLException, UnsupportedEncodingException{
 
 		List<message> list = new ArrayList<message>();
 		Connection conn = null;
 		PreparedStatement stmt = null;
-		ResultSet rs = null;
+		ResultSet rs = null;		
 		
 		
 		
@@ -49,7 +55,7 @@ public class messageDAO {
 			conn = ds.getConnection();
 
 			// Member테이블과 조인해서 닉네임도 같이가져옴
-			stmt = conn.prepareStatement("SELECT nickname, title, content, to_date, to_memnum, from_memnum, yesno "
+			stmt = conn.prepareStatement("SELECT msg_num, nickname, title, content, to_date, to_memnum, from_memnum, yesno "
 					+ "FROM Member INNER JOIN Message "
 					+ "WHERE Member.Member_Num=Message.to_memnum AND to_memnum= ? ");
 			stmt.setInt(1, id);
@@ -58,10 +64,11 @@ public class messageDAO {
 
 			while(rs.next()) {
 				list.add(new message (
-						rs.getString("nickname"),
-						findNick(rs.getInt("from_memnum")), // 보낸사람 닉네임 검색
-						rs.getString("title"),
-						rs.getString("content"),
+						rs.getInt("msg_num"),
+						URLDecoder.decode(rs.getString("nickname"),"utf-8"),
+						URLDecoder.decode(findNick(rs.getInt("from_memnum")),"utf-8"), // 보낸사람 닉네임 검색
+						URLDecoder.decode(rs.getString("title"),"utf-8"),
+						URLDecoder.decode(rs.getString("content"),"utf-8"),
 						rs.getTimestamp("to_date"),
 						rs.getInt("to_memnum"),
 						rs.getInt("from_memnum"),
@@ -83,7 +90,7 @@ public class messageDAO {
 	
 	
 	// 보낸사람 검색 
-	public static List<message> findFMSByNum(int id) throws NamingException, SQLException{
+	public static List<message> findFMSByNum(int id) throws NamingException, SQLException, UnsupportedEncodingException{
 
 		List<message> list = new ArrayList<message>();
 		
@@ -99,7 +106,7 @@ public class messageDAO {
 			conn = ds.getConnection();
 
 			// Member테이블과 조인해서 닉네임도 같이가져옴
-			stmt = conn.prepareStatement("SELECT nickname, title, content, to_date, to_memnum, from_memnum, yesno "
+			stmt = conn.prepareStatement("SELECT msg_num, nickname, title, content, to_date, to_memnum, from_memnum, yesno "
 					+ "FROM Member INNER JOIN Message "
 					+ "WHERE Member.Member_Num=Message.to_memnum AND from_memnum= ? ");
 			stmt.setInt(1, id);
@@ -107,10 +114,11 @@ public class messageDAO {
 			rs = stmt.executeQuery();
 
 			while(rs.next()) {
-				list.add(new message (rs.getString("nickname"),
-						findNick(rs.getInt("to_memnum")), // 받은사람 닉네임 찾기
-						rs.getString("title"),
-						rs.getString("content"),
+				list.add(new message (rs.getInt("msg_num"),
+						URLDecoder.decode(rs.getString("nickname"),"utf-8"),
+						URLDecoder.decode(findNick(rs.getInt("to_memnum")),"utf-8"), // 받은사람 닉네임 찾기
+						URLDecoder.decode(rs.getString("title"),"utf-8"),
+						URLDecoder.decode(rs.getString("content"),"utf-8"),
 						rs.getTimestamp("to_date"),
 						rs.getInt("to_memnum"),
 						rs.getInt("from_memnum"),
@@ -128,7 +136,7 @@ public class messageDAO {
 	}
 	
 	// 닉네임 검색 함수
-	public static String findNick(int id) throws NamingException, SQLException{
+	public static String findNick(int id) throws NamingException, SQLException, UnsupportedEncodingException{
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -143,7 +151,7 @@ public class messageDAO {
 
 			rs = stmt.executeQuery();
 			while(rs.next())
-				name = rs.getString("Nickname");
+				name = URLDecoder.decode(rs.getString("Nickname"),"utf-8");
 			
 
 		} finally {
@@ -155,37 +163,66 @@ public class messageDAO {
 		
 		return name;
 	}
-	/*
-	//생성
-	public static boolean create(item good) throws SQLException, NamingException {
+	
+	public static int countNotConfirmMsg(int id) throws NamingException, SQLException{
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		int count=0;
+		
+		DataSource ds = getDataSource();
+		try {
+			conn = ds.getConnection();
+			stmt = conn.prepareStatement("SELECT COUNT(yesno) From Message Where to_memnum= ? and yesno=false ");
+			stmt.setInt(1, id);
+
+			rs = stmt.executeQuery();
+			rs.next();
+			
+			count = rs.getInt(1);
+			
+
+		} finally {
+			// 무슨 일이 있어도 리소스를 제대로 종료
+			if (rs != null) try{rs.close();} catch(SQLException e) {}
+			if (stmt != null) try{stmt.close();} catch(SQLException e) {}
+			if (conn != null) try{conn.close();} catch(SQLException e) {}
+		}
+		
+		return count;
+	}
+	
+	public static boolean sendMsg(message msg) throws SQLException, NamingException, UnsupportedEncodingException {
 		int result;
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
+		Timestamp date = new Timestamp(new Date().getTime());
 		
 		DataSource ds = getDataSource();
 		
 		try {
 			conn = ds.getConnection();
-
-			// 질의 준비
+			
+			stmt = conn.prepareStatement(" SELECT MAX(msg_num) FROM Message ");
+			rs = stmt.executeQuery();
+			rs.next();
+			int msg_num = rs.getInt(1)+1;
+			System.out.println(msg.getTitle());
 			stmt = conn.prepareStatement(
-					"INSERT INTO `Goods`(`Goods_Num`, `GSales_MemberNum`, `Image`, `Price`, `Regist_Date`, `Category_Num`, `Book_Name`, `Content`, `Publisher`, `Quantity`, `Quality`) " + 
-					"VALUES (?,?,?,?,?,?,?,?,?,?,?)"
+					"INSERT INTO `Message`(`msg_num`, `to_memnum`, `from_memnum`, `title`, `content`, `to_date`, `yesno`) "
+					+ "VALUES (?,?,?,?,?,?,?) "
 					);
-			stmt.setInt(1,  good.getGoods_num());
-			stmt.setInt(2,  good.getGsales_membernum());
-			stmt.setString(3,  good.getImage());
-			stmt.setInt(4,  good.getPrice());
-			stmt.setTimestamp(5,  good.getRegist_date());
-			stmt.setInt(6,  good.getCategory_num());
-			stmt.setString(7,  good.getBook_name());
-			stmt.setString(8,  good.getContent());
-			stmt.setString(9,  good.getPublisher());
-			stmt.setInt(10,  good.getQuantity());
-			stmt.setInt(10,  good.getQuality());
+			stmt.setInt(1,  msg_num);
+			stmt.setInt(2,  msg.getTo_memnum());
+			stmt.setInt(3,  msg.getFrom_memnum());
+			stmt.setString(4,  URLEncoder.encode(msg.getTitle(),"utf-8"));
+			stmt.setString(5,  URLEncoder.encode(msg.getContent(),"utf-8"));			
+			stmt.setTimestamp(6,  date);
+			stmt.setBoolean(7,  false);
 			// 수행
 			result = stmt.executeUpdate();
+			
 		} finally {
 			// 무슨 일이 있어도 리소스를 제대로 종료
 			if (rs != null) try{rs.close();} catch(SQLException e) {}
@@ -196,91 +233,36 @@ public class messageDAO {
 		return (result == 1);
 	}
 	
-	//업데이트
-	public static boolean update(item board) throws SQLException, NamingException {
-		int result;
+	public static message findMSGByMsgNum(int msg_num) throws NamingException, SQLException, UnsupportedEncodingException{
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
+		message _message =new message();
 		
 		DataSource ds = getDataSource();
-		
 		try {
 			conn = ds.getConnection();
+			stmt = conn.prepareStatement("SELECT * From Message Where msg_num= ? ");
+			stmt.setInt(1, msg_num);
 
-			// 질의 준비
-			stmt = conn.prepareStatement(
-					"UPDATE boardinfo " +
-					"SET  title=?, contents=?" +
-					"WHERE num=?"
-					);
-			stmt.setString(1,  board.getTitle());
-			stmt.setString(2,  board.getContents());
-			stmt.setInt(3,  board.getNum());
-
-			// 수행
-			result = stmt.executeUpdate();
-		} finally {
-			// 무슨 일이 있어도 리소스를 제대로 종료
-			if (rs != null) try{rs.close();} catch(SQLException e) {}
-			if (stmt != null) try{stmt.close();} catch(SQLException e) {}
-			if (conn != null) try{conn.close();} catch(SQLException e) {}
-		}
-		
-		return (result == 1);		
-	}
-	
-	//조회수
-	public static boolean countupdate(item board) throws SQLException, NamingException {
-		int result;
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		
-		DataSource ds = getDataSource();
-		
-		try {
-			conn = ds.getConnection();
-
-			// 질의 준비
-			stmt = conn.prepareStatement(
-					"UPDATE boardinfo " +
-					"SET  count=? "+
-					"WHERE num=?"
-					);
-			stmt.setInt(1,  board.getCount());
-			stmt.setInt(2,  board.getNum());
-
-			// 수행
-			result = stmt.executeUpdate();
-		} finally {
-			// 무슨 일이 있어도 리소스를 제대로 종료
-			if (rs != null) try{rs.close();} catch(SQLException e) {}
-			if (stmt != null) try{stmt.close();} catch(SQLException e) {}
-			if (conn != null) try{conn.close();} catch(SQLException e) {}
-		}
-		
-		return (result == 1);		
-	}
-	
-	//제거
-	public static boolean remove(int num) throws NamingException, SQLException {
-		int result;
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		
-		DataSource ds = getDataSource();
-		
-		try {
-			conn = ds.getConnection();
-
-			// 질의 준비
-			stmt = conn.prepareStatement("DELETE FROM boardinfo WHERE num=?");
-			stmt.setInt(1,  num);
+			rs = stmt.executeQuery();
 			
-			// 수행
-			result = stmt.executeUpdate();
+			rs.next();
+				_message =new message (rs.getInt("msg_num"),
+						URLDecoder.decode(findNick(rs.getInt("from_memnum")),"utf-8"),						
+						URLDecoder.decode(findNick(rs.getInt("to_memnum")),"utf-8"), // 받은사람 닉네임 찾기
+						URLDecoder.decode(rs.getString("title"),"utf-8"),
+						URLDecoder.decode(rs.getString("content"),"utf-8"),
+						rs.getTimestamp("to_date"),
+						rs.getInt("to_memnum"),
+						rs.getInt("from_memnum"),
+						rs.getBoolean("yesno")
+				);
+			stmt = conn.prepareStatement("UPDATE `Message` SET `yesno`=true WHERE msg_num=? ");
+			stmt.setInt(1, msg_num);
+			stmt.executeUpdate();
+				
+			
 		} finally {
 			// 무슨 일이 있어도 리소스를 제대로 종료
 			if (rs != null) try{rs.close();} catch(SQLException e) {}
@@ -288,7 +270,6 @@ public class messageDAO {
 			if (conn != null) try{conn.close();} catch(SQLException e) {}
 		}
 		
-		return (result == 1);		
+		return _message;
 	}
-	*/
 }

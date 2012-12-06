@@ -16,24 +16,24 @@ public class message{
 
 	
 	public message(){}; // 생성자
-	
-	public message(String myNickname, String otherNickname, String title, String content,Timestamp to_date, int to_memnum, int from_memnum, boolean yesno){
+	public message(int msg_num, String myNickname, String otherNickname, String title, String content,Timestamp to_date, int to_memnum, int from_memnum, boolean yesno){
 		super();
+		this.msg_num = msg_num;
 		this.otherNickname = otherNickname;
 		this.myNickname = myNickname;
 		this.to_memnum = to_memnum;
 		this.from_memnum = from_memnum;
-		this.title = title;
-		this.content = content;
+		this.title =  title;
+		this.content =  content;
 		this.to_date = to_date;
 		this.yesno = yesno;
 	}
 	
 	
 	
-	public message(String Nickname, int msg_num, int to_memnum, int from_memnum, String title, String content, Timestamp to_date, boolean yesno){
+	public message(String Nickname, int msg_num, int to_memnum, int from_memnum, String title, String content, Timestamp to_date, boolean yesno) {
 		super();
-		this.Nickname = Nickname;
+		this.Nickname =  Nickname;
 		this.msg_num=msg_num;
 		this.to_memnum=to_memnum;
 		this.from_memnum = from_memnum;
@@ -71,7 +71,7 @@ public class message{
 		return content;
 	}
 
-	public void setContent(String content) {
+	public void setContent(String content){
 		this.content = content;
 	}
 
@@ -95,7 +95,7 @@ public class message{
 		return Nickname;
 	}
 
-	public void setNickname(String nickname) {
+	public void setNickname(String nickname)  {
 		Nickname = nickname;
 	}
 
@@ -111,8 +111,16 @@ public class message{
 		return otherNickname;
 	}
 
-	public void setOtherNickname(String otherNickname) {
+	public void setOtherNickname(String otherNickname){
 		this.otherNickname = otherNickname;
+	}
+
+	public int getMsg_num() {
+		return msg_num;
+	}
+
+	public void setMsg_num(int msg_num) {
+		this.msg_num = msg_num;
 	}
 
 

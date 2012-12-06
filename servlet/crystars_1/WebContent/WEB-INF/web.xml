@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <!--
  Licensed to the Apache Software Foundation (ASF) under one or more
   contributor license agreements.  See the NOTICE file distributed with
@@ -20,9 +20,13 @@
   <description>
      Welcome to Tomcat
   </description>
-  <servlet>
+   <servlet>
     <servlet-name>garretServlet</servlet-name>
     <servlet-class>com.crystars.servlet.garretServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>messageServlet</servlet-name>
+    <servlet-class>com.crystars.servlet.messageServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>TestMVC.do</servlet-name>
@@ -36,17 +40,14 @@
     <servlet-name>User.do</servlet-name>
     <servlet-class>com.crystars.User</servlet-class>
   </servlet>
-  <servlet>
-    <servlet-name>Item.do</servlet-name>
-    <servlet-class>com.crystars.Item</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>Upload.do</servlet-name>
-    <servlet-class>com.crystars.Upload</servlet-class>
-  </servlet>
-  <servlet-mapping>
+
+   <servlet-mapping>
     <servlet-name>garretServlet</servlet-name>
     <url-pattern>/garretServlet.do</url-pattern>
+  </servlet-mapping>
+   <servlet-mapping>
+    <servlet-name>messageServlet</servlet-name>
+    <url-pattern>/messageServlet.do</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>TestMVC.do</servlet-name>
@@ -60,53 +61,7 @@
     <servlet-name>User.do</servlet-name>
     <url-pattern>/User.do</url-pattern>
   </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>Item.do</servlet-name>
-    <url-pattern>/Item.do</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>Upload.do</servlet-name>
-    <url-pattern>/Upload.do</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <servlet-name>RegistItem.do</servlet-name>
-    <servlet-class>com.crystars.RegistItem</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>RegistItem.do</servlet-name>
-    <url-pattern>/RegistItem.do</url-pattern>
-  </servlet-mapping>
-    
-    <servlet>
-                <servlet-name>Proxy.do</servlet-name>
-                <servlet-class>com.crystars.Proxy</servlet-class>
 
-                <init-param>
-                        <param-name>proxyHost</param-name>
-                        <param-value>crystars.com</param-value>
-                </init-param>
-                <init-param>
-                        <param-name>proxyPort</param-name>
-                        <param-value>80</param-value>
-                </init-param>
-                <init-param>
-                        <param-name>https</param-name>
-                        <param-value>true</param-value>
-                </init-param>
-                <init-param>
-                        <param-name>proxyPath</param-name>
-                        <param-value></param-value>
-                </init-param>
-                <init-param>
-                        <param-name>maxFileUploadSize</param-name>
-                        <param-value></param-value>
-                </init-param>
-        </servlet>
-        <servlet-mapping>
-                <servlet-name>Proxy.do</servlet-name>
-                <url-pattern>/Proxy.do</url-pattern>
-        </servlet-mapping>
-  
   <resource-ref>
     <description>DB Connection</description>
     <res-ref-name>jdbc/test</res-ref-name>

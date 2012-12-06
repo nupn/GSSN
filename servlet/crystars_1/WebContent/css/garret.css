@@ -47,6 +47,7 @@ html,body{
 	height:150px;
 	background-color:white;
 	margin-top: -10px;
+	overflow: auto;
 }
 #lay2-1-3{
 	float:right;
@@ -54,11 +55,12 @@ html,body{
 	height:150px;
 	background-color:white; 
 	margin-top: -10px;
+	overflow: auto;
 
 }
 #lay2-1-4{
 	min-width: 250px; height: 400px; margin: 0 auto;
-	background-color: #E869AA;
+	
 	height:150px;
 }
 #lay2-2{
@@ -67,7 +69,7 @@ html,body{
 
 
 #t_width_1{
-	width:80%;
+	width:50%;
 
 }
 #t_width_2{
@@ -78,20 +80,19 @@ html,body{
 	text-align: center;
 }
 #test thead{
-	font-size:18px;
-	font-family:"Malgun Gothic", verdana;
-}
-#tab thead{
-	font-size:18px;
-	font-family:"Malgun Gothic", verdana;
+	font-weight: bold;
 }
 .blank{
 	clear:both;
 }
 
 #lay3-1{
-	height:500px;
+	height:400px;
 	background-color: white;
+	overflow: auto	
+}
+#lay3-1>thead{
+	font-weight:bold;
 }
 /*
 #lay3-1-1{
@@ -104,11 +105,15 @@ html,body{
 	text-align: center;
 }
 #g_image{
-	width: 25%;
+	width: 20%;
 	text-align: center;
+
 }
 #g_contents{
-	width: 65%;
+	text-align: center;
+}
+#g_status{
+	width: 10%;
 	text-align: center;
 }
 #tab{
@@ -117,13 +122,7 @@ html,body{
 #tab td{
 	text-align: center;
 }
-#g_image{
-	width:25%;
-	height:32px;
-}
-#g_contents{
-	width:60%;
-}
+
 .print_sum{
 	margin-right: 20px;
 	text-align: right;
@@ -137,13 +136,16 @@ html,body{
 	margin-left:200px;
 }
 #t_num{
-	width:17%;
+	width:15%;
 }
 #t_bookname{
-	width:65%;
+	width:60%;
 }
 #t_price{
 	width:15%;
+}
+#t_type{
+	width:10%;
 }
 #s_item_list{
 	background-color: white;
@@ -175,4 +177,86 @@ html,body{
 }
 #table1 table>thead>tr>th{
 	text-align: center;
+}
+#profileimg{
+	 width:80%;
+}
+
+#lay5-1>table>thead>tr>td{
+	text-align: center;
+	font-weight: bold;
+}
+#lay5-1>table>tbody>tr>td{
+	text-align: center;
+}
+.tr_set{
+	width:60%;
+}
+.rv_set{
+	width:60%;
+}
+
+#lay5-2>table>thead>tr>td{
+	text-align: center;
+	font-weight: bold;
+}
+#lay5-2>table>tbody>tr>td{
+	text-align: center;
+}
+#review{
+	width:79%;
+}
+#rating{
+	width:10%;
+}
+#tr_btn{
+	
+}
+#tr_btn_set{
+	float:right;
+}
+
+#lay5-1{
+	height:220px;
+	overflow: auto;
+}
+#lay5-2{
+	height:150px;
+	overflow: auto;
+}
+.mineralimg{
+	width:35px;
+}
+.media-object{
+	width:80px;
+}
+.contenthegiht{
+	height:150px;
+}
+#hrv_set>td{
+	text-align: left;
+}
+#hrv_set_post{
+	padding-left:20px;
+	width:80%;
+}
+#hrv_set_rating{
+	text-align:center;
+}
+.hm_set{
+	padding-left:20px;
+}
+.textarea{
+	magin:0 auto;
+	width:98%;
+	overflow: auto;
+}
+#memnum{
+	width:100px;
+}
+#msg_title{
+	width:85%;
+}
+#msgbtn{
+	float:right;
 }

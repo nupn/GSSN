@@ -20,6 +20,14 @@
   <description>
      Welcome to Tomcat
   </description>
+   <servlet>
+    <servlet-name>garretServlet</servlet-name>
+    <servlet-class>com.crystars.servlet.garretServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>messageServlet</servlet-name>
+    <servlet-class>com.crystars.servlet.messageServlet</servlet-class>
+  </servlet>
   <servlet>
     <servlet-name>TestMVC.do</servlet-name>
     <servlet-class>com.crystars.MVCtest</servlet-class>
@@ -32,6 +40,15 @@
     <servlet-name>User.do</servlet-name>
     <servlet-class>com.crystars.User</servlet-class>
   </servlet>
+
+   <servlet-mapping>
+    <servlet-name>garretServlet</servlet-name>
+    <url-pattern>/garretServlet.do</url-pattern>
+  </servlet-mapping>
+   <servlet-mapping>
+    <servlet-name>messageServlet</servlet-name>
+    <url-pattern>/messageServlet.do</url-pattern>
+  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>TestMVC.do</servlet-name>
     <url-pattern>/MVCtest.do</url-pattern>
@@ -44,4 +61,11 @@
     <servlet-name>User.do</servlet-name>
     <url-pattern>/User.do</url-pattern>
   </servlet-mapping>
+
+  <resource-ref>
+    <description>DB Connection</description>
+    <res-ref-name>jdbc/test</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+  </resource-ref>
 </web-app>

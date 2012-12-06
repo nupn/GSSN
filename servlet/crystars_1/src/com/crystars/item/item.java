@@ -1,5 +1,6 @@
 package com.crystars.item;
 
+
 import java.sql.Timestamp;
 
 public class item{
@@ -14,11 +15,12 @@ public class item{
 	private String publisher;
 	private int quantity;
 	private int quality;
+	private int status;
 	
 	public item(){}; // 생성자
 	
 	public item(int goods_num, int gsales_membernum, String image, int price, Timestamp regist_date, int category_num, String book_name,
-			String content, String publisher, int quantity, int quality){
+			String content, String publisher, int quantity, int quality, int status) {
 		super();
 		this.goods_num = goods_num;
 		this.gsales_membernum = gsales_membernum;
@@ -31,6 +33,19 @@ public class item{
 		this.publisher = publisher;
 		this.quantity = quantity;
 		this.quality = quality;
+		this.status = status;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
+	}
+
+	public void setContent(String content)  {
+		this.content = content;
 	}
 
 	public int getGoods_num() {
@@ -54,7 +69,7 @@ public class item{
 	}
 
 	public void setImage(String image) {
-		this.image = image;
+		this.image =image;
 	}
 
 	public int getPrice() {
@@ -85,7 +100,7 @@ public class item{
 		return book_name;
 	}
 
-	public void setBook_name(String book_name) {
+	public void setBook_name(String book_name){
 		this.book_name = book_name;
 	}
 
