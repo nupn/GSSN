@@ -1,0 +1,78 @@
+.main{
+	
+	height: 480px;
+	width: 750px;
+}
+.sub0{
+	height: 420px;
+	overflow: auto;
+}
+.sub1{
+	height: 60px;
+	background-color: #FFF0FF;
+	text-align: center;
+	padding-top: 20px;
+}
+.sub1 > INPUT[type=text]{
+	width: 600px;
+	height: 30px;
+	margin-left: 100px;
+	float: left;
+}
+.sub1 > INPUT[type=submit]{
+	float: left;
+	margin-left: 10px;
+}
+  .hi{
+    float: right;
+}
+  .nice{
+    float: right;
+    width: 750px;
+    height: 200px;
+  }
+  .nice2{
+    float: right;
+    width: 800px;
+    height: 200px;
+  }
+  .you{
+    float: right;
+    width: 200px;
+  }
+  .span10{
+    width: 800px;
+  }
+
+  #ll{
+  	float: right;
+  	margin: 7px;
+  }
+  #qwe > div > .hi{
+  	float: left;
+  	margin: 5px;
+  }
+  #qwe > div > a{
+	float: right;
+	margin-top: 5px;
+   }	
+  #aaa{
+   width: 500px;
+   }
+  .qq{
+  width: 150px; 
+  
+  }
+  .asd{
+  width: 250px;
+float: left;
+margin-left: 140px;
+  
+  }
+  #dfg{
+  float: left;
+margin-top: 20px;
+  }
+  #fff{
+  margin-left: 180px;
+  }
