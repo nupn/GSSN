@@ -1,11 +1,4 @@
-/*
-document.write('<scr'+'ipt type="text/javascript" src="./lib/jquery.js"><\/scr'+'ipt>');
-document.write('<scr'+'ipt type="text/javascript" src="./lib/crystal.js"><\/scr'+'ipt>');
-document.write('<scr'+'ipt type="text/javascript" src="./fbtool.js"><\/scr'+'ipt>');
-document.write('<scr'+'ipt type="text/javascript" src="./facebook-js-sdk/src/meta/all.js"><\/scr'+'ipt>');
-document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
-*/
-// plug in
+
 
 
   (function(d, s, id) {
@@ -16,51 +9,57 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
-
+var searchValue;
   window.fbAsyncInit = function() {
-	initial=true;
-	if($.browser.msie==false)
-	{
-    FB.init({
-      appId      : CRYSTAL_APP_ID, // App ID
-      channelUrl : '//www.crystars.com/channel.html', // Channel File
-      status     : true, // check login status
-      cookie     : true, // enable cookies to allow the server to access the session
-      xfbml      : true,  // parse XFBML
-	  fileUpload : true
-    });
-	}
-    // Additional init code here
-	
-	 FB.getLoginStatus(function(response) {
-	  if (response.status === 'connected') {
-		//getToken( receivetoken );
+	  
+	  var requestParam;
+	  searchValue="";
+	  
+	  		if(location.search){
+		    var params=location.search.split("&");
+			var i=0;
+			var str;
+			for(i=0; i<params.length;i++)
+				{
+				str=params[i].split("=");
+					if((str[0]=="?query"||str[0]=="query") && str[1]!=null && str[1]!="")
+					{
+						 searchValue= decodeURIComponent(str[1]);
+						 
+					}
+					else if((str[0]=="?json"||str[0]=="json") && str[1]!=null && str[1]!="")
+					{
+						if($.browser.mozilla)
+						 requestParam= JSON.parse(decodeURIComponent(str[1])|| "null");
+						 
+					}
+				}
+			}
+	  
+		 FB.getLoginStatus(function(response) {
+	  			if (response.status === 'connected') {
+						
+						if(requestParam==null || requestParam.user ==null)
+							getData( successInitUser );
+						else
+							successInitUser(requestParam.user);
+						
+	  			} else if (response.status === 'not_authorized') {
+				updateStatus(CRYSTAR_STATUS_DAUTH);
+	  			} else {
+		  		updateStatus(CRYSTAR_STATUS_LOGOUT);
+	  			}
+			 });
 		
-			authSuccess(response.authResponse.userID,response.authResponse.accessToken);
-	  } else if (response.status === 'not_authorized') {
-			updateStatus(CRYSTAR_STATUS_DAUTH);
-			//login();
-			initial=false;
-	  } else {
-		  updateStatus(CRYSTAR_STATUS_LOGOUT);
-		  initial=false;
-	  }
-	 });
+		
+		
 	 
-	get_Item(-1);
+	 
+	 get_Item(-1);
 	addOverEvent();
   };
+  
 
-  // Load the SDK Asynchronously
-  /*
-    (function(d){
-     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement('script'); js.id = id; js.async = true;
-     js.src = "//connect.facebook.net/en_US/all.js";
-     ref.parentNode.insertBefore(js, ref);
-   }(document));
-   //*/
    
    function login() {
     FB.login(function(response) {
@@ -100,7 +99,7 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 			obj.name = encodeURIComponent(response.name);
 			obj.id = response.id;
 			obj.email = response.email;
-			obj.link = encodeURIComponent( response.link);
+			obj.link = response.link;
 			obj.token = token;
 			obj.portrait = 'http://graph.facebook.com/'+response.id+'/picture';
 			fb_setUserInDB(obj,successInitUser);
@@ -114,10 +113,11 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 		initial=false;
 		userData = data;
 		userData.name = decodeURIComponent(userData.name);
-		userData.link = decodeURIComponent(userData.link);
-		if(completeFuc!=null)
-			completeFuc(data);
-		
+		//if(completeFuc!=null)
+		//{
+		//	completeFuc(data);
+		//	completeFuc=null;
+		//}
 		updateStatus(CRYSTAR_STATUS_LOGIN);
 		
 	}
@@ -266,7 +266,7 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 				//ul.setAttribute("class",'thumbnails');
 				i=0;
 			}
-			items = createListItem(element);
+			items = createListItemCustom(element);
 			
 			$(items).find("#hoverItemId").attr("value",element.id);
 			
@@ -274,25 +274,20 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 				hoverItem = this;
                 itemView( $(hoverItem).find("#hoverItemId").attr("value") );
             });
+			
 			$(items).hover(function(e){
 			console.log( "hoverin");
-				var target=$(this).find('.imgFrame');
+			var target=$(this).find('.imgFrame');
 				hoverItem = this;
 				target.append(preset);
 				
 				$('#shareitem').click(function(e) {
 					if(hoverItem!=null)
 						itemShare( $(hoverItem).find("#hoverItemId").attr("value") );
-					
-					e.preventDefault();
-					e.stopPropagation();
 				});
 				$('#wishitem').click(function(e) {
 					if(hoverItem!=null)
 						wishitem( $(hoverItem).find("#hoverItemId").attr("value") );
-						
-					e.preventDefault();
-					e.stopPropagation();
 				});
 			},function(e){
 				$(this).find('.imgFrame').empty();
@@ -315,10 +310,6 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 		preset=$('#imgFramePreset');
 		$('body').remove('#imgFramePreset');		
 		}
-		
-		$('#closeViewItem').click(function(e) {
-           hideItemView(); 
-        });
 	}
 	
 	function hideItemView(){
@@ -386,13 +377,9 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 		}
 	}
 	
-	function itemView(id){
-		getItemInfo(id,showItemView);
-	}
-	
 	function itemShare(id){
 
-		fb_sendFeed( getItemDescById(id) );
+	fb_sendFeed( getItemDescById(id) );
 	
 	}
 	
@@ -401,6 +388,85 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 	 setFavoriteAction(userData.pid,iid,function(data){});
 	}
 	
+	function createListItemCustom(itemDesc){
+		
+
+		var li = getDynamicDOM("li",'span3');
+		var div= getDynamicDOM("div",'thumbnail');
+		
+		var divkk= getDynamicDOM("div",'imgFrame');
+		
+		var diva= getDynamicDOM("div",'aaa');
+		var img= getDynamicDOMImg(itemDesc.image,"");
+		//img.setAttribute('src',itemDesc.image);
+		
+		var div2= getDynamicDOM("div",'caption');
+		//div2.setAttribute("class",'caption');
+		
+		var h3= getDynamicDOM("h5");
+		var h3text = document.createTextNode(decodeURIComponent(itemDesc.title));
+		h3.appendChild(h3text);
+		var p1= getDynamicDOM("p");
+		var p1text = document.createTextNode(decodeURIComponent(itemDesc.content));
+		h3.appendChild(p1text);
+		var p2=getDynamicDOM("p");
+		
+		var div3 = getFooterPortraitCustom(itemDesc);
+		
+		diva.appendChild(img);
+		div2.appendChild(h3);
+		div2.appendChild(p1);
+		div2.appendChild(p2);
+		div.appendChild(diva);
+		div.appendChild(divkk);
+		div.appendChild(div2);
+		div.appendChild(div3);
+		li.appendChild(div);
+		
+		return li;
+	}
+	
+	function getFooterPortraitCustom(data){
+	var div= getDynamicDOM("div",'media mediaBoder');
+	
+	var hom="";
+	var portrait="http://graph.facebook.com/"+data.facebook_id+"/picture";
+	
+	hom = CST_HOME +"/garretServlet.do?userid=" + data.member_num ;
+	
+	var almg =  getDynamicDOMExtend("a",[{"name":"class","value":"pull-left"},{"name":"href","value":hom}]);
+	
+	var img = getDynamicDOMExtend("img" , [{"name":"src","value":portrait},{"name":"class","value":"media-object"},{"name":"alt","value":"portrait"},{"name":"width","value":"32px"},{"name":"height","value":"32px"}]);
+	
+	var div1 = getDynamicDOM("div","media-body");
+	
+	var div2 = getDynamicDOM("div","media inner-media");
+	
+	
+	var a1 = getDynamicDOMExtend("a" , [{"name":"href","value":hom}]);
+	a1.appendChild(document.createTextNode(decodeURIComponent(data.nickname)));
+	var a2 = getDynamicDOM("span");
+	a2.appendChild(document.createTextNode(data.price));
+	
+	
+	
+	div2.appendChild(a1);
+	div2.appendChild(getDynamicDOM("br"));
+	div2.appendChild(a2);
+	
+	almg.appendChild(img);
+	div1.appendChild(div2);
+	
+	div.appendChild(almg);
+	div.appendChild(div1);
+	
+	var hid = getDynamicDOMExtend("input",[{"name":"id","value":"hoverItemId"},{"name":"type","value":"hidden"}]);
+	div.appendChild(hid);
+	
+	return div;
+	
+}
+	
 	var PAGE_NAV_COUNT=9;
 	var currentPage;
 	var pageTotal;
@@ -408,27 +474,32 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 	var grandPageTotal;
 	var currentGrandPage;
 	function get_Item(ppage){
+		
+		currentPage = ppage;
 		if(ppage==-1)
 		{
-			getdb_Item(CRYSTAR_ITEM_DATE ,1,"total",recieve_Item);
+			currentPage =1;
+			fc_sendQuery( searchValue ,1,12, recieve_Item );
 		}else{
-			getdb_Item(CRYSTAR_ITEM_DATE ,ppage,"total",recieve_Item);
+			fc_sendQuery( searchValue ,ppage*PAGE_ITME_COUNT,12, recieve_Item );
 		}
+		
+		
 	}
 	
 	
 	function recieve_Item(data){
-		currentGrandPage = 1;
-		currentPage = data.page;
-		if(data.total!=-1)
-		{
-		pageTotal = Math.ceil(data.total/PAGE_ITME_COUNT);
 		
+		if(data==null ||data.status==1 || data.total_count==0)
+		{
+			$('#mainItemList').append(document.createTextNode("판매중인 아이템이 없습니다."));	
+				return; 
+		}
+		currentGrandPage = 1;
+		
+		pageTotal = Math.ceil(data.total_count/PAGE_ITME_COUNT);
 		currentGrandPage = Math.floor(currentPage/PAGE_NAV_COUNT);
 		grandPageTotal = Math.ceil(pageTotal/PAGE_NAV_COUNT);
-		
-		
-		}
 		
 		createPageNav();
 		createItemList(data.result);
@@ -439,7 +510,6 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 		
 		var ul ;
 		ul= $('#pageNav');
-		ul.empty();
 		
 		var li;
 		var a;
@@ -510,7 +580,7 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 		
 		$('#pageNav').click(function(e) {
             var data = e.target.text;
-			//var data2 = e.target.innerHTML; >&gt; <&lt;
+			//var data2 = e.target.innerHTML; >> <<
 			if(data==">")
 			{
 				if(currentGrandPage+1>=grandPageTotal)
@@ -656,7 +726,7 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 							{
 								var rdata = new Array(); 
 								$(data.channel.item).each(function(index, element) {
-										var str =element.title.replace(/&lt;\/b&gt;/gi, "").replace(/&lt;b&gt;/gi, "");
+										var str =element.title.replace(/<\/b>/gi, "").replace(/<b>/gi, "");
 									if(rdata.isItem(str)==-1)
 										rdata.push(str);
 									});
@@ -965,7 +1035,7 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 	
 		<div class="centerAlign" >
           <ul class="nav nav-pills centerUL">
-              <li><a href="#">&#60;</a></li>
+              <li><a href="#"><</a></li>
 			  
               <li class="active">
                 <a href="#">1</a>
@@ -976,7 +1046,7 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
               <li><a href="#">2</a></li>
               <li><a href="#">2</a></li>
 			  
-              <li><a href="#">&#62;</a></li>
+              <li><a href="#">></a></li>
               
 			</ul>
           </div>

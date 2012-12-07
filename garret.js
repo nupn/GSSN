@@ -47,7 +47,7 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 	  }
 	 });
 	 
-	get_Item(-1);
+	//get_Item(-1);
 	addOverEvent();
   };
 

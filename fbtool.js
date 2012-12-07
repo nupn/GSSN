@@ -3,6 +3,101 @@
 document.write('<scr'+'ipt type="text/javascript" src="./lib/jquery.js"><\/scr'+'ipt>');
 document.write('<scr'+'ipt type="text/javascript" src="./lib/crystal.js"><\/scr'+'ipt>');
 */
+
+function fc_sendQuery(str,sn,ln,callback,option){
+	
+	//www.crystars.com:9090/search/json?cn=myfc&fl=data&se={data:OR(dragun):100:15}&sn=1&ln=50
+	if(option==1)//all
+	{
+		
+	}
+ 	var query = encodeURIComponent(encodeURIComponent(str));
+	
+	
+	var data={};
+	data.cn = 'fceg';
+	data.fl = 'goods_num,title,book_name,content:100,publisher,price,image,status,member_num,nickname,grade,facebook_id';
+	//data.se = "{{title,content,book_name:EXT("+query+"*):100:0}OR{title,content,book_name:OR("+query+"):100:0}OR{title,content,book_name:AND("+query+"):100:0}}";
+	//쿼리문을 무조건떡칠한다고 잘찾는게 아니였어 ㅋㅋㅋㅋㅋ오히려 오류나서 못찾는구나 근데의외로 OR보다 ANd로 연결하니까 정확매칭하는군
+	
+	data.se = "{{title,content,book_name:OR("+query+"):100:0}AND{title,content,book_name:AND("+query+"):100:0}}";
+	
+	//data.se = "{title,content,book_name:AND("+query+"):100:15}";
+	
+	data.sn = sn;
+	data.ln=ln;
+ 	callJson( "/Proxy.do",CRYSTAL_POST,data,callback);
+}
+
+function getItemInfo(iid,callback){
+	var data={};
+	data.id = iid;
+ 	callJsonP( "/VeiwItem.do",CRYSTAL_GET,data,callback);
+	
+}
+
+function getFavoriteItem(id,ppage,callback){
+	var data={};
+	data.pid = id;
+	data.page = ppage;
+ 	callJsonP( "/FavoriteList.do",CRYSTAL_POST,data,callback);	
+}
+
+function setFavoriteAction(id,iid,callback){
+	var data={};
+	data.pid = id;
+	data.itemid = iid;
+	data.Status = "insert";
+ 	callJsonP( "/Favorite.do",CRYSTAL_GET,data,callback);	
+}
+
+function removeFavoriteAction(id,iid,callback){
+	var data={};
+	data.pid = id;
+	data.itemid = iid;
+	data.Status = "delete";
+ 	callJsonP( "/Favorite.do",CRYSTAL_GET,data,callback);
+}
+
+function fb_sendFeedQuick(itemData){
+				var variables={};
+				//variables.access_token = primaryKey;
+				variables.message = itemData.title;
+				variables.picture = itemData.image;
+				variables.name = itemData.title;
+				variables.caption = itemData.name;
+				variables.description = itemData.content;
+				variables.link = "http://www.crystal.com/view?id="+itemData.id;
+				variables.actions="{name:\"찜하기\",link:\"http://www.crystal.com/favorite?id="+itemData.id+"\"}";
+					
+	
+FB.api('/me/feed',variables, function(response) {
+ 	 
+});
+}
+
+function fb_sendFeed(itemData){
+  FB.ui(
+  {
+    method: 'feed',
+    name: itemData.title,
+    link: "http://www.crystal.com/view?id="+itemData.id,
+    picture: itemData.image,
+    caption: itemData.name,
+    description: itemData.content,
+	actions : "{name:\"찜하기\",link:\"http://www.crystal.com/favorite?id="+itemData.id+"\"}"
+					
+  },
+  function(response) {
+    if (response && response.post_id) {
+      alert('Post was published.');
+    } else {
+      alert('Post was not published.');
+    }
+  }
+);	
+}
+
 function fb_checkSession(id,token,callback){
 	var data={};
 	data.id = id;
@@ -13,6 +108,12 @@ function fb_setUserInDB(raw,callback){
 	
  	callJsonP( "/User.do",CRYSTAL_GET,raw,callback);
 }
+function deleteImge(src,callback){
+	var data={};
+	data.filename = src;
+	data.delframe = "";//desprecae
+ 	callJsonP( "/Upload.do",CRYSTAL_GET,data,callback);
+}
 
 function getdb_Item(type,page,needTotal,callback){
 	var data={};
@@ -22,6 +123,10 @@ function getdb_Item(type,page,needTotal,callback){
  	callJsonP( "/Item.do",CRYSTAL_GET,data,callback);
 }
 
+function regist_Item(datas,callback){
+	
+ 	callJsonP( "/RegistItem.do",CRYSTAL_GET,datas,callback);
+}
 
 var DAUM_SEARCH_ALL = 'all';
 var DAUM_SEARCH_TITLE = 'title';
@@ -36,13 +141,92 @@ function getBookBYDaum(query,type,callback){
 		data.searchType = type;
 		data.sort ='accu';
 		 
- 	callJson( "http://apis.daum.net/search/book",CRYSTAL_GET,data,callback);
+ 	callJsonP( "http://apis.daum.net/search/book",CRYSTAL_GET,data,callback);
 }
 
 function getdb_ItemBYcate(type,page,cate,cateval,needTotal,callback){
 	
 }
 
+function getFooterPortrait(data,desc){
+	var div= getDynamicDOM("div",'media mediaBoder');
+	
+	var hom="";
+	
+	hom = CST_HOME +"/garretServlet.do?userid=" + data.pid ;
+	
+	var almg =  getDynamicDOMExtend("a",[{"name":"class","value":"pull-left"},{"name":"href","value":hom}]);
+	
+	var img = getDynamicDOMExtend("img" , [{"name":"src","value":data.portrait},{"name":"class","value":"media-object"},{"name":"alt","value":"portrait"},{"name":"width","value":"32px"},{"name":"height","value":"32px"}]);
+	
+	var div1 = getDynamicDOM("div","media-body");
+	
+	var div2 = getDynamicDOM("div","media inner-media");
+	
+	
+	var a1 = getDynamicDOMExtend("a" , [{"name":"href","value":hom}]);
+	a1.appendChild(document.createTextNode(data.name));
+	var a2 = getDynamicDOM("span");
+	a2.appendChild(document.createTextNode(desc.price));
+	
+	
+	
+	div2.appendChild(a1);
+	div2.appendChild(getDynamicDOM("br"));
+	div2.appendChild(a2);
+	
+	almg.appendChild(img);
+	div1.appendChild(div2);
+	
+	div.appendChild(almg);
+	div.appendChild(div1);
+	
+	var hid = getDynamicDOMExtend("input",[{"name":"id","value":"hoverItemId"},{"name":"type","value":"hidden"}]);
+	div.appendChild(hid);
+	//hid = getDynamicDOMExtend("input",[{"name":"id","value":"isViewerWish"},{"name":"type","value":"hidden"}]);
+	//div.appendChild(hid);
+	
+	return div;
+	
+}
+
+function createListItem(itemDesc){
+		
+
+		var li = getDynamicDOM("li",'span3');
+		var div= getDynamicDOM("div",'thumbnail');
+		
+		var divkk= getDynamicDOM("div",'imgFrame');
+		
+		var diva= getDynamicDOM("div",'aaa');
+		var img= getDynamicDOMImg(itemDesc.image,"");
+		//img.setAttribute('src',itemDesc.image);
+		
+		var div2= getDynamicDOM("div",'caption');
+		//div2.setAttribute("class",'caption');
+		
+		var h3= getDynamicDOM("h5");
+		var h3text = document.createTextNode(itemDesc.title);
+		h3.appendChild(h3text);
+		var p1= getDynamicDOM("p");
+		var p1text = document.createTextNode(itemDesc.content);
+		h3.appendChild(p1text);
+		var p2=getDynamicDOM("p");
+		
+		var div3 = getFooterPortrait(itemDesc.user,itemDesc);
+		
+		diva.appendChild(img);
+		div2.appendChild(h3);
+		div2.appendChild(p1);
+		div2.appendChild(p2);
+		div.appendChild(diva);
+		div.appendChild(divkk);
+		div.appendChild(div2);
+		div.appendChild(div3);
+		li.appendChild(div);
+		
+		return li;
+	}
 
 function getItemRegPage(data)
 {
@@ -81,7 +265,7 @@ function getItemRegPage(data)
 		var span = getDynamicDOM("span");
 		span.innerHTML = htmlEntityDecode(data.description.substr(0,75)+"...");
 		
-		var hid = getDynamicDOMExtend("input" , [{"name":"name","value":"searchBookIsbn"},{"name":"type","value":"hidden"},{"name":"value","value":data.isbn}]);
+		var hid = getDynamicDOMExtend("input" , [{"name":"class","value":"searchBookIsbn"},{"name":"type","value":"hidden"},{"name":"value","value":data.isbn}]);
 
 		
 		divBody.appendChild(bodyh4);
