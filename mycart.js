@@ -9,13 +9,11 @@
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
-
+var receiveItemToBeRegist;
   window.fbAsyncInit = function() {
 	  
 	  var requestParam;
 	  
-	  	if($.browser.mozilla)
-		{
 	  		if(location.search){
 		    var params=location.search.split("&");
 			var i=0;
@@ -25,14 +23,16 @@
 				str=params[i].split("=");
 					if((str[0]=="?json"||str[0]=="json") && str[1]!=null && str[1]!="")
 					{
+						if($.browser.mozilla )
 						requestParam=JSON.parse(decodeURIComponent(str[1])|| "null");
-						// requestParam= eval("(" + decodeURIComponent(str[1]) + ")");
-						 
-						 break;
+						
+					}else if((str[0]=="?insertid"||str[0]=="insertid") && str[1]!=null && str[1]!="")
+					{
+						receiveItemToBeRegist = decodeURIComponent(str[1]);
 					}
 				}
 			}
-		}
+		
 		 FB.getLoginStatus(function(response) {
 	  			if (response.status === 'connected') {
 						
@@ -115,11 +115,20 @@
 		//	completeFuc(data);
 		//	completeFuc=null;
 		//}
-		if(isItemListInitial==false)
-		 get_Item(-1);
-		 
+		if(receiveItemToBeRegist!=null){
+			
+			setFavoriteAction( userData.pid, receiveItemToBeRegist,initialList);
+		}else{
+		
+			initialList();
+		}
 		updateStatus(CRYSTAR_STATUS_LOGIN);
 		
+	}
+	
+	function initialList(){
+		if(isItemListInitial==false)
+		 		get_Item(-1);
 	}
 	
 	var initial=false;
@@ -347,6 +356,10 @@
 		}
 	}
 	
+	function itemView(id){
+		getItemInfo(id,showItemView);
+	}
+	
 	function itemShare(id){
 
 	fb_sendFeed( getItemDescById(id) );
@@ -382,7 +395,7 @@
 		h3.appendChild(h3text);
 		var p1= getDynamicDOM("p");
 		var p1text = document.createTextNode(decodeURIComponent(itemDesc.content));
-		h3.appendChild(p1text);
+		p1.appendChild(p1text);
 		var p2=getDynamicDOM("p");
 		
 		var div3 = getFooterPortrait(itemDesc.user,itemDesc);
@@ -420,7 +433,7 @@
 	var a1 = getDynamicDOMExtend("a" , [{"name":"href","value":hom}]);
 	a1.appendChild(document.createTextNode(decodeURIComponent(data.nickname)));
 	var a2 = getDynamicDOM("span");
-	a2.appendChild(document.createTextNode(data.price));
+	a2.appendChild(document.createTextNode("가격 : "+data.price));
 	
 	
 	
@@ -991,60 +1004,9 @@
 				data.isbn=receivedata.isbn ? receivedata.isbn : "";
 				data.quality= $(":input:radio[name=quality]:checked").val();
 				data.publisher =encodeURIComponent(removeTag(htmlEntityDecode(receivedata.pub_nm? receivedata.pub_nm : "")));
-				data.desc =encodeURIComponent($('#submitText').text());
+				data.desc =encodeURIComponent($("#submitText").val());
 				data.callback=function(){};
-				regist_Item(data,function(data){hideRegBook();});
+				regist_Item(data,function(data){hideRegBook(); location.href = CST_HOME});
 				//});
 	}
 	
-	/*
-		
-	
-	
-	<div >
-          	<ul class="nav nav-pills" id="pageNav">
-            </ul>
-          </div>
-		 <div class="centerAlign" >
-          	<ul class="nav nav-pills centerUL" id="pageNav">
-            </ul>
-          </div>
-	
-		<div class="centerAlign" >
-          <ul class="nav nav-pills centerUL">
-              <li><a href="#"><</a></li>
-			  
-              <li class="active">
-                <a href="#">1</a>
-              </li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">2</a></li>
-			  
-              <li><a href="#">></a></li>
-              
-			</ul>
-          </div>
-	
-	FB.api('/'+userData.id+'?fields=albums.fields(can_upload,id,link)&access_token='+userData.token, 'get', function(response) {
-		  if (!response || response.error) {
-			alert('Error occured');
-		  } else {
-			
-			
-			
-		  }
-		});
-	
-	function postImg(){
-		FB.api('/me/feed', 'post', { message: body }, function(response) {
-		  if (!response || response.error) {
-			alert('Error occured');
-		  } else {
-			alert('Post ID: ' + response.id);
-		  }
-		});
-	
-	}*/

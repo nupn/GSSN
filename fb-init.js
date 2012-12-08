@@ -944,60 +944,9 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 				data.isbn=receivedata.isbn ? receivedata.isbn : "";
 				data.quality= $(":input:radio[name=quality]:checked").val();
 				data.publisher =encodeURIComponent(removeTag(htmlEntityDecode(receivedata.pub_nm? receivedata.pub_nm : "")));
-				data.desc =encodeURIComponent($('#submitText').text());
+				var bodystr = $("#submitText").val();
+				data.desc =encodeURIComponent(bodystr);
 				data.callback=function(){};
-				regist_Item(data,function(data){hideRegBook();});
+				regist_Item(data,function(data){hideRegBook();get_Item(currentPage);});
 				//});
 	}
-	
-	/*
-		
-	
-	
-	<div >
-          	<ul class="nav nav-pills" id="pageNav">
-            </ul>
-          </div>
-		 <div class="centerAlign" >
-          	<ul class="nav nav-pills centerUL" id="pageNav">
-            </ul>
-          </div>
-	
-		<div class="centerAlign" >
-          <ul class="nav nav-pills centerUL">
-              <li><a href="#">&#60;</a></li>
-			  
-              <li class="active">
-                <a href="#">1</a>
-              </li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">2</a></li>
-			  
-              <li><a href="#">&#62;</a></li>
-              
-			</ul>
-          </div>
-	
-	FB.api('/'+userData.id+'?fields=albums.fields(can_upload,id,link)&access_token='+userData.token, 'get', function(response) {
-		  if (!response || response.error) {
-			alert('Error occured');
-		  } else {
-			
-			
-			
-		  }
-		});
-	
-	function postImg(){
-		FB.api('/me/feed', 'post', { message: body }, function(response) {
-		  if (!response || response.error) {
-			alert('Error occured');
-		  } else {
-			alert('Post ID: ' + response.id);
-		  }
-		});
-	
-	}*/

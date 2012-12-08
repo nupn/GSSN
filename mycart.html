@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" http-equiv="X-UA-Compatible" content="IE=9"> 
-    <title>타이틀네임</title>
+    <title>Crystal</title>
     <link href="./bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="./css/main.css" rel="stylesheet">
     <link href="./bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
@@ -19,10 +19,12 @@
       <button type="submit" class="btn">Search</button>
       </form>
       
+      <!--
       <nav>
 	  <a href="http://tranbot.net/index.php?tag=CSS">최신순</a><a href="http://tranbot.net/index.php?tag=레이아웃">판매자등급순</a>
       <a href="http://tranbot.net/index.php?tag=레이아웃">판매자인기순</a>
 	  </nav>
+      -->
       <br/>
 
       
@@ -45,13 +47,13 @@
                 <ul class="dropdown-menu">
                   <li><a class="logout" href="#">logo out</a></li>
                   <li><a href="#myModal" data-toggle="modal">sell Item</a></li>
-                  <li><a href="#">Something else here</a></li>
-                  <li class="divider"></li>
+                  <li><a href="#"id="garretLink">다락방</a></li>
+                  <!--<li class="divider"></li>
                   <li class="nav-header">Nav header</li>
                   <li><a href="#">Separated link</a></li>
-                  <li><a href="#">One more separated link</a></li>
+                  <li><a href="#">One more separated link</a></li>-->
                 </ul>
-                 <li><a href="#" id="garretLink">Garret Test</a></li>
+                 <li><a href="http://www.crystars.com/BoardServlet.do?page=1">게시판</a></li>
     </ul>
   </div>
 </div>
@@ -77,11 +79,11 @@
               <div class="modal-body">
                 <input type="text" id="modalSearchIput" width="200"  data-provide="typeahead" />
                 <button type="button" class="btn btn-warning" id="newItemSearchBtn">검색</button>
-                
+                <!--
                 <nav style="margin-top:3px">
 	  			<a class="select">제목</a>
                 <a>저자</a>
-	  			</nav>
+	  			</nav>-->
                 
                 <div id="modalSearchOption"></div>
                 
@@ -90,7 +92,7 @@
               
               <div class="modal-footer">
                 <a href="#" id="searchCancel" class="btn">close</a>
-                <a href="#" id="searchNextBtn" class="btn btn-primary">pass</a>
+                <a href="#" id="searchNextBtn" class="btn btn-primary">upload</a>
               </div>
             </div>
           
@@ -267,9 +269,7 @@
 	
             getData(function(usrdata){
 				var data=[];
-				data[0] = {"name":"usrid","value":usrdata.pid};
-				data[1] = {"name":"usrname","value":usrdata.name};
-				data[2] = {"name":"usrportrait","value":usrdata.portrait};
+				data[0] = {"name":"userid","value":usrdata.pid};
 				
 				cst_movePage( "/garretServlet.do",data,CRYSTAL_GET);
 				});

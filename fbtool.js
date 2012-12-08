@@ -65,10 +65,10 @@ function fb_sendFeedQuick(itemData){
 				variables.message = itemData.title;
 				variables.picture = itemData.image;
 				variables.name = itemData.title;
-				variables.caption = itemData.name;
+				variables.caption = itemData.publisher;
 				variables.description = itemData.content;
-				variables.link = "http://www.crystal.com/view?id="+itemData.id;
-				variables.actions="{name:\"찜하기\",link:\"http://www.crystal.com/favorite?id="+itemData.id+"\"}";
+				variables.link = "http://www.crystaRS.com/searchResult.html?query="+itemData.title;
+				variables.actions="{name:\"찜하기\",link:\"http://www.crystaRS.com/mycart.html?insertid="+itemData.id+"\"}";
 					
 	
 FB.api('/me/feed',variables, function(response) {
@@ -81,11 +81,11 @@ function fb_sendFeed(itemData){
   {
     method: 'feed',
     name: itemData.title,
-    link: "http://www.crystal.com/view?id="+itemData.id,
+    link: "http://www.crystaRS.com/searchResult.html?queryFB="+itemData.booktitle,
     picture: itemData.image,
-    caption: itemData.name,
+    caption: itemData.publisher,
     description: itemData.content,
-	actions : "{name:\"찜하기\",link:\"http://www.crystal.com/favorite?id="+itemData.id+"\"}"
+	actions :"{name:\"찜하기\",link:\"http://www.crystaRS.com/mycart.html?insertid="+itemData.id+"\"}"
 					
   },
   function(response) {
@@ -167,7 +167,7 @@ function getFooterPortrait(data,desc){
 	var a1 = getDynamicDOMExtend("a" , [{"name":"href","value":hom}]);
 	a1.appendChild(document.createTextNode(data.name));
 	var a2 = getDynamicDOM("span");
-	a2.appendChild(document.createTextNode(desc.price));
+	a2.appendChild(document.createTextNode("가격 : "+desc.price));
 	
 	
 	
@@ -210,7 +210,7 @@ function createListItem(itemDesc){
 		h3.appendChild(h3text);
 		var p1= getDynamicDOM("p");
 		var p1text = document.createTextNode(itemDesc.content);
-		h3.appendChild(p1text);
+		p1.appendChild(p1text);
 		var p2=getDynamicDOM("p");
 		
 		var div3 = getFooterPortrait(itemDesc.user,itemDesc);

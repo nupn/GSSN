@@ -32,6 +32,10 @@ var searchValue;
 						if($.browser.mozilla)
 						 requestParam= JSON.parse(decodeURIComponent(str[1])|| "null");
 						 
+					}else if((str[0]=="?queryFB"||str[0]=="queryFB") && str[1]!=null && str[1]!="")
+					{
+						 searchValue= decodeURIComponent(str[1].replace('+', '%20'));
+						 
 					}
 				}
 			}
@@ -375,6 +379,10 @@ var searchValue;
 			view.find("#viewItemImg5").attr("href",imgarr[3]);
 			view.find("#viewItemImg5>img").attr("src",imgarr[3]);
 		}
+	}
+	
+	function itemView(id){
+		getItemInfo(id,showItemView);
 	}
 	
 	function itemShare(id){
@@ -1014,60 +1022,9 @@ var searchValue;
 				data.isbn=receivedata.isbn ? receivedata.isbn : "";
 				data.quality= $(":input:radio[name=quality]:checked").val();
 				data.publisher =encodeURIComponent(removeTag(htmlEntityDecode(receivedata.pub_nm? receivedata.pub_nm : "")));
-				data.desc =encodeURIComponent($('#submitText').text());
+				data.desc =encodeURIComponent($("#submitText").val());
 				data.callback=function(){};
-				regist_Item(data,function(data){hideRegBook();});
+				regist_Item(data,function(data){hideRegBook(); location.href = CST_HOME;});
 				//});
 	}
 	
-	/*
-		
-	
-	
-	<div >
-          	<ul class="nav nav-pills" id="pageNav">
-            </ul>
-          </div>
-		 <div class="centerAlign" >
-          	<ul class="nav nav-pills centerUL" id="pageNav">
-            </ul>
-          </div>
-	
-		<div class="centerAlign" >
-          <ul class="nav nav-pills centerUL">
-              <li><a href="#"><</a></li>
-			  
-              <li class="active">
-                <a href="#">1</a>
-              </li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">2</a></li>
-			  
-              <li><a href="#">></a></li>
-              
-			</ul>
-          </div>
-	
-	FB.api('/'+userData.id+'?fields=albums.fields(can_upload,id,link)&access_token='+userData.token, 'get', function(response) {
-		  if (!response || response.error) {
-			alert('Error occured');
-		  } else {
-			
-			
-			
-		  }
-		});
-	
-	function postImg(){
-		FB.api('/me/feed', 'post', { message: body }, function(response) {
-		  if (!response || response.error) {
-			alert('Error occured');
-		  } else {
-			alert('Post ID: ' + response.id);
-		  }
-		});
-	
-	}*/
