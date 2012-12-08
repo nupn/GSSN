@@ -128,6 +128,7 @@ public class garretServlet extends HttpServlet {
 		
 			request.setAttribute("error", e.getMessage());
 			e.printStackTrace();
+			request.setAttribute("o_num", o_num);
 			actionUrl = "error.jsp";
 		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher(actionUrl);
@@ -143,7 +144,11 @@ public class garretServlet extends HttpServlet {
 		boolean test = true;
 		String actionUrl = null;
 		evaluation eval = new evaluation();
+		HttpSession session = request.getSession();
+		UserDataObj udo = (UserDataObj) session.getAttribute("viwer");
+		int g_num = udo.getPid();
 		
+		//int g_num = 1125;
 		request.setCharacterEncoding("utf-8");
 		List<String> errorMsgs = new ArrayList<String>();
 		String method = request.getParameter("_method");
@@ -173,6 +178,7 @@ public class garretServlet extends HttpServlet {
 				evaluationDAO.insert(eval);
 				String msg = "후기가 등록되었습니다.";
 				request.setAttribute("msg", msg);
+				request.setAttribute("o_num", esales_memnum);
 				actionUrl = "success.jsp";  
 			} catch (NamingException | SQLException e) {
 				// TODO Auto-generated catch block
@@ -198,6 +204,7 @@ public class garretServlet extends HttpServlet {
 					tradeDAO.tradeinsert(_trade);
 					String msg = "거래가 등록되었습니다.";
 					request.setAttribute("msg", msg);
+					request.setAttribute("o_num", g_num);
 					actionUrl = "success.jsp";  
 				} catch (NumberFormatException | NamingException | SQLException e) {
 					// TODO Auto-generated catch block
@@ -206,17 +213,18 @@ public class garretServlet extends HttpServlet {
 			}else if(status.equals("거래완료")){
 				
 					try {
-						for(int i=0;i<choice.length;i++){
-							if(itemDAO.findByGoodsNum(Integer.parseInt(choice[i])) == 1){
-								itemDAO.finByGoodsNum(Integer.parseInt(choice[i]));
-								String msg = "거래가 완료되었습니다.";
-								request.setAttribute("msg", msg);
-								actionUrl = "success.jsp";  
-							}else{
-								errorMsgs.add("거래가 진행중인 물건만 완료할수있습니다.");
-								actionUrl = "error.jsp";  
-							}
+						if(itemDAO.findByGoodsNum(Integer.parseInt(request.getParameter("choice"))) == 2){
+							itemDAO.finByGoodsNum(Integer.parseInt(request.getParameter("choice")));
+							String msg = "거래가 완료되었습니다.";
+							request.setAttribute("msg", msg);
+							request.setAttribute("o_num", g_num);
+							actionUrl = "success.jsp";  
+						}else{
+							errorMsgs.add("거래가 진행중인 물건만 완료할수있습니다.");
+							request.setAttribute("o_num", g_num);
+							actionUrl = "error.jsp";  
 						}
+						
 					} catch (NumberFormatException | NamingException
 							| SQLException e) {
 						// TODO Auto-generated catch block
@@ -225,13 +233,15 @@ public class garretServlet extends HttpServlet {
 				
 			}else if(status.equals("물품삭제")){
 				try {
-					if(itemDAO.findByGoodsNum(Integer.parseInt(choice[0])) == 1){
+					if(itemDAO.findByGoodsNum(Integer.parseInt(choice[0])) == 2){
 						errorMsgs.add("거래가 진행중인 물건은 삭제 하실수 없습니다.");
+						request.setAttribute("o_num", g_num);
 						actionUrl = "error.jsp"; 
 					}else{
 						itemDAO.deleteByGoodsNum(Integer.parseInt(choice[0]));
 						String msg = "삭제가 완료되었습니다.";
 						request.setAttribute("msg", msg);
+						request.setAttribute("o_num", g_num);
 						actionUrl = "success.jsp";  
 					}
 				} catch (NumberFormatException | NamingException | SQLException e) {
@@ -259,10 +269,12 @@ public class garretServlet extends HttpServlet {
 				messageDAO.sendMsg(_msg);
 				String msg = "메시지가 전송 되었습니다.";
 				request.setAttribute("msg", msg);
+				request.setAttribute("o_num", g_num);
 				actionUrl = "success.jsp";  
 			} catch (SQLException | NamingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				request.setAttribute("o_num", g_num);
 				actionUrl = "error.jsp";
 			}
 			

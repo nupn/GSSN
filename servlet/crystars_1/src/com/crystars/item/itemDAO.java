@@ -158,6 +158,53 @@ public class itemDAO {
 		return i;
 	}
 	
+	public static item findInfoByGoodsNum(int goods_num) throws NamingException, SQLException, UnsupportedEncodingException{
+
+		int i=0;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		item _item;
+		
+		
+		DataSource ds = getDataSource();
+		
+		try {
+			conn = ds.getConnection();
+
+			// 질의 준비
+			stmt = conn.prepareStatement("SELECT * FROM Goods WHERE Goods_Num =? ");
+			stmt.setInt(1, goods_num);
+			
+			// 수행
+			rs = stmt.executeQuery();
+
+			rs.next();
+			_item = new item(rs.getInt("goods_num"),
+			rs.getInt("gsales_membernum"),
+			rs.getString("image"),
+			rs.getInt("price"),
+			rs.getTimestamp("regist_date"),
+			rs.getInt("category_num"),						
+			 URLDecoder.decode(rs.getString("book_name"),"utf-8"),						
+			 URLDecoder.decode(rs.getString("content"),"utf-8"),
+			 URLDecoder.decode(rs.getString("publisher"),"utf-8"),
+			rs.getInt("quantity"),
+			rs.getInt("quality"),
+			rs.getInt("status"));
+			
+			
+				
+		} finally {
+			// 무슨 일이 있어도 리소스를 제대로 종료
+			if (rs != null) try{rs.close();} catch(SQLException e) {}
+			if (stmt != null) try{stmt.close();} catch(SQLException e) {}
+			if (conn != null) try{conn.close();} catch(SQLException e) {}
+		}
+		
+		return _item;
+	}
+	
 	
 	public static void finByGoodsNum(int goods_num) throws NamingException, SQLException{
 		Connection conn = null;
@@ -167,8 +214,9 @@ public class itemDAO {
 		DataSource ds = getDataSource();
 		
 		try {
-			stmt = conn.prepareStatement(
-					"UPDATE Goods SET Status=3 WHERE goods_num=? "
+			
+			conn = ds.getConnection();
+			stmt = conn.prepareStatement("UPDATE Goods SET Status=3 WHERE goods_num=? "
 					);
 			stmt.setInt(1, goods_num);
 			stmt.executeUpdate();
@@ -199,8 +247,13 @@ public class itemDAO {
 			conn = ds.getConnection();
 
 			// 질의 준비
-			stmt = conn.prepareStatement("DELETE FROM Goods WHERE goods_num=?");
-			stmt.setInt(1,  goods_num);
+			conn = ds.getConnection();
+			stmt = conn.prepareStatement("UPDATE Goods SET Status=4 WHERE goods_num=? "
+					);
+			stmt.setInt(1, goods_num);
+			stmt.executeUpdate();
+
+			
 			// 수행
 			result = stmt.executeUpdate();
 		} finally {

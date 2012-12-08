@@ -58,16 +58,16 @@ public class evaluationDAO {
 			// 수행
 			rs = stmt.executeQuery();
 		
-
+			
 			while(rs.next()) {
 				list.add(new evaluation (rs.getInt("post_num"),
 						rs.getInt("esales_membernum"),
 						rs.getInt("epurchase_membernum"),
 						URLDecoder.decode(rs.getString("evaluation_post"),"utf-8"),
 						rs.getDouble("evaluation_rating"),
-						URLDecoder.decode(findNick(rs.getInt("epurchase_membernum")),"utf-8"),
+						findNick(rs.getInt("epurchase_membernum")),
 						rs.getTimestamp("evaluation_date")
-						));
+						)); 
 			}	
 		} finally {
 			// 무슨 일이 있어도 리소스를 제대로 종료
@@ -94,12 +94,12 @@ public class evaluationDAO {
 			stmt.setInt(1, id);
 
 			rs = stmt.executeQuery();
-			
-			
+	 
 			
 			while(rs.next())
 				name = URLDecoder.decode(rs.getString("Nickname"),"utf-8");
 			
+	 
 
 		} finally {
 			// 무슨 일이 있어도 리소스를 제대로 종료

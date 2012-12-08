@@ -38,7 +38,10 @@
 						<input id="inputidset" type="hidden" name="fromid" value="${fromid}">
 					</c:if>
 					<c:if test="${op == 2 }"> <!-- 답장이라면, 받는사람 번호가 있다면-->
-						<c:out value="${fromid}"/>
+						<c:out value="${toid}"/>
+						<input id="inputidset" type="hidden" name="toid" value="${toid}">
+						<input id="inputidset" type="hidden" name="fromid" value="${fromid}">
+						
 					</c:if>
 				</div>
 			</div>

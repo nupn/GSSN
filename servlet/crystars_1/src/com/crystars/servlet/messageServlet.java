@@ -49,8 +49,9 @@ public class messageServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String actionUrl = "";
+		
 		int op = Integer.parseInt(request.getParameter("sendtype")); // 일반전송 = 1, 답장 = 2
-		String fromid = request.getParameter("fromid");
+		System.out.println(op);
 		message _message =new message();
 		/*
 			
@@ -63,11 +64,14 @@ public class messageServlet extends HttpServlet {
 		
 		 */
 		if(op==1){ // 일반메일 전송
+			
+			String fromid = request.getParameter("fromid");
 			request.setAttribute("op", op);
 			request.setAttribute("fromid", fromid);
 			actionUrl = "message.jsp";
 		}
 		else if(op==0 || op==2){ // 받은 메시지를 읽었을때 or 답장을 보내려고할때
+			String fromid = request.getParameter("fromid");
 			String toid = request.getParameter("toid"); 
 			request.setAttribute("op",op);
 			request.setAttribute("toid", toid);			
@@ -83,8 +87,21 @@ public class messageServlet extends HttpServlet {
 				}
 			}
 			actionUrl = "message.jsp";
+		}else if(op==3){ // 아이템정보보기일때
+			System.out.println(request.getParameter("goods_num"));
+			int goods_num = Integer.parseInt(request.getParameter("goods_num"));
+			System.out.println(goods_num);
+			try {
+				request.setAttribute("item", itemDAO.findInfoByGoodsNum(goods_num));
+				request.setAttribute("user", userDAO.findUserByNum(goods_num));
+				actionUrl="show.jsp";
+			} catch (NamingException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		else{
+			request.setAttribute("status", 1);
 			actionUrl = "error.jsp";
 		}
 		
@@ -141,6 +158,7 @@ public class messageServlet extends HttpServlet {
 				messageDAO.sendMsg(_msg);
 				String msg = "메시지가 전송 되었습니다.";
 				request.setAttribute("msg", msg);
+				request.setAttribute("status", 1);
 				actionUrl = "success.jsp";  
 			} catch (SQLException | NamingException e) {
 				// TODO Auto-generated catch block
@@ -148,6 +166,8 @@ public class messageServlet extends HttpServlet {
 			}
 		}else{
 			errorMsgs.add("메시지 전송에 실패했습니다.");
+			request.setAttribute("o_num", fmemnum);
+			request.setAttribute("status", 1);
 			actionUrl="error.jsp";
 		}
 		

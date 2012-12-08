@@ -68,4 +68,42 @@ public class userDAO {
 		
 		return _user;
 	}
+	
+public static user findUserByNum(int goods_num) throws NamingException, SQLException, UnsupportedEncodingException{
+
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		user _user;
+		
+		
+		
+		DataSource ds = getDataSource();
+		
+		try {
+			conn = ds.getConnection();
+			
+			// 질의 준비
+			stmt = conn.prepareStatement("SELECT * FROM Member INNER JOIN Goods WHERE Member_Num= GSales_MemberNum and Goods_Num= ?");
+			stmt.setInt(1, goods_num);
+			// 수행
+			rs = stmt.executeQuery();
+			rs.next();
+			
+			_user = new user (rs.getInt("member_num"),
+						URLDecoder.decode(rs.getString("facebook_id"),"utf-8"),
+						URLDecoder.decode(rs.getString("Nickname"),"utf-8"),
+						"http://graph.facebook.com/"+ rs.getString("facebook_id") +"/picture?type=large",
+						URLDecoder.decode(rs.getString("home"),"utf-8"),
+						URLDecoder.decode(rs.getString("email"),"utf-8"));
+		} finally {
+			// 무슨 일이 있어도 리소스를 제대로 종료
+			if (rs != null) try{rs.close();} catch(SQLException e) {}
+			if (stmt != null) try{stmt.close();} catch(SQLException e) {}
+			if (conn != null) try{conn.close();} catch(SQLException e) {}
+		}
+		
+		return _user;
+	}
 }

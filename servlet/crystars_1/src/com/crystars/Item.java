@@ -26,7 +26,7 @@ import org.json.JSONObject;
 @WebServlet("/Item")
 public class Item extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    static public final int maxCount = 12;
+    private final int maxCount = 12;
     /*
     private final String BY_PRICE = "Price";
     private final String BY_GRADE = "Grade";
@@ -94,10 +94,10 @@ public class Item extends HttpServlet {
 						  
 						  //SELECT Goods.GSales_MemberNum, Member.Member_Num FROM  Goods ,Member order by Goods.Regist_Date desc LIMIT 5 OFFSET 10
 						  //stmt = con.createStatement();
-						  stmt = con.prepareStatement("SELECT * FROM  Goods ,Member Where Goods.GSales_MemberNum = Member.Member_Num order by Regist_Date DESC LIMIT ? OFFSET ?");
-						  //stmt.setString(1, itemType);
-						  stmt.setInt(1, maxCount);//retrevCount
-						  stmt.setInt(2, (page-1)*maxCount);//startCount start 0
+						  stmt = con.prepareStatement("SELECT * FROM  Goods ,Member Where Goods.GSales_MemberNum = Member.Member_Num order by ? desc LIMIT ? OFFSET ?");
+						  stmt.setString(1, itemType);
+						  stmt.setInt(2, maxCount);//retrevCount
+						  stmt.setInt(3, (page-1)*maxCount);//startCount start 0
 						  rs = stmt.executeQuery();
 
 						  

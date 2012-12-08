@@ -4,12 +4,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>에러</title>
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/base.css" rel="stylesheet">
-  <script src="js/jquery-1.8.2.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
+	<meta charset="UTF-8">
+	<title>에러</title>
+	<link href="css/base.css" rel="stylesheet">
+	<link href="css/bootstrap.css" rel="stylesheet">
+ 	<script src='js/jquery-1.8.2.js'></script>
 </head>
 <body>
 	<br/>
@@ -27,10 +26,23 @@
       </c:if>
     
     </div>
+    <c:choose>
+    <c:when test="${status == 1 }">
       <div class="form-action">
-	 		<a href="garretServlet.do" class="btn">뒤로</a>
+	 		<input id="closewindow" type="button" class="btn btn-danger" value="창닫기">
 	 	</div>
+	 	</c:when>
+	 	<c:otherwise>
+	 	<a href="javascript:history.go(-1)"><input type="button" class="btn btn-warning" value="뒤로"></a>
+	 	</c:otherwise>
+	 	</c:choose>
   </div>
   
 </body>
 </html>
+<script type='text/javascript'>
+$("#closewindow").click(function(e){
+		self.close();
+	});
+</script>
+	

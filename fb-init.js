@@ -16,6 +16,17 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
+/*
+(function(d){
+     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement('script'); js.id = id; js.async = true;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     ref.parentNode.insertBefore(js, ref);
+   }(document));
+	*/
+
+// initial info stream
 
   window.fbAsyncInit = function() {
 	initial=true;
@@ -100,7 +111,7 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 			obj.name = encodeURIComponent(response.name);
 			obj.id = response.id;
 			obj.email = response.email;
-			obj.link = encodeURIComponent( response.link);
+			obj.link = response.link;
 			obj.token = token;
 			obj.portrait = 'http://graph.facebook.com/'+response.id+'/picture';
 			fb_setUserInDB(obj,successInitUser);
@@ -114,7 +125,6 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 		initial=false;
 		userData = data;
 		userData.name = decodeURIComponent(userData.name);
-		userData.link = decodeURIComponent(userData.link);
 		if(completeFuc!=null)
 			completeFuc(data);
 		
@@ -233,172 +243,74 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 		});
 	}*/
 	
-	function getItemDescById(id){
-		
-	var result=null;
-	 $(currentPageItemData).each(function(index, element) {
-        if(element.id == id){
-			result =  element
-			return false;	
-		}
-    });
-	return result;
-	}
-	
-	var currentPageItemData;
-	var hoverItem;
-	var ROW_COUNT=3;
+	var ROW_COUNT=2;
 	var PAGE_ITME_COUNT = 12;
 	function createItemList(data){
 		
-		currentPageItemData = data;
 		cst_clearNodeById( 'mainItemList' );
 		
 		var ul ;
 		ul= getDynamicDOM("ul",'thumbnails');
-		var items;
+		
 		var i =0;
 		$(data).each(function(index, element) {
 			if(i>ROW_COUNT)
 			{
-				$('#mainItemList').append(ul);
+				$('.row-fluid').append(ul);
 				ul= getDynamicDOM("ul",'thumbnails');
 				//ul.setAttribute("class",'thumbnails');
 				i=0;
 			}
-			items = createListItem(element);
-			
-			$(items).find("#hoverItemId").attr("value",element.id);
-			
-			$(items).click(function(e) {
-				hoverItem = this;
-                itemView( $(hoverItem).find("#hoverItemId").attr("value") );
-            });
-			$(items).hover(function(e){
-			console.log( "hoverin");
-				var target=$(this).find('.imgFrame');
-				hoverItem = this;
-				target.append(preset);
-				
-				$('#shareitem').click(function(e) {
-					if(hoverItem!=null)
-						itemShare( $(hoverItem).find("#hoverItemId").attr("value") );
-					
-					e.preventDefault();
-					e.stopPropagation();
-				});
-				$('#wishitem').click(function(e) {
-					if(hoverItem!=null)
-						wishitem( $(hoverItem).find("#hoverItemId").attr("value") );
-						
-					e.preventDefault();
-					e.stopPropagation();
-				});
-			},function(e){
-				$(this).find('.imgFrame').empty();
-				
-			});
-			
-			
-			ul.appendChild( items );
+			ul.appendChild( createListItem(element) );
 			
 			i++;
         });
-		
-		
-		
 			
-		$('#mainItemList').append(ul);
+		$('.row-fluid').append(ul);
 		
-		if(preset==null)
-		{	
-		preset=$('#imgFramePreset');
-		$('body').remove('#imgFramePreset');		
-		}
 		
-		$('#closeViewItem').click(function(e) {
-           hideItemView(); 
-        });
 	}
 	
-	function hideItemView(){
-		$('#viewItem').modal('hide');
-	}
-	function clearItemView(){
-		var view = $('#viewItem');
-		view.find("#viewItemPortriat").attr("src","http://www.crystars.com/upload/defaultSmall.jpg");
-		view.find("#viewItemName").text("");
-		view.find("#viewItemName").attr("href",""); 
-		view.find("#viewItemDate").text("");
-		
-		view.find("#viewItemBookTitle").text("");
-		view.find("#viewItemBookPrice").text("");
-		view.find("#viewItemBookPublisher").text("");
-		view.find("#viewItemBookContent").text("");
-		
-		view.find("#viewItemImg1").attr("src","http://www.crystars.com/upload/defaultSmall.jpg");
-		view.find("#viewItemImg2>img").attr("src","http://www.crystars.com/upload/defaultSmall.jpg");
-		view.find("#viewItemImg3>img").attr("src","http://www.crystars.com/upload/defaultSmall.jpg");
-		view.find("#viewItemImg4>img").attr("src","http://www.crystars.com/upload/defaultSmall.jpg");
-		view.find("#viewItemImg5>img").attr("src","http://www.crystars.com/upload/defaultSmall.jpg");
-	}
-	
-	function showItemView(raw){
-		clearItemView();
-		
-		var view = $('#viewItem');
-		var data =raw.result;
-		var user= data.user;
-		
-		view.modal('show');
-		view.find("#viewItemPortriat").attr("src",user.portrait); //<--디폴트필요함
-		view.find("#viewItemName").text(user.name);
-		view.find("#viewItemName").attr("href",CST_HOME +"/garretServlet.do?userid=" + user.pid); 
-		view.find("#viewItemDate").text(data.date);
-		
-		view.find("#viewItemBookTitle").text(data.title);
-		view.find("#viewItemBookPrice").text(data.price);
-		view.find("#viewItemBookPublisher").text(data.publisher);
-		view.find("#viewItemBookContent").text(data.content);
-		
-		view.find("#viewItemImg1").attr("src",data.image);
-		
-		var imgarr = data.imgdetail.split("&");
-		if(imgarr.length>0 && imgarr[0]!=null && imgarr[0]!="")
-		{
-			view.find("#viewItemImg2").attr("href",imgarr[0]);
-			view.find("#viewItemImg2>img").attr("src",imgarr[0]);
-		}
-		if(imgarr.length>1 && imgarr[1]!=null && imgarr[1]!="")
-		{
-			view.find("#viewItemImg3").attr("href",imgarr[1]);
-			view.find("#viewItemImg3>img").attr("src",imgarr[1]);
-		}
-		if(imgarr.length>2 && imgarr[2]!=null && imgarr[2]!="")
-		{
-			view.find("#viewItemImg4").attr("href",imgarr[2]);
-			view.find("#viewItemImg4>img").attr("src",imgarr[2]);
-		}
-		if(imgarr.length>3 && imgarr[3]!=null && imgarr[3]!="" )
-		{
-			view.find("#viewItemImg5").attr("href",imgarr[3]);
-			view.find("#viewItemImg5>img").attr("src",imgarr[3]);
-		}
-	}
-	
-	function itemView(id){
-		getItemInfo(id,showItemView);
-	}
-	
-	function itemShare(id){
+	function createListItem(itemDesc){
 
-		fb_sendFeed( getItemDescById(id) );
-	
-	}
-	
-	function wishitem(iid){
-	if(userData!=null && userData.pid!=null)	 
-	 setFavoriteAction(userData.pid,iid,function(data){});
+		var li = getDynamicDOM("li",'span4');
+		//li.setAttribute("class",'span4');
+		
+		var div= getDynamicDOM("div",'thumbnail');
+		//div.setAttribute("class",'thumbnail');
+		
+		var img= getDynamicDOMImg(itemDesc.image,"");
+		//img.setAttribute('src',itemDesc.image);
+		
+		var div2= getDynamicDOM("div",'caption');
+		//div2.setAttribute("class",'caption');
+		
+		var h3= getDynamicDOM("h3");
+		var h3text = document.createTextNode(itemDesc.title);
+		h3.appendChild(h3text);
+		var p1= getDynamicDOM("p");
+		var p1text = document.createTextNode(itemDesc.desc);
+		h3.appendChild(p1text);
+		var p2=getDynamicDOM("p");
+		var a1= getDynamicDOM("a","btn btn-primary");
+		//a1.setAttribute("class","btn btn-primary");
+		var a1text = document.createTextNode("찜하기");
+		a1.appendChild(a1text);
+		var a2= getDynamicDOM("a","btn");
+		//a2.setAttribute("class","btn");
+		var a2text = document.createTextNode("공유");
+		a2.appendChild(a2text);
+		
+		p2.appendChild(a1);
+		p2.appendChild(a2);
+		div2.appendChild(h3);
+		div2.appendChild(p1);
+		div2.appendChild(p2);
+		div.appendChild(img);
+		div.appendChild(div2);
+		li.appendChild(div);
+		
+		return li;
 	}
 	
 	var PAGE_NAV_COUNT=9;
@@ -412,19 +324,19 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 		{
 			getdb_Item(CRYSTAR_ITEM_DATE ,1,"total",recieve_Item);
 		}else{
-			getdb_Item(CRYSTAR_ITEM_DATE ,ppage,"total",recieve_Item);
+			getdb_Item(CRYSTAR_ITEM_DATE ,ppage,null,recieve_Item);
 		}
 	}
 	
 	
 	function recieve_Item(data){
-		currentGrandPage = 1;
+		
 		currentPage = data.page;
 		if(data.total!=-1)
 		{
 		pageTotal = Math.ceil(data.total/PAGE_ITME_COUNT);
 		
-		currentGrandPage = Math.floor(currentPage/PAGE_NAV_COUNT);
+		currentGrandPage = 1;
 		grandPageTotal = Math.ceil(pageTotal/PAGE_NAV_COUNT);
 		
 		
@@ -439,7 +351,6 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 		
 		var ul ;
 		ul= $('#pageNav');
-		ul.empty();
 		
 		var li;
 		var a;
@@ -447,10 +358,8 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 		var i=0;
 		var boldPoint = currentPage%PAGE_NAV_COUNT;
 		var startPoint = Math.floor(currentPage/PAGE_NAV_COUNT)*PAGE_NAV_COUNT;
-		var totalbatch = (pageTotal-(currentGrandPage*PAGE_NAV_COUNT))<=PAGE_NAV_COUNT ? (pageTotal-(currentGrandPage*PAGE_NAV_COUNT)): PAGE_NAV_COUNT;
-
-		//(int)((pageTotal-(currentGrandPage*PAGE_NAV_COUNT))<=PAGE_NAV_COUNT ? (pageTotal-(currentGrandPage*PAGE_NAV_COUNT)): PAGE_NAV_COUNT);
-		
+		var totalbatch = pageTotal>=PAGE_NAV_COUNT ?  PAGE_NAV_COUNT : pageTotal;
+	
 			a = getDynamicDOMLink("a",null,null,"#");
 			var atext = document.createTextNode('<');
 			a.appendChild(atext);
@@ -459,19 +368,17 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 			ul.append( li );
 		
 		for(i=0;i<totalbatch;i++){
-			startPoint++;
-			
 			a = getDynamicDOMLink("a",null,null,"#");
-			var atext = document.createTextNode(startPoint);
+			var atext = document.createTextNode(startPoint+1);
 			a.appendChild(atext);
-			if(i==(boldPoint-1))
+			if((i+1)==boldPoint)
 			li= getDynamicDOM("li","active");
 			else
 			li= getDynamicDOM("li");
 			
 			li.appendChild(a);
 			ul.append( li );
-			
+			startPoint++;
         }
 			a = getDynamicDOMLink("a",null,null,"#");
 			var atext = document.createTextNode('>');
@@ -484,13 +391,11 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 		
 	}
 	
-	var preset;
 	var presetDom;
 	var krDiv="#";
 	var mainStr="";
 	var typeAheadResult="";
 	function addOverEvent(){
-
 		
 		var div = getDynamicDOM("div");
 		var ul = getDynamicDOM("ul","nav nav-pills");
@@ -513,7 +418,7 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 			//var data2 = e.target.innerHTML; >&gt; <&lt;
 			if(data==">")
 			{
-				if(currentGrandPage+1>=grandPageTotal)
+				if(currentGrandPage>=grandTotalPage)
 					return;
 					
 				currentGrandPage = currentGrandPage+1;	
@@ -521,7 +426,7 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 			}
 			else if(data=="<")
 			{
-				if(currentGrandPage==0)
+				if(currentGrandPage==1)
 					return;
 					
 				currentGrandPage = currentGrandPage-1;
@@ -545,21 +450,22 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 		}else{
 			autoCompleteElse();
 		}
-		//----------------
-		
-		//------------------
-		
-		$('.form-search>.btn').click(function(e) {
-			//fc_sendQuery($('.form-search>input').val());
-			var send= {};
-			send.user = userData;
-			var query = $('.form-search>input').val();
-			
-			location.href = CST_HOME + "/searchResult.html?query="+query+"&json="+JSON.stringify(send);
-			//
-			e.preventDefault();
-			e.stopPropagation();
+		/*
+		$('#modalSearchIput').keydown(function(e) {
+            console.log("keyDown"+e.keyCode);
         });
+		$('#modalSearchIput').keypress(function(e) {
+           console.log("keyPress"+e.keyCode); 
+        });
+		/*
+		
+		$('#modalSearchIput').focusin(function(e) {
+           //autoCompleteCheckStart();
+        });
+		
+		$('#modalSearchIput').focusout(function(e) {
+            //autoCompleteCheckEnd();
+        });*/
 		
 		$('#mainItemList').mouseover(function(e) {
         	    //console.log('over');
@@ -573,16 +479,12 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 		
 		$('#newItemSearchBtn').click(newItemSearch);
 		$('#searchCancel').click(function(e) {
-        		    hideSearchBook();
-        });
-		$('#regBookCancel').click(function(e) {
-        		    hideRegBook();
+        		$('#myModal').modal('hide');    
         });
 		$('#searchNextBtn').click(function(e) {
-            gotoBookRegis("");
+            
         });
 		$('#searchResultContainer').click(function(e) {
-			//need modf
 			var data = e.target.parentNode;
 			var count=0;
 			while( data.className != "media hverBG" && count<3)
@@ -594,7 +496,7 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 			{
             var node = data.childNodes;
 			var temp;
-				$(node).each(function(index, element) {
+				$(node).each(function(index, element) {//개야매 수정바람
 					if(element.nodeName=="DIV")
 					{
 							 temp = element;
@@ -603,26 +505,12 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 				temp =temp.childNodes
 				$(temp).each(function(index, element) {
 					if(element.nodeName=="INPUT")
-							 gotoBookRegis(element.value);
+							alert(element.value);
 				});
 			}
-			
-			
-			//alert($(this).find('.searchBookIsbn').attr("value"));;
         });
 		
-		
-		
-		$('.imgsock').click(function(e){
-					showPopup( this);
-				});
-				
-		$('#submitIme').click(submitNewItem);
-	}
-	function hideSearchBook(){
-		searchData=null;
-		cst_clearNodeById('searchResultContainer');
-		$('#myModal').modal('hide');
+	
 	}
 	
 	
@@ -636,7 +524,9 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 						return;
 					finished=false;
 					
-					setAjaxFilter();
+					$.ajaxPrefilter('json', function(options, orig, jqXHR) {
+							return 'jsonp';
+						});
 						
 					var dat={};
 					dat.apikey = '056bdbabcaa675a7383729e2da0f9e42405eadf2';
@@ -753,7 +643,9 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 						return;
 					finished=false;
 					
-					setAjaxFilter();
+					$.ajaxPrefilter('json', function(options, orig, jqXHR) {
+							return 'jsonp';
+						});
 						
 					var dat={};
 					dat.apikey = '056bdbabcaa675a7383729e2da0f9e42405eadf2';
@@ -816,137 +708,67 @@ document.write('<scr'+'ipt type="text/javascript" src="./UI.js"><\/scr'+'ipt>');
 			getBookBYDaum( str,DAUM_SEARCH_ALL,searchBookUpdate);
 		 }
 	}
-
-	var searchData;
+	
 	function searchBookUpdate(data){
 		
 		var container = $('#searchResultContainer');
-		container.empty();
-		searchData = data.channel.item;
-		$(searchData).each(function(index, element) {
+		$(data.channel.item).each(function(index, element) {
         	container.append(getItemRegPage(element));
         });
 		
 	}
-	function hideRegBook(){
-		clearNewItme();
-		$('#regBookModal').modal('hide');
-	}
-	
-	
-	var selectedBookItem;
-	function gotoBookRegis(isbn){
-		mainStr="";
-		$('#modalSearchIput').val("");
-		typeAheadResult="";
-		acs_prevValue="";
-		var container = $('#searchResultContainer');
-		container.empty();
-		
-		clearNewItme();
-		
-		var collecting=null;
-		if(searchData!=null && isbn!=null)
-		{
-			$(searchData).each(function(index, element) {
-				if(element.isbn ==isbn)
-				{
-					collecting=element;
-					return false;
-				}
-				
-				return true;
-			});
-			
-			if(collecting!=null)
-			{
-				initNewItme(collecting);
-			}
-			
-		}else{
-			
-		}
-		selectedBookItem =collecting;
-		
-		hideSearchBook();
-		$('#regBookModal').modal('show');
-		
-		
-	}
-	var popup;
-	function showPopup(target){
-		
-		if(popup!=null && popup.closed==false)
-					return;
-					
-					$('.imgsock').each(function(index, element) {
-					  $(this).attr("id", "");
-					});
-				
-						
-						var img =$(target).attr("src");
-						if(img!="http://www.crystars.com/upload/defaultSmall.jpg")
-						{
-							if(confirm("이미지를 삭제하시겠습니까?")){
-							$(target).attr("src","http://www.crystars.com/upload/defaultSmall.jpg");
 
-							deleteImge(img,function(data){});
-							}
-							//popup = newchromeLess("./popup/imgdelete.html?img="+img+"&delframe="+id,300,150,200,200, "regImg");
-						}else{
-							$(target).attr("id", "img1");
-							popup= newchromeLess("./popup/imgupload.html",300,150,200,200, "regImg");
-							
-						}
-	}
-	
-	
-	function clearNewItme(){
-		selectedBookItem=null;
-		$('.imgsock').each(function(index, element) {
-			  $(this).attr("src", "http://www.crystars.com/upload/defaultSmall.jpg");
-			});
-		$('#submitPrice').attr("value","");
-		$('#submitTitle').attr("value","");
-		$('#submitText').text("");
-	}
-	
-	
-	function initNewItme(receivedata){
-		if(receivedata.cover_l_url!=null &&receivedata.cover_l_url!="")
-		{
-			$('.imgsock').each(function(index, element) {
-			  $(this).attr("src", receivedata.cover_l_url);
-			   return false;
-			});
-		}
-		$('#submitPrice').attr("value",receivedata.sale_price);
-		$('#submitTitle').attr("value",removeTag(htmlEntityDecode(receivedata.title)));
-	}
 
-	function submitNewItem(e){
-		var receivedata=selectedBookItem;
-		//getData(function(userdata){
-				var data={};
-				data.pid=userData.pid;
-				data.owner=userData.id;
-				data.image=$('.imgsock').first().attr("src");
-				var imgbundl="";
-				$('.imgsock').each(function(index, element) {
-				  imgbundl +=$(this).attr("src") +"&";
-				   
-				});
-				
-				data.imgDetail = imgbundl;
-				data.price=$('#submitPrice').attr("value");
-				data.booktitle = encodeURIComponent(removeTag(htmlEntityDecode(receivedata.title  ? receivedata.title : "")));
-				data.title= encodeURIComponent($('#submitTitle').attr("value"));
-				data.isbn=receivedata.isbn ? receivedata.isbn : "";
-				data.quality= $(":input:radio[name=quality]:checked").val();
-				data.publisher =encodeURIComponent(removeTag(htmlEntityDecode(receivedata.pub_nm? receivedata.pub_nm : "")));
-				var bodystr = $("#submitText").val();
-				data.desc =encodeURIComponent(bodystr);
-				data.callback=function(){};
-				regist_Item(data,function(data){hideRegBook();get_Item(currentPage);});
-				//});
-	}
+
+	
+	/*
+		
+	
+	
+	<div >
+          	<ul class="nav nav-pills" id="pageNav">
+            </ul>
+          </div>
+		 <div class="centerAlign" >
+          	<ul class="nav nav-pills centerUL" id="pageNav">
+            </ul>
+          </div>
+	
+		<div class="centerAlign" >
+          <ul class="nav nav-pills centerUL">
+              <li><a href="#">&#60;</a></li>
+			  
+              <li class="active">
+                <a href="#">1</a>
+              </li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">2</a></li>
+			  
+              <li><a href="#">&#62;</a></li>
+              
+			</ul>
+          </div>
+	
+	FB.api('/'+userData.id+'?fields=albums.fields(can_upload,id,link)&access_token='+userData.token, 'get', function(response) {
+		  if (!response || response.error) {
+			alert('Error occured');
+		  } else {
+			
+			
+			
+		  }
+		});
+	
+	function postImg(){
+		FB.api('/me/feed', 'post', { message: body }, function(response) {
+		  if (!response || response.error) {
+			alert('Error occured');
+		  } else {
+			alert('Post ID: ' + response.id);
+		  }
+		});
+	
+	}*/

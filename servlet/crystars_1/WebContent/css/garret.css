@@ -178,6 +178,10 @@ html,body{
 #table1 table>thead>tr>th{
 	text-align: center;
 }
+#table1{
+	height:400px;
+	overflow:auto;
+}
 #profileimg{
 	 width:80%;
 }
@@ -259,4 +263,10 @@ html,body{
 }
 #msgbtn{
 	float:right;
+}
+#navimg{
+	width:20px;
+}
+#facebtn{
+	width:40px;
 }
