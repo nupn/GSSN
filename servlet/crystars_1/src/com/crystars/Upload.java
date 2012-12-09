@@ -139,11 +139,10 @@ public class Upload extends HttpServlet {
 		response.setContentType("text/json");
 		
 		PrintWriter out = response.getWriter();
-		String delframe=null;
-		
+
+		String _callback = request.getParameter("callback");
 		try{
 		String delFile = request.getParameter("filename");
-		delframe = request.getParameter("delframe");
 		String filePath   = getServletContext().getRealPath("upload"); //업로드 경로
 		       File up1 = new File(filePath + "/" + delFile);
 		   
@@ -167,6 +166,8 @@ public class Upload extends HttpServlet {
 			e.printStackTrace(out);
 		}
 		*/
+		out.print(_callback+"("+"{'status':'success'}"+")");
+		
 		out.close();
 	}
 	/**

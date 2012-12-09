@@ -188,6 +188,11 @@ public class Proxy extends HttpServlet {
     public void doPost(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse)
             throws IOException, ServletException {
         // Create a standard POST request
+    	
+    	setProxyPort(9090);
+    	setProxyPath("/search/json");
+    	setProxyHost("http://www.crystars.com");
+    	
         PostMethod postMethodProxyRequest = new PostMethod(this.getProxyURL(httpServletRequest));
         // Forward the request headers
         setProxyRequestHeaders(httpServletRequest, postMethodProxyRequest);

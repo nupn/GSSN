@@ -288,10 +288,17 @@ var searchValue;
 				$('#shareitem').click(function(e) {
 					if(hoverItem!=null)
 						itemShare( $(hoverItem).find("#hoverItemId").attr("value") );
+						
+						e.preventDefault();
+						e.stopPropagation();
 				});
 				$('#wishitem').click(function(e) {
 					if(hoverItem!=null)
 						wishitem( $(hoverItem).find("#hoverItemId").attr("value") );
+					
+						e.preventDefault();
+						e.stopPropagation();
+					 alert("위시리스트에 추가되었습니다.");
 				});
 			},function(e){
 				$(this).find('.imgFrame').empty();

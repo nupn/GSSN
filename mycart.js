@@ -263,10 +263,16 @@ var receiveItemToBeRegist;
 				$('#shareitem').click(function(e) {
 					if(hoverItem!=null)
 						itemShare( $(hoverItem).find("#hoverItemId").attr("value") );
+						
+						e.preventDefault();
+					e.stopPropagation();
 				});
 				$('#wishitem').click(function(e) {
 					if(hoverItem!=null)
 						wishitem( $(hoverItem).find("#hoverItemId").attr("value") );
+						
+					e.preventDefault();
+					e.stopPropagation();
 				});
 			},function(e){
 				$(this).find('.imgFrame').empty();
